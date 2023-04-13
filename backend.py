@@ -1,28 +1,81 @@
-#######################################  CLASES DEL PROGRAMA ###############################################################
+#######################################         LIBRERIAS      ################################################################# 
+
+from random import *
+from tkinter import * 
+from datetime import *
+from string import *
+
+################################ VALIDACIONES DEL PROGRAMA #################################################################
+
+def validacionDNIyTelefono ():
+    while len(usuario.dni)==8:
+        if usuario.dni.isdigit() == False or usuario.telefono.isdigit() == False :
+            return False
+        else:
+            return True
+    return False
+def validacionEdad ():
+    if usuario.edad.isdigit() == False:
+        return False
+    else:  
+        return True  
+def validacionCodigo ():
+    if cancha.codigo.isdigit() == False:
+        return False
+    else:
+        return True
+def validacionFecha ():
+    if reserva.fechareserva != datetime.date or reserva.horareserva != datetime.time:
+        return False
+    else:
+        return True
+def validacionStringUsuario ():
+    if usuario.nombre.isalpha() == False or usuario.apellido.isalpha() == False:
+        return False
+    else:
+        return True
+def validacionStringCancha ():
+    if cancha.techada.isalpha() == False or cancha.piso.isalpha() == False or cancha.estado.isalpha() == False:
+        return False
+    else:
+        return True
+def validacionEmail ():
+    if "@" not in usuario.email:
+        return False
+    else:
+        return True
+
+#######################################         CLASES      ###############################################################
 
 class usuario ():
     lista_usuarios = []
-    def __init__(self, nombre, apellido, dni, edad, email, telefono):
-        self.nombre = nombre
-        self.apellido = apellido
-        self.dni = dni
-        self.edad = edad
-        self.email = email
-        self.telefono = telefono
-        usuario.lista_usuarios.append([self.nombre, self.apellido, self.dni, self.edad, self.email, self.telefono])
+    def __init__(self):
+        self.nombre = input("Ingrese Nombre: ")
+        self.apellido = input("Ingrese Apellido: ")
+        self.dni = input("Ingrese DNI: ")
+        self.edad = input("Ingrese Edad: ")
+        self.email = input("Ingrese Email: ")
+        self.telefono = input("Ingrese Telefono: ")
+        if validacionDNIyTelefono == True and validacionStringUsuario == True and validacionEmail == True and validacionEdad == True:
+            usuario.lista_usuarios.append([self.nombre, self.apellido, self.dni, self.edad, self.email, self.telefono])
+        else: 
+            print("Los datos no son válidos")
     def eliminar_usuario (posicion):
         usuario.lista_usuarios.pop(posicion)
     def mostrar_usuarios():
         print("USUARIOS: " + str(usuario.lista_usuarios))
-              
+
 class cancha (): 
     lista_canchas = []
-    def __init__(self, codigo, techada, estado, piso):
-        self.codigo = codigo
-        self.techada = techada
-        self.estado = estado
-        self.piso = piso
-        cancha.lista_canchas.append([self.codigo, self.techada, self.estado, self.piso])
+    def __init__(self):
+        self.codigo = input ("Ingrese Codigo: ")
+        self.techada = input ("Ingrese Techada: ")
+        self.estado = input ("Ingrese Estado: ")
+        self.piso = input ("Ingrese Piso: ")
+        if validacionCodigo == True and validacionStringCancha == True:
+            cancha.lista_canchas.append([self.codigo, self.techada, self.estado, self.piso])
+        else: 
+            print("Los datos no son válidos")
     def eliminar_cancha(posicion):
         cancha.lista_canchas.pop(posicion)  
     def mostrar_canchas():
@@ -39,17 +92,13 @@ class reserva (usuario, cancha):
 
 ################################## PRUEBA DE FUNCIONAMIENTO #################################################################
 
-usuario1= usuario ("Felipe", " Perez", 42729645, 20, "pepito@gmail.com", 48348433)
-usuario2 = usuario ("Carlos", "Rodriguez", 34729675, 24, "pepito1@gmail.com", 78481433)
-cancha1 = cancha (123, "Si", "Bueno", "Polvo de ladrillo")
-cancha2 = cancha (124, "No", "Malo", "Cesped")
-reserva1 = reserva ("2023/04/12", "12:00")
-reserva2 = reserva ("2023/04/14", "15:00")
+usuario1= usuario ()
+cancha1 = cancha ()
 
-usuario.mostrar_usuarios ()
-cancha.mostrar_canchas ()
-reserva.mostrar_reservas()
+"MOSTRAR RESERVAS FUNCIONA MAL!"
 
+
+    
 
 
 
