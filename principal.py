@@ -31,7 +31,7 @@ class Club ():
     def mostrar_usuarios(self):
         print("USUARIOS:")
         for user in self.lista_usuarios: 
-            print(user)   ### FUNCIONA MAL!!!  
+            print(str(user))   ### FUNCIONA MAL!!!  
     
     def eliminar_usuarios(self):
         user = Usuario()

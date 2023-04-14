@@ -33,7 +33,7 @@ class Usuario ():
         # IMPRESION
         
     def __str__(self):
-        return (self.nombre, self.apellido, str(self.dni), str(self.telefono), str(self.edad), self.email)
+        return ("Nombre: " + str(self.nombre) + "\nApellido: " + str(self.apellido) + "\nDNI: " + str(self.dni) + "\nTelefono: " + str(self.telefono) + "\nEdad: " + str(self.edad) + "\nEmail: " + str(self.email))
       
 class Cancha (): 
     
