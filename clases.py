@@ -55,8 +55,8 @@ class Cancha ():
             
         # IMPRESION
         
-        def __str__(self):
-            return ("Codigo: " + str(self.codigo) + "\nTechada: " + self.techada + "\nPiso: " + self.piso + "\nEstado: " + self.estado)
+    def __str__(self):
+        return ("Codigo: " + str(self.codigo) + "\nTechada: " + self.techada + "\nPiso: " + self.piso + "\nEstado: " + self.estado)
                
 class Reserva ():
     
@@ -72,5 +72,5 @@ class Reserva ():
             
         # IMPRESION
         
-        def __str__(self):
-            return ("Fecha de la reserva: " + str(self.fechareserva) + "\nHora de la reserva: " + str(self.horareserva))
+    def __str__(self):
+        return ("Fecha de la reserva: " + str(self.fechareserva) + "\nHora de la reserva: " + str(self.horareserva))
