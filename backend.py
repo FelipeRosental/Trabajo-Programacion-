@@ -74,26 +74,26 @@ class Usuario ():
 class Cancha (): 
     def __init__(self):
         #VALIDACIONES
-        self.codigo = input ("Ingrese Codigo: ")
+        self.codigo = input ("Ingrese el codigo de cancha: ")
         while validacionCodigo (self.codigo) != True:
-            self.codigo = input ("Ingrese Codigo: ")
+            self.codigo = input ("Ingrese el codigo de cancha: ")
         ###    
-        self.techada = input ("Ingrese Techada: ")
-        self.piso = input ("Ingrese Piso: ")
-        self.estado = input ("Ingrese Estado: ")
+        self.techada = input ("Ingrese si la cancha es techada: ")
+        self.piso = input ("Ingrese el tipo de Piso: ")
+        self.estado = input ("Ingrese el Estado de la cancha: ")
         while validacionStringCancha (self.techada, self.piso, self.estado) != True:
-            self.techada = input ("Ingrese Techada: ")
-            self.piso = input ("Ingrese Piso: ")
-            self.estado = input ("Ingrese Estado: ")
+            self.techada = input ("Ingrese si la cancha es techada: ")
+            self.piso = input ("Ingrese el tipo de Piso: ")
+            self.estado = input ("Ingrese el Estado de la cancha: ")
                
 class Reserva ():
     def __init__(self):
         #VALIDACIONES
-        self.fechareserva = input("Ingrese la fecha de la reserva: ")
-        self.horareserva = input("Ingrese la hora de la reserva: ")
-        while validacionFecha(self.fechareserva, self.horareserva):
-            self.fechareserva = input("Ingrese la fecha de la reserva: ")
-            self.horareserva = input("Ingrese la hora de la reserva: ")
+        self.fechareserva = datetime.date(input("ingrese año"),input("ingrese mes"),input("ingrese dia"))
+        self.horareserva =  datetime.time(input("ingrese hora"), input("ingrese minuto"))
+        while validacionFecha(self.fechareserva, self.horareserva) != True:
+            self.fechareserva = datetime.date(input("ingrese año"),input("ingrese mes"),input("ingrese dia"))
+            self.horareserva = datetime.time(input("ingrese hora"), input("ingrese minuto"))
         
 class Club ():
     
