@@ -64,11 +64,11 @@ class Reserva ():
         
         # VALIDACIONES
         #mejorar validacion de la fecha
-        self.fechareserva = datetime.date(input("ingrese año"),input("ingrese mes"),input("ingrese dia"))
-        self.horareserva = datetime.time(input("ingrese hora"), input("ingrese minuto aprox"))
+        self.fechareserva = datetime.date(input("ingrese año: " ),input("ingrese mes: "),input("ingrese dia: "))
+        self.horareserva = datetime.time(input("ingrese hora: "))
         while validacionFecha(self.fechareserva, self.horareserva):
-            self.fechareserva = datetime.date(input("ingrese año"),input("ingrese mes"),input("ingrese dia"))
-            self.horareserva = datetime.time(input("ingrese hora"), input("ingrese minuto aprox"))
+            self.fechareserva = datetime.date(input("ingrese año: "),input("ingrese mes: "),input("ingrese dia: "))
+            self.horareserva = datetime.time(input("ingrese hora:"))
             
         # IMPRESION
         
