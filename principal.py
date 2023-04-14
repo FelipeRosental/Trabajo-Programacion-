@@ -79,6 +79,9 @@ club1.mostrar_usuarios()
 #  2) VER CANCHAS DISPONIBLES
 #  3) ARREGLAR LOS ERROES
 
+# Detalles esteticos
+#  1) Cada vez que una validacion falla, mandar mensaje explicando el porque.
+
 
 
 

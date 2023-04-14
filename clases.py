@@ -32,8 +32,8 @@ class Usuario ():
         
         # IMPRESION
         
-        def __str__(self):
-            return (self.nombre, self.apellido, str(self.dni), str(self.telefono), str(self.edad), self.email)
+    def __str__(self):
+        return (self.nombre, self.apellido, str(self.dni), str(self.telefono), str(self.edad), self.email)
       
 class Cancha (): 
     
@@ -41,17 +41,17 @@ class Cancha ():
         
         # VALIDACIONES
         
-        self.codigo = input ("Ingrese Codigo: ")
+        self.codigo = input ("Ingrese el codigo de cancha: ")
         while validacionCodigo (self.codigo) != True:
-            self.codigo = input ("Ingrese Codigo: ")
+            self.codigo = input ("Ingrese el codigo de cancha: ")
         
-        self.techada = input ("Ingrese Techada: ")
-        self.piso = input ("Ingrese Piso: ")
-        self.estado = input ("Ingrese Estado: ")
+        self.techada = input ("Ingrese si la cancha es techada: ")
+        self.piso = input ("Ingrese el tipo de Piso: ")
+        self.estado = input ("Ingrese el Estado de la cancha: ")
         while validacionStringCancha (self.techada, self.piso, self.estado) != True:
-            self.techada = input ("Ingrese Techada: ")
-            self.piso = input ("Ingrese Piso: ")
-            self.estado = input ("Ingrese Estado: ")
+            self.techada = input ("Ingrese si la cancha es techada: ")
+            self.piso = input ("Ingrese el tipo de Piso: ")
+            self.estado = input ("Ingrese el Estado de la cancha: ")
             
         # IMPRESION
         
@@ -63,12 +63,12 @@ class Reserva ():
     def __init__(self):
         
         # VALIDACIONES
-        
-        self.fechareserva = input("Ingrese la fecha de la reserva: ")
-        self.horareserva = input("Ingrese la hora de la reserva: ")
+        #mejorar validacion de la fecha
+        self.fechareserva = datetime.date(input("ingrese año"),input("ingrese mes"),input("ingrese dia"))
+        self.horareserva = datetime.time(input("ingrese hora"), input("ingrese minuto aprox"))
         while validacionFecha(self.fechareserva, self.horareserva):
-            self.fechareserva = input("Ingrese la fecha de la reserva: ")
-            self.horareserva = input("Ingrese la hora de la reserva: ")
+            self.fechareserva = datetime.date(input("ingrese año"),input("ingrese mes"),input("ingrese dia"))
+            self.horareserva = datetime.time(input("ingrese hora"), input("ingrese minuto aprox"))
             
         # IMPRESION
         
