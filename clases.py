@@ -11,27 +11,33 @@ class Usuario ():
         # VALIDACIONES
         
         self.nombre = input("Ingrese Nombre: ")
-        self.apellido = input("Ingrese Apellido: ") 
-        while validacionStringUsuario(self.nombre, self.apellido) != True:
-            print ("Error en los datos ingresados, por favor pruebe nuevamente")
+        while validacionNombre(self.nombre) != True:
+            print ("Nombre no valido.")
             self.nombre = input("Ingrese Nombre: ")
-            self.apellido = input("Ingrese Apellido: ")
         
+        self.apellido = input("Ingrese Apellido: ") 
+        while validacionApellido(self.apellido) != True:
+            print ("Apellido no valido.")
+            self.apellido = input("Ingrese Apellido: ")
+       
         self.dni = input("Ingrese DNI: ")
-        self.telefono = input("Ingrese Telefono: ")
-        while validacionDNIyTelefono(self.dni, self.telefono) != True:
-            print ("Error en los datos ingresados, por favor pruebe nuevamente")
+        while validacionDNI(self.dni) != True:
+            print("DNI no valido.")
             self.dni = input("Ingrese DNI: ")
+            
+        self.telefono = input("Ingrese Telefono: ")
+        while validacionTelefono(self.telefono) != True:
+            print("Telefono no valido.")
             self.telefono = input("Ingrese Telefono: ")
         
         self.edad = input("Ingrese Edad: ")    
         while validacionEdad(self.edad) != True:
-            print ("Error en los datos ingresados, por favor pruebe nuevamente")
+            print ("Edad no valida.")
             self.edad = input("Ingrese Edad: ")
         
         self.email = input("Ingrese Email: ")  
         while validacionEmail(self.email) != True:
-           print ("Error en los datos ingresados, por favor pruebe nuevamente")
+           print ("Email no valido.")
            self.email = input("Ingrese Email: ")
         
         # IMPRESION
@@ -45,20 +51,26 @@ class Cancha ():
         
         # VALIDACIONES
         
-        self.codigo = input ("Ingrese el codigo de cancha: ")
+        self.codigo = input ("Ingrese el codigo de cancha (numero de 4 digitos): ")
         while validacionCodigo (self.codigo) != True:
-            print ("Error en los datos ingresados, por favor pruebe nuevamente")
+            print ("Codigo de cancha no valido (debe ser de 4 digitos).")
             self.codigo = input ("Ingrese el codigo de cancha: ")
         
-        self.techada = input ("Ingrese si la cancha es techada: ")
-        self.piso = input ("Ingrese el tipo de Piso: ")
-        self.estado = input ("Ingrese el Estado de la cancha: ")
-        while validacionStringCancha (self.techada, self.piso, self.estado) != True:
-            print ("Error en los datos ingresados, por favor pruebe nuevamente")
+        self.techada = input ("Ingrese si la cancha es techada (si,no): ")
+        while validacionTechada (self.techada) != True:
+            print ("Respuesta no valida (debe ser si o no).")
             self.techada = input ("Ingrese si la cancha es techada: ")
-            self.piso = input ("Ingrese el tipo de Piso: ")
-            self.estado = input ("Ingrese el Estado de la cancha: ")
             
+        self.piso = input ("Ingrese el tipo de Piso (cesped, polvo de ladrillo, cemento): ")
+        while validacionPiso (self.piso) != True:
+            print ("Tipo de piso no valido.")
+            self.piso = input ("Ingrese el tipo de Piso: ")
+            
+        self.estado = input ("Ingrese el Estado de la cancha (bueno, malo, intermedio): ")
+        while validacionEstado (self.estado) != True:
+            print ("Estado de la cancha no valido.")
+            self.estado = input ("Ingrese el Estado de la cancha: ")
+        
         # IMPRESION
         
     def __str__(self):
@@ -74,12 +86,10 @@ class Reserva ():
         self.horareserva = input("ingrese hora (HH:MM): ")
         try:
             self.fechareserva = datetime.strptime(self.fechareserva, "%d-%m-%Y").date()
-            print("Fecha ingresada: ", self.fechareserva)
         except ValueError:
             print("Fecha invalida, ingresarla con formato (dd-mm-yyyy)")
         try:
             self.horareserva = datetime.strptime(self.horareserva, "%H:%M").time()
-            print("Hora ingresada: ", self.horareserva)
         except ValueError:
             print("Hora invalida, ingresarla con formato (HH:MM)")
        

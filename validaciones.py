@@ -4,13 +4,19 @@ from string import *
 
 ### VALIDACIONES ###
 
-def validacionDNIyTelefono (dni, telefono):
+def validacionDNI (dni):
     while len(dni)==8:
-        if dni.isdigit() == False or telefono.isdigit() == False :
+        if dni.isdigit() == False:
             return False
         else:
             return True
     return False
+
+def validacionTelefono (telefono):
+        if telefono.isdigit() == False :
+            return False
+        else:
+            return True
 
 def validacionEdad (edad):
     if edad.isdigit() == False:
@@ -33,14 +39,32 @@ def validacionCodigo (codigo):
         return True """
 ### NO USAMOS ESTA VALIDACION (LA DEJAMOS POR LAS DUDAS) ###
     
-def validacionStringUsuario (nombre, apellido):
-    if nombre.isalpha() == False or apellido.isalpha() == False:
+def validacionNombre (nombre):
+    if nombre.isalpha() == False:
         return False
     else:
         return True
     
-def validacionStringCancha (techada, piso, estado):
-    if techada.isalpha() == False or piso.isalpha() == False or estado.isalpha() == False:
+def validacionApellido (apellido):
+    if apellido.isalpha() == False:
+        return False
+    else:
+        return True
+
+def validacionTechada (techada):
+    if  techada not in {"si", "no", "Si", "No"}:
+        return False
+    else:
+        return True
+    
+def validacionPiso (piso):
+    if  piso not in {"cesped", "polvo de ladrillo", "cemento", "Cesped", "Polvo de ladrillo", "Cemento"}:
+        return False
+    else:
+        return True
+
+def validacionEstado (estado):
+    if  estado not in {"bueno", "malo", "intermedio", "Bueno", "Malo", "intermedio"}:
         return False
     else:
         return True
