@@ -26,11 +26,12 @@ def validacionCodigo (codigo):
             return True
     return False
 
-def validacionFecha (fechareserva, horareserva):
+""" def validacionFecha (fechareserva, horareserva):
     if fechareserva != datetime.date or horareserva != datetime.time:
         return False
     else:
-        return True
+        return True """
+### NO USAMOS ESTA VALIDACION (LA DEJAMOS POR LAS DUDAS) ###
     
 def validacionStringUsuario (nombre, apellido):
     if nombre.isalpha() == False or apellido.isalpha() == False:

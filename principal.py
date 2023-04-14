@@ -31,7 +31,7 @@ class Club ():
     def mostrar_usuarios(self):
         print("USUARIOS:")
         for user in self.lista_usuarios: 
-            print(str(user))   ### FUNCIONA MAL!!!  
+            print(user)    
     
     def eliminar_usuarios(self):
         user = Usuario()
@@ -41,7 +41,7 @@ class Club ():
     
     def agregar_canchas (self):
         cancha = Cancha()
-        self.lista_canchas.append(cancha)   ### FUNCIONA MAL!!!
+        self.lista_canchas.append(cancha)   
     
     def mostrar_canchas(self):
         print("CANCHAS:")
@@ -56,7 +56,7 @@ class Club ():
     
     def agregar_reservas (self):
         reserva = Reserva()
-        self.lista_reservas.append(reserva)  ### FUNCIONA MAL!!!
+        self.lista_reservas.append(reserva)  
         
     def mostrar_reservas(self):                             
         print("RESERVAS:")
@@ -69,14 +69,14 @@ class Club ():
                   
 ################################## PRUEBA DE FUNCIONAMIENTO #################################################################
 
-club1 = Club("Darling")
+club1 = Club("ITBA")
+
 club1.agregar_usuarios()
 club1.agregar_canchas()
 club1.agregar_reservas()
 club1.mostrar_usuarios()
 club1.mostrar_canchas()
 club1.mostrar_reservas()
-
 
 
 # COSAS PARA HACER:

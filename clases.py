@@ -63,13 +63,20 @@ class Reserva ():
     def __init__(self):
         
         # VALIDACIONES
-        #mejorar validacion de la fecha
-        self.fechareserva = datetime.date(input("ingrese año: " ),input("ingrese mes: "),input("ingrese dia: "))
-        self.horareserva = datetime.time(input("ingrese hora: "))
-        while validacionFecha(self.fechareserva, self.horareserva):
-            self.fechareserva = datetime.date(input("ingrese año: "),input("ingrese mes: "),input("ingrese dia: "))
-            self.horareserva = datetime.time(input("ingrese hora:"))
-            
+       
+        self.fechareserva = input("ingrese la fecha (dd-mm-yyyy): ")
+        self.horareserva = input("ingrese hora (HH:MM): ")
+        try:
+            self.fechareserva = datetime.strptime(self.fechareserva, "%d-%m-%Y").date()
+            print("Fecha ingresada: ", self.fechareserva)
+        except ValueError:
+            print("Fecha invalida, ingresarla con formato (dd-mm-yyyy)")
+        try:
+            self.horareserva = datetime.strptime(self.horareserva, "%H:%M").time()
+            print("Hora ingresada: ", self.horareserva)
+        except ValueError:
+            print("Hora invalida, ingresarla con formato (HH:MM)")
+       
         # IMPRESION
         
     def __str__(self):
