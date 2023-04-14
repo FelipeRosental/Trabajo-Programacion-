@@ -82,17 +82,26 @@ class Reserva ():
         
         # VALIDACIONES
        
-        self.fechareserva = input("ingrese la fecha (dd-mm-yyyy): ")
-        self.horareserva = input("ingrese hora (HH:MM): ")
-        try:
-            self.fechareserva = datetime.strptime(self.fechareserva, "%d-%m-%Y").date()
-        except ValueError:
-            print("Fecha invalida, ingresarla con formato (dd-mm-yyyy)")
-        try:
-            self.horareserva = datetime.strptime(self.horareserva, "%H:%M").time()
-        except ValueError:
-            print("Hora invalida, ingresarla con formato (HH:MM)")
-       
+        while True: 
+            self.fechareserva = input("ingrese la fecha (dd-mm-yyyy): ")
+            try:
+                self.fechareserva = datetime.strptime(self.fechareserva, "%d-%m-%Y").date()
+            except ValueError:
+                print("Fecha invalida, ingresarla con formato (dd-mm-yyyy)")
+                continue
+            else: 
+                break    
+        
+        while True:
+            self.horareserva = input("ingrese hora (HH:MM): ")
+            try:
+                self.horareserva = datetime.strptime(self.horareserva, "%H:%M").time()
+            except ValueError:
+                print("Hora invalida, ingresarla con formato (HH:MM)")
+                continue
+            else:
+                break       
+            
         # IMPRESION
         
     def __str__(self):

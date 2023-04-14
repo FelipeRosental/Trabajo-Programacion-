@@ -71,11 +71,7 @@ class Club ():
 
 club1 = Club("ITBA")
 
-club1.agregar_usuarios()
-club1.agregar_canchas()
 club1.agregar_reservas()
-club1.mostrar_usuarios()
-club1.mostrar_canchas()
 club1.mostrar_reservas()
 
 

@@ -64,7 +64,7 @@ def validacionPiso (piso):
         return True
 
 def validacionEstado (estado):
-    if  estado not in {"bueno", "malo", "intermedio", "Bueno", "Malo", "intermedio"}:
+    if  estado not in {"bueno", "malo", "intermedio", "Bueno", "Malo", "Intermedio"}:
         return False
     else:
         return True
