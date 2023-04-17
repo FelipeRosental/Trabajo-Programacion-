@@ -8,11 +8,9 @@ from principal import * ### PRINCIPAL
 
 def registrar_usuario (usuario,contraseña):
     with open("BaseDeDatos.txt", "a") as archivo:
-        archivo.write ("USUARIO: " + usuario + "\n" + "CONTRASEÑA: " + str(contraseña))
+        archivo.write (f"{usuario}:{str(contraseña)}\n")
 
 def iniciar_sesion (usuario,contraseña):
-    usuario = input ("Ingrese el Usuario: ")
-    contraseña = input ("Ingrese la Contraseña: ")
     with open("BaseDeDatos.txt", 'r') as archivo:
         lineas = archivo.readlines()
         for linea in lineas:
@@ -34,7 +32,7 @@ def menu():
         elif menu == "2":
             usuario = input ("Ingrese el Usuario: ")
             contraseña = input ("Ingrese la Contraseña: ")
-            if iniciar_sesion (usuario,contraseña):
+            if iniciar_sesion (usuario,contraseña) is True:
                 print("Inicio de Sesion correcto")
             else:
                 print("Usuario o Contraseña incorrectos")
