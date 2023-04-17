@@ -15,7 +15,9 @@ class Club ():
     
     lista_usuarios = []
     lista_canchas = []
+    total_canchas = 0     ### DESPUES PODEMOS PONER UNA CANTIDAD INICIAL DE CANCHAS DISPONIBLES
     lista_reservas = []
+    total_reservas = 0
     
     # CONSTRUCTOR
     
@@ -35,44 +37,53 @@ class Club ():
     
     def eliminar_usuarios(self):
         user = Usuario()
-        self.lista_usuarios.remove(user)
+        self.lista_usuarios.remove(user) ### NO FUNCIONA
         
     # METODOS DE CANCHAS
     
     def agregar_canchas (self):
         cancha = Cancha()
-        self.lista_canchas.append(cancha)   
+        self.lista_canchas.append(cancha)
+        self.total_canchas += 1 
     
     def mostrar_canchas(self):
         print("CANCHAS:")
         for cancha in self.lista_canchas: 
             print(cancha)
+        print("Canchas disponibles: " + str(self.total_canchas))
     
     def eliminar_canchas(self):
-        cancha = Cancha()
-        self.lista_canchas.remove(cancha)
+        codigo = input ("Ingrese el codigo: ")
+        if Cancha.codigo == codigo:
+            self.lista_canchas.remove(Cancha()) 
+            self.total_canchas -= 1
+        print ("Canchas disponibles: " + str(self.total_canchas)) ### NO FUNCIONA
         
     # METODOS DE RESERVAS
     
     def agregar_reservas (self):
         reserva = Reserva()
-        self.lista_reservas.append(reserva)  
+        self.lista_reservas.append(reserva)
+        self.total_canchas -= 1  
+        self.total_reservas += 1
         
     def mostrar_reservas(self):                             
         print("RESERVAS:")
         for reserva in self.lista_reservas:
             print(reserva)
+        print("Reservas totales: " + str(self.total_reservas))
     
     def eliminar_reservas(self):
         reserva = Reserva()
-        self.lista_reservas.remove(reserva)
+        self.lista_reservas.remove(reserva) 
+        self.total_canchas += 1 
+        self.total_reservas -= 1        ### NO FUNCIONA
                   
 ################################## PRUEBA DE FUNCIONAMIENTO #################################################################
 
 club1 = Club("ITBA")
 
-club1.agregar_reservas()
-club1.mostrar_reservas()
+
 
 
 # COSAS PARA HACER:
@@ -80,8 +91,7 @@ club1.mostrar_reservas()
 #  2) VER CANCHAS DISPONIBLES
 #  3) ARREGLAR LOS ERROES
 
-# Detalles esteticos
-#  1) Cada vez que una validacion falla, mandar mensaje explicando el porque.
+
 
 
 
