@@ -81,7 +81,10 @@ class Reserva ():
     def __init__(self):
         
         # VALIDACIONES
-       
+        
+        self.codreserva = input("Ingrese el codigo de la reserva: ") 
+        ### LO IDEAL SERIA QUE EL CODIGO DE RESERVA SALIERA DEL DNI DEL QUE RESERVA Y DEL CODIGO DE CANCHA  
+        
         while True: 
             self.fechareserva = input("ingrese la fecha (dd-mm-yyyy): ")
             try:
@@ -101,8 +104,8 @@ class Reserva ():
                 continue
             else:
                 break       
-            
+        
         # IMPRESION
         
     def __str__(self):
-        return ("Fecha de la reserva: " + str(self.fechareserva) + "\nHora de la reserva: " + str(self.horareserva))
+        return ("Codigo de Reserva: " + str(self.codreserva) + "\nFecha de la reserva: " + str(self.fechareserva) + "\nHora de la reserva: " + str(self.horareserva))
