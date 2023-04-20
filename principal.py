@@ -15,9 +15,8 @@ class Club ():
     
     lista_usuarios = []
     lista_canchas = []
-    total_canchas = 0     ### DESPUES PODEMOS PONER UNA CANTIDAD INICIAL DE CANCHAS DISPONIBLES
+    total_canchas = 10     
     lista_reservas = []
-    total_reservas = 0
     
     # CONSTRUCTOR
     
@@ -29,6 +28,8 @@ class Club ():
     def agregar_usuarios (self):
         user = Usuario()
         self.lista_usuarios.append(user)
+        with open("BaseDeDatos.txt", "a") as archivo:
+                archivo.write (str(user)+"\n\n")
        
     def mostrar_usuarios(self):
         print("USUARIOS:")
@@ -37,7 +38,7 @@ class Club ():
     
     def eliminar_usuarios(self):
         user = Usuario()
-        self.lista_usuarios.remove(user) ### NO FUNCIONA
+        self.lista_usuarios.remove(user)
         
     # METODOS DE CANCHAS
     
@@ -89,8 +90,7 @@ club1 = Club("ITBA")
 # COSAS PARA HACER:
 #  1) PRIMER HORARIO DISPONIBLE PARA RESERVAR
 #  2) VER CANCHAS DISPONIBLES
-#  3) ARREGLAR LOS ERROES
-
+#  3) ARREGLAR LOS ERRORES
 
 
 
