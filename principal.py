@@ -64,6 +64,8 @@ class Club ():
     def agregar_reservas (self):
         reserva = Reserva()
         self.lista_reservas.append(reserva)
+        with open("BaseDeDatos.txt", "a") as archivo:
+                archivo.write (str(reserva)+"\n\n")
         self.total_canchas -= 1  
         self.total_reservas += 1
         
@@ -80,7 +82,9 @@ class Club ():
         self.total_reservas -= 1        ### NO FUNCIONA
                   
 ################################## PRUEBA DE FUNCIONAMIENTO #################################################################
+
 club1 = Club("ITBA")
+
 # COSAS PARA HACER:
 #  1) PRIMER HORARIO DISPONIBLE PARA RESERVAR
 #  2) VER CANCHAS DISPONIBLES

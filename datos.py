@@ -43,8 +43,6 @@ def menu():
         elif menu == "4":
             if club1.mostrar_canchas() != 0:
                 club1.agregar_reservas()
-                with open("BaseDeDatos.txt", "a") as archivo:
-                    archivo.write ("\nReserva realizada") 
             else: 
                 print("No hay mas canchas disponibles")
                  
