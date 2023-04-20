@@ -44,48 +44,40 @@ class Club ():
     
     def agregar_canchas (self):
         cancha = Cancha()
-        self.lista_canchas.append(cancha)
-        self.total_canchas += 1 
+        self.lista_canchas.append(cancha)   
     
     def mostrar_canchas(self):
         print("CANCHAS:")
         for cancha in self.lista_canchas: 
             print(cancha)
-        print("Canchas disponibles: " + str(self.total_canchas))
     
     def eliminar_canchas(self):
-        codigo = input ("Ingrese el codigo: ")
-        if Cancha.codigo == codigo:
-            self.lista_canchas.remove(Cancha()) 
-            self.total_canchas -= 1
-        print ("Canchas disponibles: " + str(self.total_canchas)) ### NO FUNCIONA
+        cancha = Cancha()
+        self.lista_canchas.remove(cancha)
         
     # METODOS DE RESERVAS
     
     def agregar_reservas (self):
         reserva = Reserva()
-        self.lista_reservas.append(reserva)
-        self.total_canchas -= 1  
-        self.total_reservas += 1
+        self.lista_reservas.append(reserva)  
         
     def mostrar_reservas(self):                             
         print("RESERVAS:")
         for reserva in self.lista_reservas:
             print(reserva)
-        print("Reservas totales: " + str(self.total_reservas))
     
     def eliminar_reservas(self):
         reserva = Reserva()
-        self.lista_reservas.remove(reserva) 
-        self.total_canchas += 1 
-        self.total_reservas -= 1        ### NO FUNCIONA
+        self.lista_reservas.remove(reserva)
                   
 ################################## PRUEBA DE FUNCIONAMIENTO #################################################################
 
 club1 = Club("ITBA")
 
-
-
+club1.agregar_reservas()
+club1.mostrar_reservas()
+club1.eliminar_reservas()
+club1.mostrar_reservas()
 
 # COSAS PARA HACER:
 #  1) PRIMER HORARIO DISPONIBLE PARA RESERVAR
