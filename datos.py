@@ -48,8 +48,7 @@ def menu():
                  
         elif menu == "5":
             club1.eliminar_reservas()
-            with open("BaseDeDatos.txt", "a") as archivo:
-                archivo.write ("\nReserva eliminada")  
+     
         elif menu == "6":
             break
         

@@ -27,7 +27,7 @@ class Club ():
     def agregar_usuarios (self):
         user = Usuario()
         self.lista_usuarios.append(user)
-        with open("BaseDeDatos.txt", "a") as archivo:
+        with open("Usuarios.txt", "a") as archivo:
                 archivo.write (str(user)+"\n\n")
 
     def mostrar_usuarios(self):
@@ -64,8 +64,8 @@ class Club ():
     def agregar_reservas (self):
         reserva = Reserva()
         self.lista_reservas.append(reserva)
-        with open("BaseDeDatos.txt", "a") as archivo:
-                archivo.write (str(reserva)+"\n\n")
+        with open("Reservas.txt", "a") as archivo:
+                archivo.write ("Codigo de reserva: " + str(reserva.codreserva)+"\n")
         self.total_canchas -= 1  
         self.total_reservas += 1
         
@@ -75,11 +75,15 @@ class Club ():
             print(reserva)
         print("Reservas totales: " + str(self.total_reservas))
     
-    def eliminar_reservas(self):
-        reserva = Reserva()
-        self.lista_reservas.remove(reserva) 
-        self.total_canchas += 1 
-        self.total_reservas -= 1        ### NO FUNCIONA
+    def eliminar_reservas(self):     
+        with open("Reservas.txt", 'r') as archivo:
+            codigo = input("Ingrese codigo de la reserva a eliminar: ")
+            lista_lineas = archivo.readlines()
+            with open("Reservas.txt", 'w') as archivo:
+                for linea in lista_lineas:
+                    if codigo not in linea:
+                        archivo.write(linea)
+                  
                   
 ################################## PRUEBA DE FUNCIONAMIENTO #################################################################
 
