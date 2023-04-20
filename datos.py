@@ -22,7 +22,7 @@ def iniciar_sesion (usuario,contraseña):
 def menu():
     while True:
         print("INICIO DE SESION")
-        menu = input("1. Registrar usuario\n2. Iniciar sesión\n3. Cargar datos\n4. Hacer reserva \n5. Cancelar reserva \n6. Salir \nIngrese una opción: ")
+        menu = input("1. Registrar usuario\n2. Iniciar sesión\n3. Cargar datos\n4. Hacer reserva \n5. Cancelar reserva \n6. Eliminar usuario \n7. Salir \nIngrese una opción: ")
 
         if menu == "1":
             usuario = input ("Ingrese el Usuario: ")
@@ -50,6 +50,9 @@ def menu():
             club1.eliminar_reservas()
      
         elif menu == "6":
+            club1.eliminar_usuarios()
+        
+        elif menu == "7":
             break
         
         else:

@@ -43,7 +43,7 @@ class Usuario ():
         # IMPRESION
         
     def __str__(self):
-        return ("Nombre: " + str(self.nombre) + "\nApellido: " + str(self.apellido) + "\nDNI: " + str(self.dni) + "\nTelefono: " + str(self.telefono) + "\nEdad: " + str(self.edad) + "\nEmail: " + str(self.email))
+        return ("Nombre: " + str(self.nombre) + " Apellido: " + str(self.apellido) + " DNI: " + str(self.dni) + " Telefono: " + str(self.telefono) + " Edad: " + str(self.edad) + " Email: " + str(self.email))
       
 class Cancha (): 
     
@@ -108,4 +108,4 @@ class Reserva ():
         # IMPRESION
         
     def __str__(self):
-        return ("Codigo de Reserva: " + str(self.codreserva) + "\nFecha de la reserva: " + str(self.fechareserva) + "\nHora de la reserva: " + str(self.horareserva))
+        return ("Codigo de Reserva: " + str(self.codreserva) + " Fecha de la reserva: " + str(self.fechareserva) + " Hora de la reserva: " + str(self.horareserva))

@@ -28,7 +28,7 @@ class Club ():
         user = Usuario()
         self.lista_usuarios.append(user)
         with open("Usuarios.txt", "a") as archivo:
-                archivo.write (str(user)+"\n\n")
+                archivo.write (str(user)+"\n")
 
     def mostrar_usuarios(self):
         print("USUARIOS:")
@@ -36,8 +36,13 @@ class Club ():
             print(user)    
 
     def eliminar_usuarios(self):
-        user = Usuario()
-        self.lista_usuarios.remove(user) ### NO FUNCIONA
+         with open("Usuarios.txt", 'r') as archivo:
+            dni = input("Ingrese el DNI del usuario a eliminar: ")
+            lista_lineas = archivo.readlines()
+            with open("Usuarios.txt", 'w') as archivo:
+                for linea in lista_lineas:
+                    if dni not in linea:
+                        archivo.write(linea)
 
     # METODOS DE CANCHAS
 
@@ -65,7 +70,7 @@ class Club ():
         reserva = Reserva()
         self.lista_reservas.append(reserva)
         with open("Reservas.txt", "a") as archivo:
-                archivo.write ("Codigo de reserva: " + str(reserva.codreserva)+"\n")
+                archivo.write (str(reserva)+"\n")
         self.total_canchas -= 1  
         self.total_reservas += 1
         
