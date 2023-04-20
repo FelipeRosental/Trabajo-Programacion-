@@ -1,10 +1,12 @@
 #######################################         LIBRERIAS      ################################################################# 
+
 from random import *
 from datetime import *
 from string import *
 
 from validaciones import * ### VALIDACIONES
 from clases import * ### CLASES
+
 #######################################      CLASE PRINCIPAL (CLUB)   ##########################################################
         
 class Club ():
@@ -28,21 +30,25 @@ class Club ():
         user = Usuario()
         self.lista_usuarios.append(user)
         with open("Usuarios.txt", "a") as archivo:
-                archivo.write (str(user)+"\n")
+            archivo.write (str(user)+"\n")
 
     def mostrar_usuarios(self):
         print("USUARIOS:")
         for user in self.lista_usuarios: 
-            print(user)    
+            print(user)         ### NO SE USA 
 
     def eliminar_usuarios(self):
          with open("Usuarios.txt", 'r') as archivo:
             dni = input("Ingrese el DNI del usuario a eliminar: ")
+            while len(dni) !=8:
+               print("El dni debe tener 8 digitos") 
+               dni = input("Ingrese el DNI del usuario a eliminar: ")
             lista_lineas = archivo.readlines()
             with open("Usuarios.txt", 'w') as archivo:
                 for linea in lista_lineas:
                     if dni not in linea:
                         archivo.write(linea)
+                    
 
     # METODOS DE CANCHAS
 
@@ -50,19 +56,26 @@ class Club ():
         cancha = Cancha()
         self.lista_canchas.append(cancha)
         self.total_canchas += 1 
+        with open("Canchas.txt", "a") as archivo:
+            archivo.write (str(cancha)+"\n")
     
     def mostrar_canchas(self):
         print("CANCHAS:")
-        for cancha in self.lista_canchas: 
+        for cancha in self.lista_canchas:           ### NO SE USA
             print(cancha)
         print("Canchas disponibles: " + str(self.total_canchas))
     
     def eliminar_canchas(self):
-        codigo = input ("Ingrese el codigo: ")
-        if Cancha.codigo == codigo:
-            self.lista_canchas.remove(Cancha()) 
-            self.total_canchas -= 1
-        print ("Canchas disponibles: " + str(self.total_canchas)) ### NO FUNCIONA
+        with open("Canchas.txt", 'r') as archivo:
+            codigo = input("Ingrese el codigo de la cancha a eliminar: ")
+            while len(codigo) != 4:
+                print("El codigo debe tener 4 digitos")
+                codigo = input("Ingrese el codigo de la cancha a eliminar: ")
+            lista_lineas = archivo.readlines()
+            with open("Canchas.txt", 'w') as archivo:
+                for linea in lista_lineas:
+                    if codigo not in linea:
+                        archivo.write(linea)
         
     # METODOS DE RESERVAS
     
@@ -70,19 +83,22 @@ class Club ():
         reserva = Reserva()
         self.lista_reservas.append(reserva)
         with open("Reservas.txt", "a") as archivo:
-                archivo.write (str(reserva)+"\n")
+            archivo.write (str(reserva)+"\n")
         self.total_canchas -= 1  
         self.total_reservas += 1
         
     def mostrar_reservas(self):                             
         print("RESERVAS:")
-        for reserva in self.lista_reservas:
+        for reserva in self.lista_reservas:         ### NO SE USA 
             print(reserva)
         print("Reservas totales: " + str(self.total_reservas))
     
     def eliminar_reservas(self):     
         with open("Reservas.txt", 'r') as archivo:
             codigo = input("Ingrese codigo de la reserva a eliminar: ")
+            while len(codigo) != 4:
+                print("El codigo debe tener 4 digitos")
+                codigo = input("Ingrese codigo de la reserva a eliminar: ")
             lista_lineas = archivo.readlines()
             with open("Reservas.txt", 'w') as archivo:
                 for linea in lista_lineas:

@@ -1,1 +1,2 @@
 USUARIOS
+Nombre: juan Apellido: perez DNI: 12345678 Telefono: 1 Edad: 1 Email: @

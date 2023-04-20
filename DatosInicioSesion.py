@@ -19,10 +19,10 @@ def iniciar_sesion (usuario,contraseña):
                 return True
     return False
 
-def menu():
+def menu3():
     while True:
         print("INICIO DE SESION")
-        menu = input("1. Registrar usuario\n2. Iniciar sesión\n3. Cargar datos\n4. Hacer reserva \n5. Cancelar reserva \n6. Eliminar usuario \n7. Salir \nIngrese una opción: ")
+        menu = input("1. Registrar usuario\n2. Iniciar sesión\n3. Salir \nIngrese una opción: ")
 
         if menu == "1":
             usuario = input ("Ingrese el Usuario: ")
@@ -38,27 +38,8 @@ def menu():
                 print("Usuario o Contraseña incorrectos")
         
         elif menu == "3":
-            club1.agregar_usuarios()
-            
-        elif menu == "4":
-            if club1.mostrar_canchas() != 0:
-                club1.agregar_reservas()
-            else: 
-                print("No hay mas canchas disponibles")
-                 
-        elif menu == "5":
-            club1.eliminar_reservas()
-     
-        elif menu == "6":
-            club1.eliminar_usuarios()
-        
-        elif menu == "7":
             break
-        
-        else:
-            print("Opcion no disponible")
+        else: 
+            print("Opcion no valida")
 
-menu()
-
-
-
+menu3()

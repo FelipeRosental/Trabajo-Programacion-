@@ -74,7 +74,7 @@ class Cancha ():
         # IMPRESION
         
     def __str__(self):
-        return ("Codigo: " + str(self.codigo) + "\nTechada: " + self.techada + "\nPiso: " + self.piso + "\nEstado: " + self.estado)
+        return ("Codigo: " + str(self.codigo) + " Techada: " + self.techada + " Piso: " + self.piso + " Estado: " + self.estado)
                
 class Reserva ():
     
