@@ -73,7 +73,8 @@ club1 = Club("ITBA")
 
 club1.agregar_reservas()
 club1.mostrar_reservas()
-
+club1.eliminar_reservas()
+club1.mostrar_reservas()
 
 # COSAS PARA HACER:
 #  1) PRIMER HORARIO DISPONIBLE PARA RESERVAR
