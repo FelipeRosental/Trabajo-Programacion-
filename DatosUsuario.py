@@ -5,12 +5,11 @@ from string import *
 from validaciones import * ### VALIDACIONES
 from clases import * ### CLASES
 from principal import * ### PRINCIPAL
-
-
+from DatosInicioSesion import * ### DATOS DE INICIO DE SESION
 
 def menu1():
     while True:
-        print("INICIO DE SESION")
+        print("DATOS Y RESERVAS")
         menu = input("1. Ingresar datos del usuario \n2. Eliminar usuario \n3. Hacer reserva \n4. Cancelar reserva \n5. Salir \nIngrese una opción: ")
         
         if menu == "1":

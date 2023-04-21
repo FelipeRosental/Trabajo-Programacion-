@@ -1,5 +1,3 @@
-#######################################         LIBRERIAS      ################################################################# 
-
 from random import *
 from datetime import *
 from string import *
@@ -7,19 +5,13 @@ from string import *
 from validaciones import * ### VALIDACIONES
 from clases import * ### CLASES
 
-#######################################      CLASE PRINCIPAL (CLUB)   ##########################################################
-        
 class Club ():
-    
-    # LISTAS PRINCIPALES
 
     lista_usuarios = []
     lista_canchas = []
     total_canchas = 10     
     lista_reservas = []
     total_reservas = 0
-
-    # CONSTRUCTOR
 
     def __init__(self,nombreclub):
         self.nombreclub = nombreclub
@@ -32,10 +24,10 @@ class Club ():
         with open("Usuarios.txt", "a") as archivo:
             archivo.write (str(user)+"\n")
 
-    def mostrar_usuarios(self):
+    def mostrar_usuarios(self):         ### NO SE USA 
         print("USUARIOS:")
         for user in self.lista_usuarios: 
-            print(user)         ### NO SE USA 
+            print(user)         
 
     def eliminar_usuarios(self):
          with open("Usuarios.txt", 'r') as archivo:
@@ -49,7 +41,6 @@ class Club ():
                     if dni not in linea:
                         archivo.write(linea)
                     
-
     # METODOS DE CANCHAS
 
     def agregar_canchas (self):
@@ -59,9 +50,9 @@ class Club ():
         with open("Canchas.txt", "a") as archivo:
             archivo.write (str(cancha)+"\n")
     
-    def mostrar_canchas(self):
+    def mostrar_canchas(self):          ### NO SE USA
         print("CANCHAS:")
-        for cancha in self.lista_canchas:           ### NO SE USA
+        for cancha in self.lista_canchas:           
             print(cancha)
         print("Canchas disponibles: " + str(self.total_canchas))
     
@@ -87,9 +78,9 @@ class Club ():
         self.total_canchas -= 1  
         self.total_reservas += 1
         
-    def mostrar_reservas(self):                             
+    def mostrar_reservas(self):               ### NO SE USA                
         print("RESERVAS:")
-        for reserva in self.lista_reservas:         ### NO SE USA 
+        for reserva in self.lista_reservas:        
             print(reserva)
         print("Reservas totales: " + str(self.total_reservas))
     
@@ -105,15 +96,13 @@ class Club ():
                     if codigo not in linea:
                         archivo.write(linea)
                   
-                  
-################################## PRUEBA DE FUNCIONAMIENTO #################################################################
-
+                            
 club1 = Club("ITBA")
 
 # COSAS PARA HACER:
 #  1) PRIMER HORARIO DISPONIBLE PARA RESERVAR
 #  2) VER CANCHAS DISPONIBLES
-#  3) ARREGLAR LOS ERROES
+#  3) ARREGLAR LOS ERRORES
 
 
 

@@ -2,8 +2,6 @@ from random import *
 from datetime import *
 from string import *
 
-### VALIDACIONES ###
-
 def validacionDNI (dni):
     while len(dni)==8:
         if dni.isdigit() == False:
@@ -31,13 +29,6 @@ def validacionCodigo (codigo):
         else:
             return True
     return False
-
-""" def validacionFecha (fechareserva, horareserva):
-    if fechareserva != datetime.date or horareserva != datetime.time:
-        return False
-    else:
-        return True """
-### NO USAMOS ESTA VALIDACION (LA DEJAMOS POR LAS DUDAS) ###
     
 def validacionNombre (nombre):
     if nombre.isalpha() == False:

@@ -70,11 +70,21 @@ class Cancha ():
         while validacionEstado (self.estado) != True:
             print ("Estado de la cancha no valido.")
             self.estado = input ("Ingrese el Estado de la cancha: ")
+            
+        while True:
+            self.horario = input ("Ingrese horario disponible (HH:MM): ")
+            try:
+                self.horario = datetime.strptime(self.horario, "%H:%M").time()
+            except ValueError:
+                print("Hora invalida, ingresarla con formato (HH:MM)")
+                continue
+            else:
+                break   
         
         # IMPRESION
         
     def __str__(self):
-        return ("Codigo: " + str(self.codigo) + " Techada: " + self.techada + " Piso: " + self.piso + " Estado: " + self.estado)
+        return ("Codigo: " + str(self.codigo) + " Techada: " + self.techada + " Piso: " + self.piso + " Estado: " + self.estado + " Horario: " + str(self.horario))
                
 class Reserva ():
     
@@ -82,8 +92,7 @@ class Reserva ():
         
         # VALIDACIONES
         
-        self.codreserva = input("Ingrese el codigo de la reserva: ") 
-        ### LO IDEAL SERIA QUE EL CODIGO DE RESERVA SALIERA DEL DNI DEL QUE RESERVA Y DEL CODIGO DE CANCHA  
+        self.codreserva = input("Ingrese el codigo de la reserva: ")  ### HABRIA QUE HACER QUE EL CODIGO SE GENERE SOLO
         
         while True: 
             self.fechareserva = input("ingrese la fecha (dd-mm-yyyy): ")
