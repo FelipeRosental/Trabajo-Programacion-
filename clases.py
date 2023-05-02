@@ -15,7 +15,6 @@ class Usuario ():
             self.dni = input("Ingrese DNI: ")
         if validacionUsuario(self.dni) == True:
             print("El Usuario ya se encuentra cargado")
-            exit()
             
         self.nombre = input("Ingrese Nombre: ")
         while validacionNombre(self.nombre) != True:

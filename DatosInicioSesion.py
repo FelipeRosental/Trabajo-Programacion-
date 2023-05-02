@@ -5,9 +5,9 @@ from string import *
 from validaciones import * ### VALIDACIONES
 from clases import * ### CLASES
 from principal import * ### PRINCIPAL
+from DatosUsuario import * ### DATOS DE USUARIOS Y RESERVAS
 
 def registrar_usuario (usuario,contraseña):
-    
     with open("InicioSesion.txt", "a") as archivo:
         archivo.write (f"{usuario}:{str(contraseña)}\n")
 
@@ -37,6 +37,7 @@ def menu3():
                 print("Inicio de Sesion correcto")
                 with open("InicioSesion.txt", "a") as archivo:
                     archivo.write ("Inicio de sesion correcto " + "\n")
+                menu1()
             else:
                 print("Usuario o Contraseña incorrectos")
                 with open("InicioSesion.txt", "a") as archivo:
