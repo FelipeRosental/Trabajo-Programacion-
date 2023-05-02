@@ -99,9 +99,12 @@ class Club ():
                             
 club1 = Club("ITBA")
 
+
+
+
 # COSAS PARA HACER:
 #  1) PRIMER HORARIO DISPONIBLE PARA RESERVAR
-#  2) VER CANCHAS DISPONIBLES
+#  2) VER CANCHAS DISPONIBLES (aca para no hacerla dificil, unicamente mostrar cantidad de canchas disponibles)
 #  3) ARREGLAR LOS ERRORES
 
 

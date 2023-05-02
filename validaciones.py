@@ -9,6 +9,18 @@ def validacionDNI (dni):
         else:
             return True
     return False
+def validacionUsuario(dni):
+    with open("Usuarios.txt", 'r') as archivo:
+        lista_lineas = archivo.readlines()
+        archivo.close()
+    with open("Usuarios.txt","r"):
+        for linea in lista_lineas:
+            if str(dni) in linea:
+                return True               
+            else:
+                return False
+        archivo.close()
+              
 
 def validacionTelefono (telefono):
         if telefono.isdigit() == False :

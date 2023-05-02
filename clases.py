@@ -9,7 +9,14 @@ class Usuario ():
     def __init__(self):
         
         # VALIDACIONES
-        
+        self.dni = input("Ingrese DNI: ")
+        while validacionDNI(self.dni) != True:
+            print("DNI no valido.")
+            self.dni = input("Ingrese DNI: ")
+        if validacionUsuario(self.dni) == True:
+            print("El Usuario ya se encuentra cargado")
+            exit()
+            
         self.nombre = input("Ingrese Nombre: ")
         while validacionNombre(self.nombre) != True:
             print ("Nombre no valido.")
@@ -19,11 +26,6 @@ class Usuario ():
         while validacionApellido(self.apellido) != True:
             print ("Apellido no valido.")
             self.apellido = input("Ingrese Apellido: ")
-       
-        self.dni = input("Ingrese DNI: ")
-        while validacionDNI(self.dni) != True:
-            print("DNI no valido.")
-            self.dni = input("Ingrese DNI: ")
             
         self.telefono = input("Ingrese Telefono: ")
         while validacionTelefono(self.telefono) != True:
@@ -92,7 +94,8 @@ class Reserva ():
         
         # VALIDACIONES
         
-        self.codreserva = input("Ingrese el codigo de la reserva: ")  ### HABRIA QUE HACER QUE EL CODIGO SE GENERE SOLO
+        self.codreserva = randint(1000,9999)
+        print("Su codigo de reserva es: ", str(self.codreserva))
         
         while True: 
             self.fechareserva = input("ingrese la fecha (dd-mm-yyyy): ")
