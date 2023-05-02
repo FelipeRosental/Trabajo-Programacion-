@@ -7,6 +7,7 @@ from clases import * ### CLASES
 from principal import * ### PRINCIPAL
 
 def registrar_usuario (usuario,contraseña):
+    
     with open("InicioSesion.txt", "a") as archivo:
         archivo.write (f"{usuario}:{str(contraseña)}\n")
 
@@ -34,9 +35,12 @@ def menu3():
             contraseña = input ("Ingrese la Contraseña: ")
             if iniciar_sesion (usuario,contraseña) is True:
                 print("Inicio de Sesion correcto")
+                with open("InicioSesion.txt", "a") as archivo:
+                    archivo.write ("Inicio de sesion correcto " + "\n")
             else:
                 print("Usuario o Contraseña incorrectos")
-        
+                with open("InicioSesion.txt", "a") as archivo:
+                    archivo.write ("Inicio de sesion incorrecto " + "\n")
         elif menu == "3":
             break
         else: 

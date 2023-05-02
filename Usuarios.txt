@@ -1,5 +1,1 @@
 USUARIOS
-Nombre: Justo Apellido: Reggiardo DNI: 44799331 Telefono: 3436517046 Edad: 19 Email: justoreggiardo@gmail.com
-
-Nombre: justo Apellido: reggiardo DNI: 44799331 Telefono: 35342527 Edad: 19 Email: j@gmail.com
-Nombre: just Apellido: dd DNI: 44799331 Telefono: 3 Edad: 3 Email: @

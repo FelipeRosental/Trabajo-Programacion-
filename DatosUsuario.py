@@ -5,7 +5,7 @@ from string import *
 from validaciones import * ### VALIDACIONES
 from clases import * ### CLASES
 from principal import * ### PRINCIPAL
-from DatosInicioSesion import * ### DATOS DE INICIO DE SESION
+
 
 def menu1():
     while True:

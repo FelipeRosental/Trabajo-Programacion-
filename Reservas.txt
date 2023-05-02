@@ -1,2 +1,1 @@
 RESERVAS
-Codigo de Reserva: 5199 Fecha de la reserva: 2023-05-02 Hora de la reserva: 20:00:00
