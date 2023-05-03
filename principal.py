@@ -4,7 +4,7 @@ from string import *
 
 from validaciones import * ### VALIDACIONES
 from clases import * ### CLASES
-
+        
 class Club ():
 
     lista_usuarios = []
@@ -23,23 +23,87 @@ class Club ():
         self.lista_usuarios.append(user)
         with open("Usuarios.txt", "a") as archivo:
             archivo.write (str(user)+"\n")
-
-    def mostrar_usuarios(self):         ### NO SE USA 
-        print("USUARIOS:")
-        for user in self.lista_usuarios: 
-            print(user)         
+    
+    def agregar_invitados (self):
+        user = Usuario()
+        with open("UsuariosInvitados.txt", "a") as archivo:
+            archivo.write (str(user)+"\n")     
 
     def eliminar_usuarios(self):
-         with open("Usuarios.txt", 'r') as archivo:
+        with open("Usuarios.txt", 'r') as archivo:
             dni = input("Ingrese el DNI del usuario a eliminar: ")
-            while len(dni) !=8:
-               print("El dni debe tener 8 digitos") 
-               dni = input("Ingrese el DNI del usuario a eliminar: ")
+            while len(dni) !=8 :
+                print("El dni debe tener 8 digitos") 
+                dni = input("Ingrese el DNI del usuario a eliminar: ")
             lista_lineas = archivo.readlines()
             with open("Usuarios.txt", 'w') as archivo:
                 for linea in lista_lineas:
                     if dni not in linea:
                         archivo.write(linea)
+                        
+    def eliminar_invitados(self):
+        with open("UsuariosInvitados.txt", 'r') as archivo:
+            dni = input("Ingrese el DNI del usuario a eliminar: ")
+            while len(dni) !=8:
+                print("El dni debe tener 8 digitos") 
+                dni = input("Ingrese el DNI del usuario a eliminar: ")
+            lista_lineas = archivo.readlines()
+            with open("UsuariosInvitados.txt", 'w') as archivo:
+                for linea in lista_lineas:
+                    if dni not in linea:
+                        archivo.write(linea)
+    
+    def cambiar_usuarios (self):
+        with open("Usuarios.txt", 'r') as archivo:
+            dni = input("Ingrese el DNI del usuario a cambiar: ")
+            while len(dni) !=8 :
+                print("El dni debe tener 8 digitos") 
+                dni = input("Ingrese el DNI del usuario a cambiar: ")
+            mail = input ("Ingrese el email del usuario a cambiar: ")
+            while validacionEmail (mail) != True :
+                mail = input ("Ingrese el email del usuario a cambiar: ")
+            lista_lineas = archivo.readlines()
+            with open("Usuarios.txt", 'w') as archivo:
+                for linea in lista_lineas:
+                    if dni not in linea or mail not in linea:
+                        archivo.write(linea)
+                    elif dni in linea and mail in linea:
+                        user = Usuario()
+                        archivo.write (str(user)+"\n")
+                    else: 
+                        archivo.write(linea)
+            with open("Usuarios.txt", 'r') as archivo:
+                lista_lineasnueva = archivo.readlines()    
+                if lista_lineasnueva == lista_lineas:
+                    print("No se encontró el dni o el email del usuario a cambiar")
+                else: 
+                    print("Datos cambiados correctamente") 
+         
+    def cambiar_invitados (self):
+        with open("UsuariosInvitados.txt", 'r') as archivo:
+            dni = input("Ingrese el DNI del usuario a cambiar: ")
+            while len(dni) !=8 :
+                print("El dni debe tener 8 digitos") 
+                dni = input("Ingrese el DNI del usuario a cambiar: ")
+            mail = input ("Ingrese el email del usuario a cambiar: ")
+            while validacionEmail (mail) != True :
+                mail = input ("Ingrese el email del usuario a cambiar: ")
+            lista_lineas = archivo.readlines()
+            with open("UsuariosInvitados.txt", 'w') as archivo:
+                for linea in lista_lineas:
+                    if dni not in linea or mail not in linea:
+                        archivo.write(linea)
+                    elif dni in linea and mail in linea:
+                        user = Usuario()
+                        archivo.write (str(user)+"\n")
+                    else: 
+                        archivo.write(linea)
+            with open("UsuariosInvitados.txt", 'r') as archivo:
+                lista_lineasnueva = archivo.readlines()    
+                if lista_lineasnueva == lista_lineas:
+                    print("No se encontró el dni o el email del usuario a cambiar")
+                else: 
+                    print("Datos cambiados correctamente")                                   
                     
     # METODOS DE CANCHAS
 
@@ -49,12 +113,6 @@ class Club ():
         self.total_canchas += 1 
         with open("Canchas.txt", "a") as archivo:
             archivo.write (str(cancha)+"\n")
-    
-    def mostrar_canchas(self):          ### NO SE USA
-        print("CANCHAS:")
-        for cancha in self.lista_canchas:           
-            print(cancha)
-        print("Canchas disponibles: " + str(self.total_canchas))
     
     def eliminar_canchas(self):
         with open("Canchas.txt", 'r') as archivo:
@@ -77,12 +135,6 @@ class Club ():
             archivo.write (str(reserva)+"\n")
         self.total_canchas -= 1  
         self.total_reservas += 1
-        
-    def mostrar_reservas(self):               ### NO SE USA                
-        print("RESERVAS:")
-        for reserva in self.lista_reservas:        
-            print(reserva)
-        print("Reservas totales: " + str(self.total_reservas))
     
     def eliminar_reservas(self):     
         with open("Reservas.txt", 'r') as archivo:
