@@ -22,11 +22,20 @@ class Club ():
         user = Usuario()
         with open("Usuarios.txt", "a") as archivo:
             archivo.write (str(user)+"\n")
-    
+        
     def agregar_invitados (self):
         user = Usuario()
+        cantingresos = 0
         with open("UsuariosInvitados.txt", "a") as archivo:
-            archivo.write (str(user)+" Cantidad de ingresos: "+str(user.cantingresos)+"\n")  ### NO MUESTRA BIEN LA CANTIDAD DE INGRESOS    
+            archivo.write (str(user)+"\n")  
+        with open("UsuariosInvitados.txt", "r") as archivo:
+            lineas = archivo.readlines()
+            for linea in lineas:
+                if str(user.dni) in linea and str(user.email) in linea:
+                    cantingresos +=1 
+                    with open("UsuariosInvitados.txt", "a") as archivo:
+                        archivo.write ("Cantidad de ingresos: " + str(cantingresos)+"\n") 
+                
 
     def eliminar_usuarios(self):
         with open("Usuarios.txt", 'r') as archivo:
@@ -39,6 +48,12 @@ class Club ():
                 for linea in lista_lineas:
                     if dni not in linea:
                         archivo.write(linea)
+            with open("Usuarios.txt", 'r') as archivo:
+                lista_lineasnueva = archivo.readlines()    
+                if lista_lineasnueva == lista_lineas:
+                    print("No se encontró el dni del usuario a eliminar")
+                else: 
+                    print("Datos eliminados correctamente")
                         
     def eliminar_invitados(self):
         with open("UsuariosInvitados.txt", 'r') as archivo:
@@ -51,7 +66,13 @@ class Club ():
                 for linea in lista_lineas:
                     if dni not in linea:
                         archivo.write(linea)
-    
+            with open("UsuariosInvitados.txt", 'r') as archivo:
+                lista_lineasnueva = archivo.readlines()    
+                if lista_lineasnueva == lista_lineas:
+                    print("No se encontró el dni del usuario a eliminar")
+                else: 
+                    print("Datos eliminados correctamente")
+            
     def cambiar_usuarios (self):
         with open("Usuarios.txt", 'r') as archivo:
             dni = input("Ingrese el DNI del usuario a cambiar: ")

@@ -21,7 +21,7 @@ def menu1():
             club1.eliminar_usuarios()
             
         elif menu == "4":
-            if club1.mostrar_canchas() != 0:
+            if club1.total_canchas != 0:
                 club1.agregar_reservas()
             else: 
                 print("No hay mas canchas disponibles")
@@ -50,7 +50,7 @@ def menu4():
             club1.eliminar_invitados()
             
         elif menu == "4":
-            if club1.mostrar_canchas() != 0:
+            if club1.total_canchas != 0:
                 club1.agregar_reservas()
             else: 
                 print("No hay mas canchas disponibles")
