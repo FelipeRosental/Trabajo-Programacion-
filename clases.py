@@ -5,7 +5,7 @@ from string import *
 from validaciones import *
 
 class Usuario ():
-    
+    cantingresos = 0
     def __init__(self):
         
         # VALIDACIONES
@@ -38,6 +38,8 @@ class Usuario ():
         while validacionEmail(self.email) != True:
            print ("Email no valido.")
            self.email = input("Ingrese Email: ")
+        
+        self.cantingresos += 1
         
         # IMPRESION
         

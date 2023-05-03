@@ -65,3 +65,20 @@ def validacionEmail (email):
         return False
     else:
         return True
+
+def validacion_usuario (usuario):
+    with open("InicioSesion.txt", "r") as archivo:
+        lineas = archivo.readlines()
+    for linea in lineas:
+        credenciales = linea.strip().split(':')
+        if credenciales[0] == usuario:
+            return True
+    return False
+
+def validacion_contraseña (contraseña):
+    with open("InicioSesion.txt", "r") as archivo:
+        lineas = archivo.readlines()
+    for linea in lineas:
+        if str(contraseña) in linea:
+            return True
+    return False

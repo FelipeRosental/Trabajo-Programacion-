@@ -10,15 +10,6 @@ from DatosUsuario import * ### DATOS DE USUARIOS Y RESERVAS
 def registrar_usuario (usuario,contraseña):
     with open("InicioSesion.txt", "a") as archivo:
         archivo.write (f"{usuario}:{str(contraseña)}\n")
-            
-def validacion_usuario (usuario):
-    with open("InicioSesion.txt", "r") as archivo:
-        lineas = archivo.readlines()
-    for linea in lineas:
-        credenciales = linea.strip().split(':')
-        if credenciales[0] == usuario:
-            return True
-    return False
 
 def iniciar_sesion (usuario,contraseña):
     with open("InicioSesion.txt", 'r') as archivo:
@@ -48,7 +39,10 @@ def menu3():
             usuario = input ("Ingrese el Usuario: ")
             contraseña = input ("Ingrese la Contraseña: ")
             if validacion_usuario(usuario) == False:
-                registrar_usuario (usuario,contraseña)
+                if validacion_contraseña (contraseña) == False:
+                    registrar_usuario (usuario,contraseña)
+                else: 
+                    print("La contraseña ya está en uso")
             else: 
                 print("El usuario ya se encuentra ingresado")
 
@@ -67,8 +61,14 @@ def menu3():
         elif menu == "3":
             usuario = input("Ingrese su usuario: ")
             contraseña_nueva = input("Ingrese se nueva contraseña: ")
-            cambiar_contraseña (usuario, contraseña_nueva)
-            
+            if validacion_usuario(usuario) == True:
+                if validacion_contraseña(contraseña_nueva) == False:
+                    cambiar_contraseña (usuario, contraseña_nueva)
+                else: 
+                    print("La contraseña ingresada es igual a la anterior o ya está en uso")
+            else: 
+                print("No se encontró el usuario ingresado")
+                
         elif menu == "4":
             with open("InicioSesion.txt", "a") as archivo:
                     archivo.write ("Sesion iniciada como invitado " + "\n")
@@ -79,3 +79,5 @@ def menu3():
             print("Opcion no valida")
 
 menu3()
+
+### PARA CORRER EL PROGRAMA, EJECUTAR ESTE ARCHIVO Y ABRIR EN SIMULTANEO LOS ARCHIVOS DE TEXTO (InicioSesion, Usuario, UsuariosInvitados)

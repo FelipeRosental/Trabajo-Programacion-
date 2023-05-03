@@ -20,14 +20,13 @@ class Club ():
     
     def agregar_usuarios (self):
         user = Usuario()
-        self.lista_usuarios.append(user)
         with open("Usuarios.txt", "a") as archivo:
             archivo.write (str(user)+"\n")
     
     def agregar_invitados (self):
         user = Usuario()
         with open("UsuariosInvitados.txt", "a") as archivo:
-            archivo.write (str(user)+"\n")     
+            archivo.write (str(user)+" Cantidad de ingresos: "+str(user.cantingresos)+"\n")  ### NO MUESTRA BIEN LA CANTIDAD DE INGRESOS    
 
     def eliminar_usuarios(self):
         with open("Usuarios.txt", 'r') as archivo:
