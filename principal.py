@@ -25,18 +25,18 @@ class Club ():
         
     def agregar_invitados (self):
         user = Usuario()
-        cantingresos = 0
         with open("UsuariosInvitados.txt", "a") as archivo:
-            archivo.write (str(user)+"\n")  
-        with open("UsuariosInvitados.txt", "r") as archivo:
+            archivo.write (str(user) + " Cantidad de ingresos: ")  
+        """ with open("UsuariosInvitados.txt", "r") as archivo:
             lineas = archivo.readlines()
+        with open("UsuariosInvitados.txt", "a") as archivo:
+            cantingresos = 0
             for linea in lineas:
-                if str(user.dni) in linea and str(user.email) in linea:
-                    cantingresos +=1 
-                    with open("UsuariosInvitados.txt", "a") as archivo:
-                        archivo.write ("Cantidad de ingresos: " + str(cantingresos)+"\n") 
-                
-
+                if str(user) in linea:
+                    cantingresos += 1
+                    archivo.write (str(cantingresos)+ "\n") """
+                    ### NO FUNCIONA
+        
     def eliminar_usuarios(self):
         with open("Usuarios.txt", 'r') as archivo:
             dni = input("Ingrese el DNI del usuario a eliminar: ")

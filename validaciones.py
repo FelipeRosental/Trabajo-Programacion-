@@ -32,13 +32,20 @@ def validacionCodigo (codigo):
     
 def validacionNombre (nombre):
     if nombre.isalpha() == False:
-        return False
+        if  " " in nombre: 
+            return True
+        else: 
+            return False       
     else:
         return True
+        
     
 def validacionApellido (apellido):
     if apellido.isalpha() == False:
-        return False
+        if  " " in apellido: 
+            return True
+        else: 
+            return False       
     else:
         return True
 
