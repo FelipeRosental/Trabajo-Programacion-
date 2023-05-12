@@ -6,6 +6,7 @@ from validaciones import * ### VALIDACIONES
 from clases import * ### CLASES
 from principal import * ### PRINCIPAL
 from DatosUsuario import * ### DATOS DE USUARIOS Y RESERVAS
+from DatosCanchas import * ### DATOS DE CANCHAS
 
 def registrar_usuario (usuario,contraseña):
     with open("InicioSesion.txt", "a") as archivo:
@@ -30,10 +31,10 @@ def cambiar_contraseña(usuario, contraseña_nueva):
             else:
                 archivo.write(usuario + ":" + str(contraseña_nueva) + "\n")
 
-def menu3():
+def menuPrincipal():
     while True:
         print("INICIO DE SESION")
-        menu = input("1. Registrar usuario \n2. Iniciar sesión \n3. Cambiar contraseña \n4. Ingresar como invitado \n5. Salir \nIngrese una opción: ")
+        menu = input("1. Registrar usuario \n2. Iniciar sesión \n3. Cambiar contraseña \n4. Ingresar como invitado \n5. Ingresar como administrador \n6. Salir \nIngrese una opción: ")
 
         if menu == "1":
             usuario = input ("Ingrese el Usuario: ")
@@ -53,7 +54,7 @@ def menu3():
                 print("Inicio de Sesion correcto")
                 with open("InicioSesion.txt", "a") as archivo:
                     archivo.write ("Inicio de sesion correcto " + "\n")
-                menu1()
+                menuUsuarios()
             else:
                 print("Usuario o Contraseña incorrectos")
                 with open("InicioSesion.txt", "a") as archivo:
@@ -72,12 +73,16 @@ def menu3():
         elif menu == "4":
             with open("InicioSesion.txt", "a") as archivo:
                     archivo.write ("Sesion iniciada como invitado " + "\n")
-            menu4()
+            menuInvitados()
         elif menu == "5":
+            with open("InicioSesion.txt", "a") as archivo:
+                    archivo.write ("Sesion iniciada como administrador " + "\n")
+            menuCanchas()
+        elif menu == "6":
             break
         else: 
             print("Opcion no valida")
 
-menu3()
+menuPrincipal()
 
-### PARA CORRER EL PROGRAMA, EJECUTAR ESTE ARCHIVO Y ABRIR EN SIMULTANEO LOS ARCHIVOS DE TEXTO (InicioSesion, Usuario, UsuariosInvitados)
+### PARA CORRER EL PROGRAMA, EJECUTAR ESTE ARCHIVO Y ABRIR EN SIMULTANEO LOS ARCHIVOS DE TEXTO 

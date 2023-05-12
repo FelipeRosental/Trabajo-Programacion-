@@ -6,7 +6,7 @@ from validaciones import * ### VALIDACIONES
 from clases import * ### CLASES
 from principal import * ### PRINCIPAL
 
-def menu2():
+def menuCanchas():
     while True:
         print("ADMINISTRACION DE CANCHAS")
         menu = input("1. Agregar canchas\n2. Eliminar canchas\n3. Salir \nIngrese una opción: ")
@@ -19,4 +19,3 @@ def menu2():
         else: 
             print("Opcion no disponible")
             
-menu2()

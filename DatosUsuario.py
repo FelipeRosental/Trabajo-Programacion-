@@ -6,7 +6,7 @@ from validaciones import * ### VALIDACIONES
 from clases import * ### CLASES
 from principal import * ### PRINCIPAL
 
-def menu1():
+def menuUsuarios():
     while True:
         print("DATOS Y RESERVAS")
         menu = input("1. Ingresar datos del usuario \n2. Cambiar datos \n3. Eliminar usuario \n4. Hacer reserva \n5. Cancelar reserva \n6. Salir \nIngrese una opción: ")
@@ -23,6 +23,8 @@ def menu1():
         elif menu == "4":
             if club1.total_canchas != 0:
                 club1.agregar_reservas()
+                with open("Reservas.txt", "a") as archivo:
+                    archivo.write ("(USUARIO)" + "\n")
             else: 
                 print("No hay mas canchas disponibles")
                  
@@ -35,7 +37,7 @@ def menu1():
         else:
             print("Opcion no disponible")
 
-def menu4():
+def menuInvitados():
     while True:
         print("DATOS Y RESERVAS - INVITADOS")
         menu = input("1. Ingresar datos del usuario \n2. Cambiar datos \n3. Eliminar usuario \n4. Hacer reserva \n5. Cancelar reserva \n6. Salir \nIngrese una opción: ")
@@ -52,6 +54,8 @@ def menu4():
         elif menu == "4":
             if club1.total_canchas != 0:
                 club1.agregar_reservas()
+                with open("Reservas.txt", "a") as archivo:
+                    archivo.write ("(INVITADO)" + "\n")
             else: 
                 print("No hay mas canchas disponibles")
                  

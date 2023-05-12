@@ -145,16 +145,36 @@ class Club ():
                 for linea in lista_lineas:
                     if codigo not in linea:
                         archivo.write(linea)
-        
+            with open("Canchas.txt", 'r') as archivo:
+                lista_lineasnueva = archivo.readlines()    
+                if lista_lineasnueva == lista_lineas:
+                    print("No se encontró la cancha a eliminar")
+                else: 
+                    print("Datos eliminados correctamente")
+            
     # METODOS DE RESERVAS
     
     def agregar_reservas (self):
         reserva = Reserva()
-        self.lista_reservas.append(reserva)
-        with open("Reservas.txt", "a") as archivo:
-            archivo.write (str(reserva)+"\n")
-        self.total_canchas -= 1  
-        self.total_reservas += 1
+        with open("Canchas.txt", "r") as archivo:
+            lineas = archivo.readlines()
+            for linea in lineas:
+                if str(reserva.horareserva) in linea:
+                    with open("Reservas.txt", "a") as archivo:
+                        archivo.write (str(reserva)+ " ")
+                    with open("Canchas.txt", "r") as archivo:
+                        lineas = archivo.readlines()
+                        for linea in lineas:
+                            if str(reserva.horareserva) in linea:
+                                with open("Canchas.txt", "a") as archivo:
+                                    archivo.write (linea + "(RESERVADA)")
+                            else: 
+                                with open("Canchas.txt", "a") as archivo:
+                                    archivo.write (linea)
+                                    
+        self.lista_reservas.append(reserva) ### NO SE USA
+        self.total_canchas -= 1  ### NO SE USA
+        self.total_reservas += 1 ### NO SE USA
     
     def eliminar_reservas(self):     
         with open("Reservas.txt", 'r') as archivo:
@@ -166,17 +186,20 @@ class Club ():
             with open("Reservas.txt", 'w') as archivo:
                 for linea in lista_lineas:
                     if codigo not in linea:
-                        archivo.write(linea)
-                  
+                        archivo.write(linea)         
+            with open("Reservas.txt", 'r') as archivo:
+                lista_lineasnueva = archivo.readlines()    
+                if lista_lineasnueva == lista_lineas:
+                    print("No se encontró la reserva a eliminar")
+                else: 
+                    print("Datos eliminados correctamente")
                             
 club1 = Club("ITBA")
 
 
-
-
 # COSAS PARA HACER:
-#  1) PRIMER HORARIO DISPONIBLE PARA RESERVAR
-#  2) ARREGLAR LOS ERRORES
+#  1) HACER MAS PROLIJAS LAS RESERVAS (DEVOLVER MENSAJES CUANDO HAY ERRORES, HACER VALIDACIONES DE FECHAS SEGUN CORRESPONDA, ELIMINAR O AGREGAR LAS CANCHAS RESERVADAS)
+#  2) ARREGLAR ERRORES 
 
 
 
