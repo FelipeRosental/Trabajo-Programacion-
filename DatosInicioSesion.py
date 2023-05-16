@@ -31,10 +31,14 @@ def cambiar_contraseña(usuario, contraseña_nueva):
             else:
                 archivo.write(usuario + ":" + str(contraseña_nueva) + "\n")
 
+def es_administrador (usuario, contraseña):
+    if usuario in {"Admin", "admin"} and contraseña in {"Admin", "admin"}:
+        return True
+    
 def menuPrincipal():
     while True:
         print("INICIO DE SESION")
-        menu = input("1. Registrar usuario \n2. Iniciar sesión \n3. Cambiar contraseña \n4. Ingresar como invitado \n5. Ingresar como administrador \n6. Salir \nIngrese una opción: ")
+        menu = input("1. Registrarse \n2. Iniciar sesión \n3. Cambiar contraseña \n4. Ingresar como invitado \n5. Ingresar como administrador \n6. Salir \nIngrese una opción: ")
 
         if menu == "1":
             usuario = input ("Ingrese el Usuario: ")
@@ -75,9 +79,15 @@ def menuPrincipal():
                     archivo.write ("Sesion iniciada como invitado " + "\n")
             menuInvitados()
         elif menu == "5":
-            with open("InicioSesion.txt", "a") as archivo:
+            usuario = input ("Ingrese el Usuario: ")
+            contraseña = input ("Ingrese la Contraseña: ")
+            if es_administrador (usuario,contraseña) == True:
+                with open("InicioSesion.txt", "a") as archivo:
                     archivo.write ("Sesion iniciada como administrador " + "\n")
-            menuCanchas()
+                menuCanchas()
+            else: 
+                print ("Inicio de sesion incorrecto")
+                
         elif menu == "6":
             break
         else: 

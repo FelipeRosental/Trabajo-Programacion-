@@ -23,8 +23,6 @@ def menuUsuarios():
         elif menu == "4":
             if club1.total_canchas != 0:
                 club1.agregar_reservas()
-                with open("Reservas.txt", "a") as archivo:
-                    archivo.write ("(USUARIO)" + "\n")
             else: 
                 print("No hay mas canchas disponibles")
                  
@@ -54,8 +52,6 @@ def menuInvitados():
         elif menu == "4":
             if club1.total_canchas != 0:
                 club1.agregar_reservas()
-                with open("Reservas.txt", "a") as archivo:
-                    archivo.write ("(INVITADO)" + "\n")
             else: 
                 print("No hay mas canchas disponibles")
                  

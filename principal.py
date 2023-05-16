@@ -11,7 +11,7 @@ class Club ():
     lista_canchas = []
     total_canchas = 10     
     lista_reservas = []
-    total_reservas = 0
+    total_reservas = 0 
 
     def __init__(self,nombreclub):
         self.nombreclub = nombreclub
@@ -22,20 +22,12 @@ class Club ():
         user = Usuario()
         with open("Usuarios.txt", "a") as archivo:
             archivo.write (str(user)+"\n")
+        self.lista_usuarios.append ("DNI:" + str(user.dni)) 
         
     def agregar_invitados (self):
         user = Usuario()
         with open("UsuariosInvitados.txt", "a") as archivo:
             archivo.write (str(user) + " Cantidad de ingresos: ")  
-        """ with open("UsuariosInvitados.txt", "r") as archivo:
-            lineas = archivo.readlines()
-        with open("UsuariosInvitados.txt", "a") as archivo:
-            cantingresos = 0
-            for linea in lineas:
-                if str(user) in linea:
-                    cantingresos += 1
-                    archivo.write (str(cantingresos)+ "\n") """
-                    ### NO FUNCIONA
         
     def eliminar_usuarios(self):
         with open("Usuarios.txt", 'r') as archivo:
@@ -129,7 +121,7 @@ class Club ():
 
     def agregar_canchas (self):
         cancha = Cancha()
-        self.lista_canchas.append(cancha)
+        self.lista_canchas.append("CODIGO:" + str(cancha.codigo))
         self.total_canchas += 1 
         with open("Canchas.txt", "a") as archivo:
             archivo.write (str(cancha)+"\n")
@@ -161,20 +153,22 @@ class Club ():
             for linea in lineas:
                 if str(reserva.horareserva) in linea:
                     with open("Reservas.txt", "a") as archivo:
-                        archivo.write (str(reserva)+ " ")
-                    with open("Canchas.txt", "r") as archivo:
-                        lineas = archivo.readlines()
-                        for linea in lineas:
-                            if str(reserva.horareserva) in linea:
-                                with open("Canchas.txt", "a") as archivo:
-                                    archivo.write (linea + "(RESERVADA)")
-                            else: 
-                                with open("Canchas.txt", "a") as archivo:
-                                    archivo.write (linea)
+                        archivo.write (str(reserva))
+                        
+        with open("Canchas.txt", "r") as archivo:
+            lineas = archivo.readlines()
+            for linea in lineas:
+                if str(reserva.horareserva) not in linea:
+                    with open("Canchas.txt", "a") as archivo:
+                        archivo.write (linea)  
+                else: 
+                    with open("Canchas.txt", "a") as archivo:
+                        archivo.write (linea + "(RESERVADA)")
+            ### FUNCIONA MAL!!! (REVISAR)
                                     
-        self.lista_reservas.append(reserva) ### NO SE USA
-        self.total_canchas -= 1  ### NO SE USA
-        self.total_reservas += 1 ### NO SE USA
+        self.lista_reservas.append(reserva) 
+        self.total_canchas -= 1  
+        self.total_reservas += 1 
     
     def eliminar_reservas(self):     
         with open("Reservas.txt", 'r') as archivo:
