@@ -4,7 +4,6 @@ from string import *
 
 from validaciones import * ### VALIDACIONES
 from clases import * ### CLASES
-from principal import * ### PRINCIPAL
 from DatosUsuario import * ### DATOS DE USUARIOS Y RESERVAS
 from DatosCanchas import * ### DATOS DE CANCHAS
 
@@ -74,10 +73,8 @@ def menuPrincipal():
             else: 
                 print("No se encontró el usuario ingresado")
                 
-        elif menu == "4":
-            with open("InicioSesion.txt", "a") as archivo:
-                    archivo.write ("Sesion iniciada como invitado " + "\n")
-            menuInvitados()
+           ### CORREGIR
+            
         elif menu == "5":
             usuario = input ("Ingrese el Usuario: ")
             contraseña = input ("Ingrese la Contraseña: ")

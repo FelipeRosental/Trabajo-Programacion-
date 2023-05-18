@@ -4,16 +4,26 @@ from string import *
 
 from validaciones import *
 
+
+# cada vez que creas un usuario, lo agregas a la lista de usuarios
+
+
+
 class Usuario ():
+
+    set_usuarios = set()
     
-    def __init__(self):
+    def __init__(self, dni=None, nombre=None, apellido=None, telefono=None, edad=None, email=None):
         
         # VALIDACIONES
-        self.dni = input("Ingrese DNI: ")
-        while validacionDNI(self.dni) != True:
-            print("DNI no valido.")
+        if dni is None:
             self.dni = input("Ingrese DNI: ")
-            
+            while not validacionDNI(self.dni):
+                print("DNI no valido.")
+                self.dni = input("Ingrese DNI: ")
+        else:
+            self.dni = dni
+             
         self.nombre = input("Ingrese Nombre: ")
         while validacionNombre(self.nombre) != True:
             print ("Nombre no valido.")
@@ -38,13 +48,96 @@ class Usuario ():
         while validacionEmail(self.email) != True:
            print ("Email no valido.")
            self.email = input("Ingrese Email: ")
+        Usuario.set_usuarios.add(self)
+    
+    def read_usuarios(self, filename):
+        users = set()
+        try:
+            with open(filename) as f:
+                for line in f:
+                    datos = line.split(";")
+                    user = Usuario(datos[0], datos[1], datos[2], datos[3]) 
+                # TERMINAR ESTO             
+                    users.add(user)
+            return users     
+        except FileNotFoundError:
+            print("Error: archivo vacio")
+            return False
+    # METODOS DE USUARIOS 
+    
+    def actualizar_archivo(self, filename):
+        guardados = self.read_usuarios(filename)
+        a_guardar = Usuario.set_usuarios - guardados
+        for user in a_guardar:
+            user.agregar_usuario(filename)
+
+    
+    def agregar_usuario(self, filename):
+        with open(filename, "a") as archivo:
+            archivo.write(f"{self.nombre};{self.dni}\n")
+    # TERMINAR 
+    
+    def cambiar_usuarios (self):
+        with open("Usuarios.txt", 'r') as archivo:
+            dni = input("Ingrese el DNI del usuario a cambiar: ")
+            while len(dni) !=8 :
+                print("El dni debe tener 8 digitos") 
+                dni = input("Ingrese el DNI del usuario a cambiar: ")
+            mail = input ("Ingrese el email del usuario a cambiar: ")
+            while validacionEmail (mail) != True :
+                mail = input ("Ingrese el email del usuario a cambiar: ")
+            lista_lineas = archivo.readlines()
+            with open("Usuarios.txt", 'w') as archivo:
+                for linea in lista_lineas:
+                    if dni not in linea or mail not in linea:
+                        archivo.write(linea)
+                    elif dni in linea and mail in linea:
+                        user = Usuario()
+                        archivo.write (user.__str__()+"\n")
+                    else: 
+                        archivo.write(linea)
+            with open("Usuarios.txt", 'r') as archivo:
+                lista_lineasnueva = archivo.readlines()    
+                if lista_lineasnueva == lista_lineas:
+                    print("No se encontró el dni o el email del usuario a cambiar")
+                else: 
+                    print("Datos cambiados correctamente") 
+        if self.set_usuarios.get (dni,None) != None:  
+            self.set_usuarios [dni] = user
         
-        # IMPRESION
+    def eliminar_usuarios(self):
         
+        dni = input("Ingrese el DNI del usuario a eliminar: ")
+        while len(dni) !=8 :
+            print("El dni debe tener 8 digitos") 
+            dni = str(input("Ingrese el DNI del usuario a eliminar: "))
+        
+        if self.set_usuarios.get (dni,None) != None:  
+            del self.set_usuarios [dni] 
+            
+        with open("Usuarios.txt", 'r') as archivo:
+            lista_lineas = archivo.readlines()
+            with open("Usuarios.txt", 'w') as archivo:
+                for linea in lista_lineas:
+                    if dni not in linea:
+                        archivo.write(linea)
+            with open("Usuarios.txt", 'r') as archivo:
+                lista_lineasnueva = archivo.readlines()    
+                if lista_lineasnueva == lista_lineas:
+                    print("No se encontró el dni del usuario a eliminar")
+                else: 
+                    print("Datos eliminados correctamente")
+        
+        
+    # IMPRESION
+    
     def __str__(self):
-        return ("Nombre: " + str(self.nombre) + " Apellido: " + str(self.apellido) + " DNI: " + str(self.dni) + " Telefono: " + str(self.telefono) + " Edad: " + str(self.edad) + " Email: " + str(self.email))
+        return ("Nombre: " + self.nombre + " Apellido: " +  self.apellido + " Telefono: " + self.telefono + " Edad: " + str(self.edad) + " Mail: " + self.email + " Dni: "+ str(self.dni))
       
 class Cancha (): 
+    
+    lista_canchas = {}
+    total_canchas = 10    
     
     def __init__(self):
         
@@ -80,12 +173,41 @@ class Cancha ():
             else:
                 break   
         
+    # METODOS DE CANCHAS
+
+    def agregar_canchas (self):
+        self.lista_canchas.append("CODIGO:" + str(self.codigo))
+        self.total_canchas += 1 
+        with open("Canchas.txt", "a") as archivo:
+            archivo.write (str(self.__str__)+"\n")
+    
+    def eliminar_canchas(self):
+        with open("Canchas.txt", 'r') as archivo:
+            codigo = input("Ingrese el codigo de la cancha a eliminar: ")
+            while len(codigo) != 4:
+                print("El codigo debe tener 4 digitos")
+                codigo = input("Ingrese el codigo de la cancha a eliminar: ")
+            lista_lineas = archivo.readlines()
+            with open("Canchas.txt", 'w') as archivo:
+                for linea in lista_lineas:
+                    if codigo not in linea:
+                        archivo.write(linea)
+            with open("Canchas.txt", 'r') as archivo:
+                lista_lineasnueva = archivo.readlines()    
+                if lista_lineasnueva == lista_lineas:
+                    print("No se encontró la cancha a eliminar")
+                else: 
+                    print("Datos eliminados correctamente")
+        
         # IMPRESION
         
     def __str__(self):
         return ("Codigo: " + str(self.codigo) + " Techada: " + self.techada + " Piso: " + self.piso + " Estado: " + self.estado + " Horario: " + str(self.horario))
                
 class Reserva ():
+    
+    lista_reservas = []
+    total_reservas = 0 
     
     def __init__(self):
         
@@ -114,7 +236,62 @@ class Reserva ():
             else:
                 break       
         
-        # IMPRESION
+    # METODOS DE RESERVAS
+    
+    def agregar_reservas (self):
+        reserva = Reserva()
+        with open("Canchas.txt", "r") as archivo:
+            lineas = archivo.readlines()
+            for linea in lineas:
+                if str(reserva.horareserva) in linea:
+                    with open("Reservas.txt", "a") as archivo:
+                        archivo.write (str(reserva))
+                        
+        with open("Canchas.txt", "r") as archivo:
+            lineas = archivo.readlines()
+            for linea in lineas:
+                if str(reserva.horareserva) not in linea:
+                    with open("Canchas.txt", "a") as archivo:
+                        archivo.write (linea)  
+                else: 
+                    with open("Canchas.txt", "a") as archivo:
+                        archivo.write (linea + "(RESERVADA)")
+            ### FUNCIONA MAL!!! (REVISAR)
+                                    
+        self.lista_reservas.append(reserva) 
+        self.total_canchas -= 1  
+        self.total_reservas += 1 
+    
+    def eliminar_reservas(self):     
+        with open("Reservas.txt", 'r') as archivo:
+            codigo = input("Ingrese codigo de la reserva a eliminar: ")
+            while len(codigo) != 4:
+                print("El codigo debe tener 4 digitos")
+                codigo = input("Ingrese codigo de la reserva a eliminar: ")
+            lista_lineas = archivo.readlines()
+            with open("Reservas.txt", 'w') as archivo:
+                for linea in lista_lineas:
+                    if codigo not in linea:
+                        archivo.write(linea)         
+            with open("Reservas.txt", 'r') as archivo:
+                lista_lineasnueva = archivo.readlines()    
+                if lista_lineasnueva == lista_lineas:
+                    print("No se encontró la reserva a eliminar")
+                else: 
+                    print("Datos eliminados correctamente")
+        
+    # IMPRESION
         
     def __str__(self):
         return ("Codigo de Reserva: " + str(self.codreserva) + " Fecha de la reserva: " + str(self.fechareserva) + " Hora de la reserva: " + str(self.horareserva))
+
+Usuario.read_usuarios("USUARIOS.txt")
+
+for i in range(2):
+    user = Usuario()
+    
+for us in Usuario.set_usuarios:
+    print(us.telefono)
+
+
+
