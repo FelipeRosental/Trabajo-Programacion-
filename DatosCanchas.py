@@ -5,7 +5,6 @@ from string import *
 from validaciones import * ### VALIDACIONES
 from clases import * ### CLASES
 
-
 def menuCanchas():
     while True:
         print("ADMINISTRACION DE CANCHAS")

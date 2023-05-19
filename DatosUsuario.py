@@ -35,35 +35,6 @@ def menuUsuarios():
         else:
             print("Opcion no disponible")
 
-### DEJAMOS INVITADOS ???
 
-""" def menuInvitados():
-    while True:
-        print("DATOS Y RESERVAS - INVITADOS")
-        menu = input("1. Ingresar datos del usuario \n2. Cambiar datos \n3. Eliminar usuario \n4. Hacer reserva \n5. Cancelar reserva \n6. Salir \nIngrese una opción: ")
-        
-        if menu == "1":
-            club1.agregar_invitados()
-         
-        elif menu == "2":
-            club1.cambiar_invitados()
-               
-        elif menu == "3":
-            club1.eliminar_invitados()
-            
-        elif menu == "4":
-            if club1.total_canchas != 0:
-                club1.agregar_reservas()
-            else: 
-                print("No hay mas canchas disponibles")
-                 
-        elif menu == "5":
-            club1.eliminar_reservas()
-            
-        elif menu == "6":
-            break
-        
-        else:
-            print("Opcion no disponible") """
 
 

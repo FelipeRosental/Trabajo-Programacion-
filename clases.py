@@ -7,8 +7,6 @@ from validaciones import *
 
 # cada vez que creas un usuario, lo agregas a la lista de usuarios
 
-
-
 class Usuario ():
 
     set_usuarios = set()
@@ -18,66 +16,82 @@ class Usuario ():
         # VALIDACIONES
         if dni is None:
             self.dni = input("Ingrese DNI: ")
-            while not validacionDNI(self.dni):
+            while validacionDNI(self.dni) != True:
                 print("DNI no valido.")
                 self.dni = input("Ingrese DNI: ")
         else:
             self.dni = dni
-             
-        self.nombre = input("Ingrese Nombre: ")
-        while validacionNombre(self.nombre) != True:
-            print ("Nombre no valido.")
-            self.nombre = input("Ingrese Nombre: ")
-        
-        self.apellido = input("Ingrese Apellido: ") 
-        while validacionApellido(self.apellido) != True:
-            print ("Apellido no valido.")
-            self.apellido = input("Ingrese Apellido: ")
             
-        self.telefono = input("Ingrese Telefono: ")
-        while validacionTelefono(self.telefono) != True:
-            print("Telefono no valido.")
+        if nombre is None:
+            self.nombre = input("Ingrese Nombre: ")
+            while validacionNombre(self.nombre) != True:
+                print ("Nombre no valido.")
+                self.nombre = input("Ingrese Nombre: ")
+        else: 
+            self.nombre = nombre
+        
+        if apellido is None:
+            self.apellido = input("Ingrese Apellido: ") 
+            while validacionApellido(self.apellido) != True:
+                print ("Apellido no valido.")
+                self.apellido = input("Ingrese Apellido: ")
+        else: 
+            self.apellido = apellido    
+        
+        if telefono is None:
             self.telefono = input("Ingrese Telefono: ")
+            while validacionTelefono(self.telefono) != True:
+                print("Telefono no valido.")
+                self.telefono = input("Ingrese Telefono: ")
+        else: 
+            self.telefono = telefono
         
-        self.edad = input("Ingrese Edad: ")    
-        while validacionEdad(self.edad) != True:
-            print ("Edad no valida.")
-            self.edad = input("Ingrese Edad: ")
+        if edad is None:
+            self.edad = input("Ingrese Edad: ")    
+            while validacionEdad(self.edad) != True:
+                print ("Edad no valida.")
+                self.edad = input("Ingrese Edad: ")
+        else: 
+            self.edad = edad
+            
+        if email is None:    
+            self.email = input("Ingrese Email: ")  
+            while validacionEmail(self.email) != True:
+                print ("Email no valido.")
+                self.email = input("Ingrese Email: ")
+        else: 
+            self.email = email
         
-        self.email = input("Ingrese Email: ")  
-        while validacionEmail(self.email) != True:
-           print ("Email no valido.")
-           self.email = input("Ingrese Email: ")
         Usuario.set_usuarios.add(self)
     
-    def read_usuarios(self, filename):
+    # METODOS DE USUARIOS 
+    
+    def read_usuarios(self,filename):
         users = set()
         try:
             with open(filename) as f:
                 for line in f:
                     datos = line.split(";")
-                    user = Usuario(datos[0], datos[1], datos[2], datos[3]) 
-                # TERMINAR ESTO             
+                    user = Usuario(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5])            
                     users.add(user)
             return users     
         except FileNotFoundError:
             print("Error: archivo vacio")
             return False
-    # METODOS DE USUARIOS 
     
-    def actualizar_archivo(self, filename):
+    def agregar_usuario(self,filename):
+        with open(filename, "a") as archivo:
+            archivo.write(f"{self.dni};{self.nombre};{self.apellido};{self.telefono};{self.edad};{self.email}\n")
+            
+    def actualizar_archivo(self,filename):
         guardados = self.read_usuarios(filename)
-        a_guardar = Usuario.set_usuarios - guardados
+        a_guardar = Usuario.set_usuarios - guardados 
         for user in a_guardar:
             user.agregar_usuario(filename)
 
+    # TERMINAR  ( FUNCIONA MAL :( )
     
-    def agregar_usuario(self, filename):
-        with open(filename, "a") as archivo:
-            archivo.write(f"{self.nombre};{self.dni}\n")
-    # TERMINAR 
-    
-    def cambiar_usuarios (self):
+    def cambiar_usuarios (self):   ### CAMBIAR ESTO!!!
         with open("Usuarios.txt", 'r') as archivo:
             dni = input("Ingrese el DNI del usuario a cambiar: ")
             while len(dni) !=8 :
@@ -105,7 +119,7 @@ class Usuario ():
         if self.set_usuarios.get (dni,None) != None:  
             self.set_usuarios [dni] = user
         
-    def eliminar_usuarios(self):
+    def eliminar_usuarios(self):   ### CAMBIAR ESTO!!!
         
         dni = input("Ingrese el DNI del usuario a eliminar: ")
         while len(dni) !=8 :
@@ -127,7 +141,6 @@ class Usuario ():
                     print("No se encontró el dni del usuario a eliminar")
                 else: 
                     print("Datos eliminados correctamente")
-        
         
     # IMPRESION
     
@@ -285,13 +298,17 @@ class Reserva ():
     def __str__(self):
         return ("Codigo de Reserva: " + str(self.codreserva) + " Fecha de la reserva: " + str(self.fechareserva) + " Hora de la reserva: " + str(self.horareserva))
 
-Usuario.read_usuarios("USUARIOS.txt")
 
-for i in range(2):
-    user = Usuario()
+Usuario.read_usuarios(Usuario,"Usuarios.txt")
+usuario1 = Usuario() 
+
+""" Usuario.agregar_usuario(user,"Usuarios.txt")    """
+
+Usuario.actualizar_archivo(usuario1,"Usuarios.txt") 
+
+
     
-for us in Usuario.set_usuarios:
-    print(us.telefono)
+
 
 
 

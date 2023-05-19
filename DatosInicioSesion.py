@@ -37,7 +37,7 @@ def es_administrador (usuario, contraseña):
 def menuPrincipal():
     while True:
         print("INICIO DE SESION")
-        menu = input("1. Registrarse \n2. Iniciar sesión \n3. Cambiar contraseña \n4. Ingresar como invitado \n5. Ingresar como administrador \n6. Salir \nIngrese una opción: ")
+        menu = input("1. Registrarse \n2. Iniciar sesión \n3. Cambiar contraseña \n4. Ingresar como administrador \n5. Salir \nIngrese una opción: ")
 
         if menu == "1":
             usuario = input ("Ingrese el Usuario: ")
@@ -72,10 +72,7 @@ def menuPrincipal():
                     print("La contraseña ingresada es igual a la anterior o ya está en uso")
             else: 
                 print("No se encontró el usuario ingresado")
-                
-           ### CORREGIR
-            
-        elif menu == "5":
+        elif menu == "4":
             usuario = input ("Ingrese el Usuario: ")
             contraseña = input ("Ingrese la Contraseña: ")
             if es_administrador (usuario,contraseña) == True:
@@ -85,7 +82,7 @@ def menuPrincipal():
             else: 
                 print ("Inicio de sesion incorrecto")
                 
-        elif menu == "6":
+        elif menu == "5":
             break
         else: 
             print("Opcion no valida")

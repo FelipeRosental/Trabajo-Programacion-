@@ -1,3 +1,4 @@
-USUARIOS
-Nombre: a Apellido: a Telefono: 1 Edad: 1 Mail: @ Dni: 12345678
-Nombre: a Apellido: a Telefono: 1 Edad: 1 Mail: @@ Dni: 12345677
+12345678;a;a;1;1;@
+12345677;b;b;2;2;@
+12345678;a;a;1;1;@
+
