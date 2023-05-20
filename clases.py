@@ -4,16 +4,14 @@ from string import *
 
 from validaciones import *
 
-
-# cada vez que creas un usuario, lo agregas a la lista de usuarios
-
 class Usuario ():
-
+    # cada vez que creas un usuario, lo agregas a la lista de usuarios
     set_usuarios = set()
     
     def __init__(self, dni=None, nombre=None, apellido=None, telefono=None, edad=None, email=None):
         
-        # VALIDACIONES
+        # ATRIBUTOS
+        
         if dni is None:
             self.dni = input("Ingrese DNI: ")
             while validacionDNI(self.dni) != True:
@@ -66,12 +64,13 @@ class Usuario ():
     
     # METODOS DE USUARIOS 
     
-    def read_usuarios(self,filename):
+    def leer_usuarios(self,filename):
         users = set()
         try:
             with open(filename) as f:
-                for line in f:
-                    datos = line.split(";")
+                lineas = f.readlines()
+                for linea in lineas:
+                    datos = linea.split(";")
                     user = Usuario(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5])            
                     users.add(user)
             return users     
@@ -81,15 +80,15 @@ class Usuario ():
     
     def agregar_usuario(self,filename):
         with open(filename, "a") as archivo:
-            archivo.write(f"{self.dni};{self.nombre};{self.apellido};{self.telefono};{self.edad};{self.email}\n")
+            archivo.write(f"{self.dni};{self.nombre};{self.apellido};{self.telefono};{self.edad};{self.email};\n")
             
-    def actualizar_archivo(self,filename):
-        guardados = self.read_usuarios(filename)
+    def actualizar_usuarios(self,filename):    
+        guardados = self.leer_usuarios(filename)
         a_guardar = Usuario.set_usuarios - guardados 
         for user in a_guardar:
             user.agregar_usuario(filename)
 
-    # TERMINAR  ( FUNCIONA MAL :( )
+    # NO FUNCIONA BIEN!!! CUANDO SE INGRESA UN USUARIO QUE YA ESTÁ EN LA BASE DE DATOS NO SALTA ERROR
     
     def cambiar_usuarios (self):   ### CAMBIAR ESTO!!!
         with open("Usuarios.txt", 'r') as archivo:
@@ -145,56 +144,92 @@ class Usuario ():
     # IMPRESION
     
     def __str__(self):
-        return ("Nombre: " + self.nombre + " Apellido: " +  self.apellido + " Telefono: " + self.telefono + " Edad: " + str(self.edad) + " Mail: " + self.email + " Dni: "+ str(self.dni))
+        return ("Nombre: " + self.nombre + " Apellido: " +  self.apellido + " Telefono: " + self.telefono + " Edad: " + str(self.edad) + " Mail: " + self.email + " Dni: " + str(self.dni))
       
 class Cancha (): 
     
-    lista_canchas = {}
-    total_canchas = 10    
+    lista_canchas = [] 
     
-    def __init__(self):
+    def __init__(self, codigo=None, techada=None, piso=None, estado=None, horario=None):
         
-        # VALIDACIONES
+        # ATRIBUTOS
         
-        self.codigo = input ("Ingrese el codigo de cancha (numero de 4 digitos): ")
-        while validacionCodigo (self.codigo) != True:
-            print ("Codigo de cancha no valido (debe ser de 4 digitos).")
-            self.codigo = input ("Ingrese el codigo de cancha: ")
+        if codigo is None:
+            self.codigo = input ("Ingrese el codigo de cancha (numero de 4 digitos): ")
+            while validacionCodigo (self.codigo) != True:
+                print ("Codigo de cancha no valido (debe ser de 4 digitos).")
+                self.codigo = input ("Ingrese el codigo de cancha: ")
+        else: 
+            self.codigo = codigo
         
-        self.techada = input ("Ingrese si la cancha es techada (si,no): ")
-        while validacionTechada (self.techada) != True:
-            print ("Respuesta no valida (debe ser si o no).")
-            self.techada = input ("Ingrese si la cancha es techada: ")
-            
-        self.piso = input ("Ingrese el tipo de Piso (cesped, polvo de ladrillo, cemento): ")
-        while validacionPiso (self.piso) != True:
-            print ("Tipo de piso no valido.")
-            self.piso = input ("Ingrese el tipo de Piso: ")
-            
-        self.estado = input ("Ingrese el Estado de la cancha (bueno, malo, intermedio): ")
-        while validacionEstado (self.estado) != True:
-            print ("Estado de la cancha no valido.")
-            self.estado = input ("Ingrese el Estado de la cancha: ")
-            
-        while True:
-            self.horario = input ("Ingrese horario disponible (HH:MM): ")
-            try:
-                self.horario = datetime.strptime(self.horario, "%H:%M").time()
-            except ValueError:
-                print("Hora invalida, ingresarla con formato (HH:MM)")
-                continue
-            else:
-                break   
+        if techada is None: 
+            self.techada = input ("Ingrese si la cancha es techada (si,no): ")
+            while validacionTechada (self.techada) != True:
+                print ("Respuesta no valida (debe ser si o no).")
+                self.techada = input ("Ingrese si la cancha es techada: ")
+        else: 
+            self.techada = techada
+        
+        if piso is None:
+            self.piso = input ("Ingrese el tipo de Piso (cesped, polvo de ladrillo, cemento): ")
+            while validacionPiso (self.piso) != True:
+                print ("Tipo de piso no valido.")
+                self.piso = input ("Ingrese el tipo de Piso: ")
+        else: 
+            self.piso = piso    
+           
+        if estado is None: 
+            self.estado = input ("Ingrese el Estado de la cancha (bueno, malo, intermedio): ")
+            while validacionEstado (self.estado) != True:
+                print ("Estado de la cancha no valido.")
+                self.estado = input ("Ingrese el Estado de la cancha: ")
+        else: 
+            self.estado = estado
+        
+        if horario is None:  
+            while True:
+                self.horario = input ("Ingrese horario disponible (HH:MM): ")
+                try:
+                    self.horario = datetime.strptime(self.horario, "%H:%M").time()
+                except ValueError:
+                    print("Hora invalida, ingresarla con formato (HH:MM)")
+                    continue
+                else:
+                    break   
+        else: 
+            self.horario = horario    
+        
+        Cancha.lista_canchas.append(self)
         
     # METODOS DE CANCHAS
-
-    def agregar_canchas (self):
-        self.lista_canchas.append("CODIGO:" + str(self.codigo))
-        self.total_canchas += 1 
-        with open("Canchas.txt", "a") as archivo:
-            archivo.write (str(self.__str__)+"\n")
+        
+    def agregar_cancha (self,filename):
+        with open(filename, "a") as archivo:
+            archivo.write(f"{self.codigo};{self.techada};{self.piso};{self.estado};{self.horario};\n")
     
-    def eliminar_canchas(self):
+    def leer_canchas(self,filename):
+        canchas = []
+        try:
+            with open(filename) as f:
+                lineas = f.readlines()
+                for linea in lineas:
+                    datos = linea.split(";")
+                    cancha = Cancha(datos[0], datos[1], datos[2], datos[3], datos[4])            
+                    canchas.append(cancha)
+            return canchas     
+        except FileNotFoundError:
+            print("Error: archivo vacio")
+            return False
+    
+    def actualizar_canchas(self,filename):    
+        guardadas = self.leer_canchas(filename)
+        a_guardar = list(set(Cancha.lista_canchas) - set(guardadas))
+        for user in a_guardar:
+            user.agregar_cancha(filename)
+    
+    ### PASA LO MISMO QUE CON LOS METODOS DE USUARIOS, CORREGIR
+    
+    def eliminar_canchas(self):   ### CAMBIAR ESTO!!!
         with open("Canchas.txt", 'r') as archivo:
             codigo = input("Ingrese el codigo de la cancha a eliminar: ")
             while len(codigo) != 4:
@@ -220,38 +255,47 @@ class Cancha ():
 class Reserva ():
     
     lista_reservas = []
-    total_reservas = 0 
     
-    def __init__(self):
+    def __init__(self, codigo=None, fechareserva=None, horareserva=None):
         
-        # VALIDACIONES
+        # ATRIBUTOS
         
-        self.codreserva = randint(1000,9999)
-        print("Su codigo de reserva es: ", str(self.codreserva))
+        if codigo is None: 
+            self.codreserva = randint(1000,9999)
+        else: 
+            self.codigo = codigo
         
-        while True: 
-            self.fechareserva = input("ingrese la fecha (dd-mm-yyyy): ")
-            try:
-                self.fechareserva = datetime.strptime(self.fechareserva, "%d-%m-%Y").date()
-            except ValueError:
-                print("Fecha invalida, ingresarla con formato (dd-mm-yyyy)")
-                continue
-            else: 
-                break    
+        if fechareserva is None: 
+            while True: 
+                self.fechareserva = input("ingrese la fecha (dd-mm-yyyy): ")
+                try:
+                    self.fechareserva = datetime.strptime(self.fechareserva, "%d-%m-%Y").date()
+                except ValueError:
+                    print("Fecha invalida, ingresarla con formato (dd-mm-yyyy)")
+                    continue
+                else: 
+                    break    
+        else: 
+            self.fechareserva = fechareserva
         
-        while True:
-            self.horareserva = input("ingrese hora (HH:MM): ")
-            try:
-                self.horareserva = datetime.strptime(self.horareserva, "%H:%M").time()
-            except ValueError:
-                print("Hora invalida, ingresarla con formato (HH:MM)")
-                continue
-            else:
-                break       
+        if horareserva is None:
+            while True:
+                self.horareserva = input("ingrese hora (HH:MM): ")
+                try:
+                    self.horareserva = datetime.strptime(self.horareserva, "%H:%M").time()
+                except ValueError:
+                    print("Hora invalida, ingresarla con formato (HH:MM)")
+                    continue
+                else:
+                    break       
+        else: 
+            self.horareserva = horareserva
         
+        self.lista_reservas.append(self)
+    
     # METODOS DE RESERVAS
     
-    def agregar_reservas (self):
+    def agregar_reservas (self):        ### CAMBIAR
         reserva = Reserva()
         with open("Canchas.txt", "r") as archivo:
             lineas = archivo.readlines()
@@ -270,12 +314,8 @@ class Reserva ():
                     with open("Canchas.txt", "a") as archivo:
                         archivo.write (linea + "(RESERVADA)")
             ### FUNCIONA MAL!!! (REVISAR)
-                                    
-        self.lista_reservas.append(reserva) 
-        self.total_canchas -= 1  
-        self.total_reservas += 1 
     
-    def eliminar_reservas(self):     
+    def eliminar_reservas(self):      ### CAMBIAR 
         with open("Reservas.txt", 'r') as archivo:
             codigo = input("Ingrese codigo de la reserva a eliminar: ")
             while len(codigo) != 4:
@@ -299,12 +339,9 @@ class Reserva ():
         return ("Codigo de Reserva: " + str(self.codreserva) + " Fecha de la reserva: " + str(self.fechareserva) + " Hora de la reserva: " + str(self.horareserva))
 
 
-Usuario.read_usuarios(Usuario,"Usuarios.txt")
-usuario1 = Usuario() 
 
-""" Usuario.agregar_usuario(user,"Usuarios.txt")    """
 
-Usuario.actualizar_archivo(usuario1,"Usuarios.txt") 
+
 
 
     

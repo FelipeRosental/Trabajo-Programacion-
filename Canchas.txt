@@ -1,3 +1,1 @@
-CANCHAS
-Codigo: 1234 Techada: si Piso: cesped Estado: bueno Horario: 10:00:00
-Codigo: 1233 Techada: no Piso: cemento Estado: malo Horario: 11:00:00
+1234;Si;cesped;bueno;12:00:00;
