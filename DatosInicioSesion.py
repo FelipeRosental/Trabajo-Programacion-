@@ -7,10 +7,6 @@ from clases import * ### CLASES
 from DatosUsuario import * ### DATOS DE USUARIOS Y RESERVAS
 from DatosCanchas import * ### DATOS DE CANCHAS
 
-def registrar_usuario (usuario,contraseña):
-    with open("InicioSesion.txt", "a") as archivo:
-        archivo.write (f"{usuario}:{str(contraseña)}\n")
-
 def iniciar_sesion (usuario,contraseña):
     with open("InicioSesion.txt", 'r') as archivo:
         lineas = archivo.readlines()
@@ -19,21 +15,7 @@ def iniciar_sesion (usuario,contraseña):
             if credenciales[0] == usuario and credenciales[1] == str(contraseña):
                 return True
     return False
-
-def cambiar_contraseña(usuario, contraseña_nueva):
-    with open("InicioSesion.txt", 'r') as archivo:
-        lineas = archivo.readlines()
-    with open("InicioSesion.txt", 'w') as archivo:                    
-        for linea in lineas:
-            if usuario not in linea:
-                archivo.write(str(linea))
-            else:
-                archivo.write(usuario + ":" + str(contraseña_nueva) + "\n")
-
-def es_administrador (usuario, contraseña):
-    if usuario in {"Admin", "admin"} and contraseña in {"Admin", "admin"}:
-        return True
-    
+   
 def menuPrincipal():
     while True:
         print("INICIO DE SESION")
@@ -44,7 +26,7 @@ def menuPrincipal():
             contraseña = input ("Ingrese la Contraseña: ")
             if validacion_usuario(usuario) == False:
                 if validacion_contraseña (contraseña) == False:
-                    registrar_usuario (usuario,contraseña)
+                    Usuario.registrar_usuario (usuario,contraseña)
                 else: 
                     print("La contraseña ya está en uso")
             else: 
@@ -67,7 +49,7 @@ def menuPrincipal():
             contraseña_nueva = input("Ingrese se nueva contraseña: ")
             if validacion_usuario(usuario) == True:
                 if validacion_contraseña(contraseña_nueva) == False:
-                    cambiar_contraseña (usuario, contraseña_nueva)
+                    Usuario.cambiar_contraseña (usuario, contraseña_nueva)
                 else: 
                     print("La contraseña ingresada es igual a la anterior o ya está en uso")
             else: 
@@ -75,9 +57,10 @@ def menuPrincipal():
         elif menu == "4":
             usuario = input ("Ingrese el Usuario: ")
             contraseña = input ("Ingrese la Contraseña: ")
-            if es_administrador (usuario,contraseña) == True:
+            if Usuario.es_administrador (usuario,contraseña) == True:
                 with open("InicioSesion.txt", "a") as archivo:
                     archivo.write ("Sesion iniciada como administrador " + "\n")
+                print ("Sesion iniciada como administrador")
                 menuCanchas()
             else: 
                 print ("Inicio de sesion incorrecto")

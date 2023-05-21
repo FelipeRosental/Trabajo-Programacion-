@@ -124,10 +124,6 @@ class Usuario ():
         while len(dni) !=8 :
             print("El dni debe tener 8 digitos") 
             dni = str(input("Ingrese el DNI del usuario a eliminar: "))
-        
-        if self.set_usuarios.get (dni,None) != None:  
-            del self.set_usuarios [dni] 
-            
         with open("Usuarios.txt", 'r') as archivo:
             lista_lineas = archivo.readlines()
             with open("Usuarios.txt", 'w') as archivo:
@@ -140,7 +136,25 @@ class Usuario ():
                     print("No se encontró el dni del usuario a eliminar")
                 else: 
                     print("Datos eliminados correctamente")
-        
+    
+    def registrar_usuario (usuario,contraseña):
+        with open("InicioSesion.txt", "a") as archivo:
+            archivo.write (f"{usuario}:{str(contraseña)}\n")
+    
+    def cambiar_contraseña(usuario, contraseña_nueva):
+        with open("InicioSesion.txt", 'r') as archivo:
+            lineas = archivo.readlines()
+        with open("InicioSesion.txt", 'w') as archivo:                    
+            for linea in lineas:
+                if usuario not in linea:
+                    archivo.write(str(linea))
+                else:
+                    archivo.write(usuario + ":" + str(contraseña_nueva) + "\n")
+    
+    def es_administrador (usuario, contraseña):
+        if usuario in {"Admin", "admin", "ADMIN"} and contraseña in {"Admin", "admin", "ADMIN"}:
+            return True
+                
     # IMPRESION
     
     def __str__(self):
@@ -207,7 +221,7 @@ class Cancha ():
         with open(filename, "a") as archivo:
             archivo.write(f"{self.codigo};{self.techada};{self.piso};{self.estado};{self.horario};\n")
     
-    def leer_canchas(self,filename):
+    def leer_canchas(filename):
         canchas = []
         try:
             with open(filename) as f:
@@ -221,9 +235,12 @@ class Cancha ():
             print("Error: archivo vacio")
             return False
     
-    def actualizar_canchas(self,filename):    
-        guardadas = self.leer_canchas(filename)
-        a_guardar = list(set(Cancha.lista_canchas) - set(guardadas))
+    def actualizar_canchas(self,filename): 
+        a_guardar = []   
+        guardadas = Cancha.leer_canchas(filename)
+        for cancha in Cancha.lista_canchas:
+            if cancha not in guardadas:
+                a_guardar.append(cancha)
         for user in a_guardar:
             user.agregar_cancha(filename)
     
@@ -313,7 +330,6 @@ class Reserva ():
                 else: 
                     with open("Canchas.txt", "a") as archivo:
                         archivo.write (linea + "(RESERVADA)")
-            ### FUNCIONA MAL!!! (REVISAR)
     
     def eliminar_reservas(self):      ### CAMBIAR 
         with open("Reservas.txt", 'r') as archivo:

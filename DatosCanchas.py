@@ -8,13 +8,17 @@ from clases import * ### CLASES
 def menuCanchas():
     while True:
         print("ADMINISTRACION DE CANCHAS")
-        menu = input("1. Agregar canchas\n2. Eliminar canchas\n3. Salir \nIngrese una opción: ")
+        menu = input("1. Ver canchas\n2. Agregar canchas\n3. Eliminar canchas\n4. Salir \nIngrese una opción: ")
         if menu == "1":
-            cancha = Cancha()
+            for canchas in Cancha.leer_canchas("Canchas.txt"):
+                print (canchas)
         elif menu == "2":
-            Cancha.eliminar_canchas()
-        elif menu == "3":
+            cancha = Cancha()
             cancha.actualizar_canchas("Canchas.txt")
+        elif menu == "3":
+            cancha = Cancha()
+            cancha.eliminar_canchas()
+        elif menu == "4":
             break
         else: 
             print("Opcion no disponible")
