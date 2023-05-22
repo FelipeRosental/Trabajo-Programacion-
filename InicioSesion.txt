@@ -1,8 +1,3 @@
-Sesion iniciada como administrador 
-Sesion iniciada como administrador 
-Sesion iniciada como administrador 
-Sesion iniciada como administrador 
-Sesion iniciada como administrador 
-Sesion iniciada como administrador 
-Sesion iniciada como administrador 
-Sesion iniciada como administrador 
+juan:123
+jorge:papas
+admin:admin

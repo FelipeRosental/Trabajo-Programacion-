@@ -8,7 +8,7 @@ class Usuario ():
     # cada vez que creas un usuario, lo agregas a la lista de usuarios
     set_usuarios = set()
     
-    def __init__(self, dni=None, nombre=None, apellido=None, telefono=None, edad=None, email=None):
+    def __init__(self,dni=None, nombre=None, apellido=None, telefono=None, edad=None, email=None, usuario=None, contraseña=None):
         
         # ATRIBUTOS
         
@@ -60,6 +60,16 @@ class Usuario ():
         else: 
             self.email = email
         
+        if usuario is None:
+            self.usuario = input("Ingrese usuario: ")
+        else:
+            self.usuario = usuario
+        
+        if contraseña is None:
+            self.contraseña = str(input("Ingrese contraseña: "))
+        else:
+            self.contraseña = email
+        
         Usuario.set_usuarios.add(self)
     
     # METODOS DE USUARIOS 
@@ -71,7 +81,7 @@ class Usuario ():
                 lineas = f.readlines()
                 for linea in lineas:
                     datos = linea.split(";")
-                    user = Usuario(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5])            
+                    user = Usuario(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5], datos[6], datos[7])            
                     users.add(user)
             return users     
         except FileNotFoundError:
@@ -80,7 +90,7 @@ class Usuario ():
     
     def agregar_usuario(self,filename):
         with open(filename, "a") as archivo:
-            archivo.write(f"{self.dni};{self.nombre};{self.apellido};{self.telefono};{self.edad};{self.email};\n")
+            archivo.write(f"{self.dni};{self.nombre};{self.apellido};{self.telefono};{self.edad};{self.email};{self.usuario};{self.contraseña};\n")
             
     def actualizar_usuarios(self,filename):    
         guardados = self.leer_usuarios(filename)
@@ -137,11 +147,11 @@ class Usuario ():
                 else: 
                     print("Datos eliminados correctamente")
     
-    def registrar_usuario (usuario,contraseña):
+    def registrar_usuario (self,usuario,contraseña):
         with open("InicioSesion.txt", "a") as archivo:
             archivo.write (f"{usuario}:{str(contraseña)}\n")
     
-    def cambiar_contraseña(usuario, contraseña_nueva):
+    def cambiar_contraseña(self, usuario, contraseña_nueva):
         with open("InicioSesion.txt", 'r') as archivo:
             lineas = archivo.readlines()
         with open("InicioSesion.txt", 'w') as archivo:                    
@@ -151,10 +161,19 @@ class Usuario ():
                 else:
                     archivo.write(usuario + ":" + str(contraseña_nueva) + "\n")
     
-    def es_administrador (usuario, contraseña):
+    def es_administrador (self, usuario, contraseña):
         if usuario in {"Admin", "admin", "ADMIN"} and contraseña in {"Admin", "admin", "ADMIN"}:
             return True
-                
+    
+    def iniciar_sesion (usuario,contraseña):
+        with open("InicioSesion.txt", 'r') as archivo:
+            lineas = archivo.readlines()
+            for linea in lineas:
+                credenciales = linea.strip().split(':')
+                if credenciales[0] == usuario and credenciales[1] == str(contraseña):
+                    return True
+        return False
+             
     # IMPRESION
     
     def __str__(self):
@@ -221,7 +240,7 @@ class Cancha ():
         with open(filename, "a") as archivo:
             archivo.write(f"{self.codigo};{self.techada};{self.piso};{self.estado};{self.horario};\n")
     
-    def leer_canchas(filename):
+    def leer_canchas(self,filename):
         canchas = []
         try:
             with open(filename) as f:
@@ -237,7 +256,7 @@ class Cancha ():
     
     def actualizar_canchas(self,filename): 
         a_guardar = []   
-        guardadas = Cancha.leer_canchas(filename)
+        guardadas = self.leer_canchas(filename)
         for cancha in Cancha.lista_canchas:
             if cancha not in guardadas:
                 a_guardar.append(cancha)

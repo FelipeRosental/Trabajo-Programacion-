@@ -9,11 +9,12 @@ from clases import * ### CLASES
 def menuUsuarios():
     while True:
         print("DATOS Y RESERVAS")
-        menu = input("1. Ingresar datos del usuario \n2. Cambiar datos \n3. Eliminar usuario \n4. Hacer reserva \n5. Cancelar reserva \n6. Salir \nIngrese una opción: ")
+        menu = input("1. Ver mis datos \n2. Cambiar datos \n3. Eliminar usuario \n4. Hacer reserva \n5. Cancelar reserva \n6. Salir \nIngrese una opción: ")
         
-        if menu == "1":
-            user = Usuario()
-                       
+        if menu == "1": ### NO FUNCA
+            for user in Usuario.leer_usuarios(user,"Usuarios.txt"):
+                print(user)
+        
         elif menu == "2":
             Usuario.cambiar_usuarios()
                 
@@ -27,7 +28,7 @@ def menuUsuarios():
             Reserva.eliminar_reservas()
             
         elif menu == "6":
-            Usuario.actualizar_usuarios(user, "Usuarios.txt")
+            #user.actualizar_usuarios("Usuarios.txt")
             break
         
         else:

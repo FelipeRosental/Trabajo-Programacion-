@@ -1,1 +1,3 @@
-12345677;b;b;2;2;@;
+12345678;juan;perez;12345;25;@;juan;123;
+12345679;jorge;perez;123456;45;@;jorge;papas;
+12345677;lucas;watson;123456;24;@;admin;admin;
