@@ -93,7 +93,7 @@ class Usuario ():
             archivo.write(f"{self.dni};{self.nombre};{self.apellido};{self.telefono};{self.edad};{self.email};{self.usuario};{self.contraseña};\n")
             
     def actualizar_usuarios(self,filename):    
-        guardados = self.leer_usuarios(filename)
+        guardados = Usuario.leer_usuarios(filename)
         a_guardar = Usuario.set_usuarios - guardados 
         for user in a_guardar:
             user.agregar_usuario(filename)

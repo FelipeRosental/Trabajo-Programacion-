@@ -7,8 +7,6 @@ from clases import * ### CLASES
 from DatosUsuario import * ### DATOS DE USUARIOS Y RESERVAS
 from DatosCanchas import * ### DATOS DE CANCHAS
 
-
-   
 def menuPrincipal():
     while True:
         print("INICIO DE SESION")
@@ -19,7 +17,7 @@ def menuPrincipal():
             if validacion_usuario(user.usuario) == False:
                 if validacion_contraseña (user.contraseña) == False:
                     user.registrar_usuario (user.usuario,user.contraseña)
-                    user.actualizar_usuarios ("Usuarios.txt")
+                    user.agregar_usuario ("Usuarios.txt")
                 else: 
                     print("La contraseña ya está en uso")
             else: 
@@ -30,7 +28,7 @@ def menuPrincipal():
             contraseña = input("Ingrese contraseña: ")
             if Usuario.iniciar_sesion (usuario, contraseña) is True:
                 print("Sesion iniciada como: " + str(usuario))
-                menuUsuarios()
+                menuUsuarios(usuario, contraseña)
             else:
                 print("Usuario o Contraseña incorrectos")
                 with open("InicioSesion.txt", "a") as archivo:

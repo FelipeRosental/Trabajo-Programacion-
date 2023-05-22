@@ -1,3 +1,5 @@
 juan:123
-jorge:papas
-admin:admin
+jorge:jaja
+pedro:12345
+carla:jojo
+lucas:juju

@@ -6,14 +6,15 @@ from validaciones import * ### VALIDACIONES
 from clases import * ### CLASES
 
 
-def menuUsuarios():
+def menuUsuarios(usuario, contraseña):
     while True:
         print("DATOS Y RESERVAS")
         menu = input("1. Ver mis datos \n2. Cambiar datos \n3. Eliminar usuario \n4. Hacer reserva \n5. Cancelar reserva \n6. Salir \nIngrese una opción: ")
         
         if menu == "1": ### NO FUNCA
-            for user in Usuario.leer_usuarios(user,"Usuarios.txt"):
-                print(user)
+            for user in Usuario.set_usuarios:
+                if usuario == user[6] and contraseña == user[7]:
+                    print (user)
         
         elif menu == "2":
             Usuario.cambiar_usuarios()
