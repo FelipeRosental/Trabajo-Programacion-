@@ -6,19 +6,25 @@ from validaciones import * ### VALIDACIONES
 from clases import * ### CLASES
 
 
-def menuUsuarios(usuario, contraseña):
+def menuUsuarios(user):
     while True:
         print("DATOS Y RESERVAS")
-        menu = input("1. Ver mis datos \n2. Cambiar datos \n3. Eliminar usuario \n4. Hacer reserva \n5. Cancelar reserva \n6. Salir \nIngrese una opción: ")
+        menu = input("1. Ver mis datos \n2. Cambiar contraseña \n3. Eliminar usuario \n4. Hacer reserva \n5. Cancelar reserva \n6. Salir \nIngrese una opción: ")
         
-        if menu == "1": ### NO FUNCA
-            for user in Usuario.set_usuarios:
-                if usuario == user[6] and contraseña == user[7]:
-                    print (user)
+        if menu == "1": 
+            Usuario.ver_datos(user.usuario,user.contraseña,"Usuarios.txt")
         
-        elif menu == "2":
-            Usuario.cambiar_usuarios()
-                
+        elif menu == "2": ### NO FUNCA BIEN 
+            login = user.usuario
+            contraseña_nueva = input("Ingrese su nueva contraseña: ")
+            if validacion_usuario(login) == True:
+                if validacion_contraseña(contraseña_nueva) == False:
+                    user.cambiar_contraseña (login, contraseña_nueva)
+                else: 
+                    print("La contraseña ingresada es igual a la anterior o ya está en uso")
+            else: 
+                print("No se encontró el usuario ingresado")       
+        
         elif menu == "3":
             Usuario.eliminar_usuarios()
             

@@ -4,9 +4,8 @@
 12345677;carla;lopez;12345;24;@;carla;jojo;
 12345666;lucas;gonzalez;12345;23;@;lucas;juju;
 12345678;felipe;R;12345;20;@;admin;admin;
-12345678;felipe;R;12345;20;@;admin;admin;
-12345678;feli;R;123;20;@;admin;admin;
-12345678;jorge;perez;12345;40;@;admin;admin;
-12345678;juan;cito;12345;35;@;admin;admin;
-
-
+12345678;pepito;sanchez;1234;24;@;pepito;jejexd;
+12345678;martin;blanco;12345;25;@;martin;jajaxd;
+12345678;matias;lopez;1234;24;@;mati;jojo123;
+12345678;justo;perez;12345;23;@;admin;admin;
+12345678;juana;martinez;1234567;34;@;juanita;123jajas;

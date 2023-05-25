@@ -1,3 +1,4 @@
-1000;si;cesped;bueno;10:00:00;
 1001;si;cesped;bueno;10:00:00;
 1002;si;cesped;bueno;10:00:00;
+1003;si;cesped;malo;13:00:00;
+1004;si;cesped;intermedio;15:00:00;

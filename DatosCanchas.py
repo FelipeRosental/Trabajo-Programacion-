@@ -13,13 +13,16 @@ def menuCanchas():
             Cancha.ver_canchas("Canchas.txt")
         elif menu == "2":
             cancha = Cancha()
+            cancha.actualizar_canchas("Canchas.txt") 
         elif menu == "3":
             cancha = Cancha()
             cancha.eliminar_canchas("Canchas.txt")
         elif menu == "4":
-            cancha.actualizar_canchas("Canchas.txt")
             break
         else: 
             print("Opcion no disponible")
+          
 
-### NO FUNCIONA BIEN
+### NO FUNCIONA BIEN (CUANDO AGREGO UNA CANCHA QUE YA ESTÁ INGRESADA NO ME SALTA ERROR Y ME AGREGA CUALQUIER COSA)
+### ADEMAS, CUANDO INGRESO OPCIONES REITERATIVAMENTE EL ACTUALIZAR ANDA MAL
+menuCanchas()

@@ -10,9 +10,10 @@ from DatosCanchas import * ### DATOS DE CANCHAS
 def menuPrincipal():
     while True:
         print("INICIO DE SESION")
-        menu = input("1. Registrarse \n2. Iniciar sesión \n3. Cambiar contraseña \n4. Ingresar como administrador \n5. Salir \nIngrese una opción: ")
-
+        menu = input("1. Registrarse \n2. Iniciar sesión \n3. Ingresar como administrador \n4. Salir \nIngrese una opción: ")
+        opciones_ingresadas = []
         if menu == "1":
+            opciones_ingresadas.append(1)
             user = Usuario()
             if validacion_usuario(user.usuario) == False:
                 if validacion_contraseña (user.contraseña) == False:
@@ -24,35 +25,27 @@ def menuPrincipal():
                 print("El usuario ya se encuentra ingresado")
 
         elif menu == "2":
-            usuario = input("Ingrese usuario: ")
-            contraseña = input("Ingrese contraseña: ")
-            if Usuario.iniciar_sesion (usuario, contraseña) is True:
-                print("Sesion iniciada como: " + str(usuario))
-                menuUsuarios(usuario, contraseña)
+            if len(opciones_ingresadas) == 0 :
+                print("Ingrese sus datos: ")
+                user = Usuario()
+            opciones_ingresadas.append(2)
+            if Usuario.iniciar_sesion (user.usuario, user.contraseña) is True:
+                print("Sesion iniciada como: " + str(user.usuario))
+                menuUsuarios(user)
             else:
                 print("Usuario o Contraseña incorrectos")
-                with open("InicioSesion.txt", "a") as archivo:
-                    archivo.write ("Inicio de sesion incorrecto " + "\n")
-        elif menu == "3": ### NO FUNCA BIEN 
-            login = user.usuario
-            contraseña_nueva = input("Ingrese su nueva contraseña: ")
-            if validacion_usuario(login) == True:
-                if validacion_contraseña(contraseña_nueva) == False:
-                    user.cambiar_contraseña (login, contraseña_nueva)
-                else: 
-                    print("La contraseña ingresada es igual a la anterior o ya está en uso")
-            else: 
-                print("No se encontró el usuario ingresado")
-        elif menu == "4":
-            user = Usuario()
-            if user.es_administrador (user.usuario,user.contraseña) == True:
-                user.registrar_usuario (user.usuario,user.contraseña)
-                user.actualizar_usuarios("Usuarios.txt")
+                
+        elif menu == "3":
+            opciones_ingresadas.append(3)
+            admin = Usuario()
+            if admin.es_administrador (admin.usuario,admin.contraseña) == True:
+                admin.registrar_usuario (admin.usuario,admin.contraseña)
+                admin.actualizar_usuarios("Usuarios.txt")
                 print ("Sesion iniciada como administrador")
                 menuCanchas()
             else: 
                 print ("Inicio de sesion incorrecto")
-        elif menu == "5":
+        elif menu == "4":
             break
         else: 
             print("Opcion no valida")

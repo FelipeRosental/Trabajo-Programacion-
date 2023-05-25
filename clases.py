@@ -173,7 +173,13 @@ class Usuario ():
                 if credenciales[0] == usuario and credenciales[1] == str(contraseña):
                     return True
         return False
-             
+       
+    def ver_datos(usuario, contraseña, filename):
+        with open(filename) as f:
+            for linea in f.readlines():
+                if usuario in linea and contraseña in linea:
+                    print(str(linea))
+          
     # IMPRESION
     
     def __str__(self):
@@ -262,7 +268,7 @@ class Cancha ():
             
     ### PASA LO MISMO QUE CON LOS METODOS DE USUARIOS, CORREGIR
     
-    def eliminar_canchas(self,filename):   
+    def eliminar_canchas(self,filename):   ### NO ES ESTRICTAMENTE PROGRAMACION ORIENTADA A OBJETOS....
         with open(filename, 'r') as archivo:
             lista_lineas = archivo.readlines()
             with open(filename, 'w') as archivo:
