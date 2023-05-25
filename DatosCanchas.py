@@ -10,18 +10,16 @@ def menuCanchas():
         print("ADMINISTRACION DE CANCHAS")
         menu = input("1. Ver canchas\n2. Agregar canchas\n3. Eliminar canchas\n4. Salir \nIngrese una opción: ")
         if menu == "1":
-            ### COMO INSTANCIAMOS ESTO???
-            for canchas in Cancha.leer_canchas("Canchas.txt"):
-                print (canchas)
+            Cancha.ver_canchas("Canchas.txt")
         elif menu == "2":
             cancha = Cancha()
-            cancha.actualizar_canchas("Canchas.txt")
         elif menu == "3":
             cancha = Cancha()
-            cancha.eliminar_canchas()
-            cancha.actualizar_canchas("Canchas.txt")
+            cancha.eliminar_canchas("Canchas.txt")
         elif menu == "4":
+            cancha.actualizar_canchas("Canchas.txt")
             break
         else: 
             print("Opcion no disponible")
-            
+
+### NO FUNCIONA BIEN

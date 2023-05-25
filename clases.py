@@ -93,7 +93,7 @@ class Usuario ():
             archivo.write(f"{self.dni};{self.nombre};{self.apellido};{self.telefono};{self.edad};{self.email};{self.usuario};{self.contraseña};\n")
             
     def actualizar_usuarios(self,filename):    
-        guardados = Usuario.leer_usuarios(filename)
+        guardados = self.leer_usuarios(filename)
         a_guardar = Usuario.set_usuarios - guardados 
         for user in a_guardar:
             user.agregar_usuario(filename)
@@ -252,52 +252,53 @@ class Cancha ():
             return canchas     
         except FileNotFoundError:
             print("Error: archivo vacio")
-            return False
+            return False                
     
     def actualizar_canchas(self,filename): 
-        a_guardar = []   
         guardadas = self.leer_canchas(filename)
-        for cancha in Cancha.lista_canchas:
-            if cancha not in guardadas:
-                a_guardar.append(cancha)
-        for user in a_guardar:
-            user.agregar_cancha(filename)
-    
+        a_guardar = set(Cancha.lista_canchas) - set(guardadas)
+        for cancha in a_guardar:
+            cancha.agregar_cancha("Canchas.txt")
+            
     ### PASA LO MISMO QUE CON LOS METODOS DE USUARIOS, CORREGIR
     
-    def eliminar_canchas(self):   ### CAMBIAR ESTO!!!
-        with open("Canchas.txt", 'r') as archivo:
-            codigo = input("Ingrese el codigo de la cancha a eliminar: ")
-            while len(codigo) != 4:
-                print("El codigo debe tener 4 digitos")
-                codigo = input("Ingrese el codigo de la cancha a eliminar: ")
+    def eliminar_canchas(self,filename):   
+        with open(filename, 'r') as archivo:
             lista_lineas = archivo.readlines()
-            with open("Canchas.txt", 'w') as archivo:
+            with open(filename, 'w') as archivo:
                 for linea in lista_lineas:
-                    if codigo not in linea:
+                    if self.codigo not in linea:
                         archivo.write(linea)
-            with open("Canchas.txt", 'r') as archivo:
+            with open(filename, 'r') as archivo:
                 lista_lineasnueva = archivo.readlines()    
                 if lista_lineasnueva == lista_lineas:
                     print("No se encontró la cancha a eliminar")
                 else: 
+                    Cancha.lista_canchas.remove(self)
                     print("Datos eliminados correctamente")
         
-        # IMPRESION
+    def ver_canchas(filename):
+        canchas = []
+        with open(filename) as f:
+            for linea in f.readlines():
+                canchas.append(linea)
+        print(str(canchas))
+    
+    # IMPRESION
         
     def __str__(self):
         return ("Codigo: " + str(self.codigo) + " Techada: " + self.techada + " Piso: " + self.piso + " Estado: " + self.estado + " Horario: " + str(self.horario))
                
 class Reserva ():
     
-    lista_reservas = []
+    lista_reservas = {}
     
     def __init__(self, codigo=None, fechareserva=None, horareserva=None):
         
         # ATRIBUTOS
         
         if codigo is None: 
-            self.codreserva = randint(1000,9999)
+            self.codigo = randint(1000,9999)
         else: 
             self.codigo = codigo
         
@@ -327,56 +328,54 @@ class Reserva ():
         else: 
             self.horareserva = horareserva
         
-        self.lista_reservas.append(self)
+        self.lista_reservas[self.codigo] = [str(self.fechareserva) + ";" + str(self.horareserva)]
     
     # METODOS DE RESERVAS
     
-    def agregar_reservas (self):        ### CAMBIAR
-        reserva = Reserva()
-        with open("Canchas.txt", "r") as archivo:
-            lineas = archivo.readlines()
-            for linea in lineas:
-                if str(reserva.horareserva) in linea:
-                    with open("Reservas.txt", "a") as archivo:
-                        archivo.write (str(reserva))
-                        
-        with open("Canchas.txt", "r") as archivo:
-            lineas = archivo.readlines()
-            for linea in lineas:
-                if str(reserva.horareserva) not in linea:
-                    with open("Canchas.txt", "a") as archivo:
-                        archivo.write (linea)  
-                else: 
-                    with open("Canchas.txt", "a") as archivo:
-                        archivo.write (linea + "(RESERVADA)")
+    def leer_reservas(self, filename):
+        reservas = {}
+        try:
+            with open(filename) as f:
+                lineas = f.readlines()
+                for linea in lineas:
+                    datos = linea.split(";")
+                    user = Reserva(datos[0], datos[1], datos[2])
+                    reservas[user.codigo] = [str(user.fechareserva) + ";" + str(user.horareserva)]
+            return reservas    
+        except FileNotFoundError:
+            print("Error: archivo vacio")
+            return False
     
-    def eliminar_reservas(self):      ### CAMBIAR 
-        with open("Reservas.txt", 'r') as archivo:
-            codigo = input("Ingrese codigo de la reserva a eliminar: ")
-            while len(codigo) != 4:
-                print("El codigo debe tener 4 digitos")
-                codigo = input("Ingrese codigo de la reserva a eliminar: ")
+    def agregar_reservas (self, filename):        
+        with open(filename, "a") as archivo:
+            archivo.write (f"{self.codigo};{self.fechareserva};{self.horareserva};\n" )
+    
+    def eliminar_reservas(self, filename):     
+        with open(filename, 'r') as archivo:
             lista_lineas = archivo.readlines()
-            with open("Reservas.txt", 'w') as archivo:
+            with open(filename, 'w') as archivo:
                 for linea in lista_lineas:
-                    if codigo not in linea:
+                    if str(self.codigo) not in linea:
                         archivo.write(linea)         
-            with open("Reservas.txt", 'r') as archivo:
+            with open(filename, 'r') as archivo:
                 lista_lineasnueva = archivo.readlines()    
                 if lista_lineasnueva == lista_lineas:
                     print("No se encontró la reserva a eliminar")
                 else: 
+                    self.lista_reservas.pop(self.codigo,"No se encontró la reserva a eliminar")
                     print("Datos eliminados correctamente")
-        
+    
+    def actualizar_reservas(self, filename): ### NO FUNCA
+        guardados = self.leer_reservas(filename)
+        a_guardar = set(Reserva.lista_reservas) - set(guardados)
+        for reserva in a_guardar:
+            reserva.agregar_reservas(filename)
+    
+    
     # IMPRESION
         
     def __str__(self):
-        return ("Codigo de Reserva: " + str(self.codreserva) + " Fecha de la reserva: " + str(self.fechareserva) + " Hora de la reserva: " + str(self.horareserva))
-
-
-
-
-
+        return ("Codigo de Reserva: " + str(self.codigo) + " Fecha de la reserva: " + str(self.fechareserva) + " Hora de la reserva: " + str(self.horareserva))
 
 
     

@@ -23,13 +23,17 @@ def menuUsuarios(usuario, contraseña):
             Usuario.eliminar_usuarios()
             
         elif menu == "4":
-            Reserva.agregar_reservas()
+            reserva1 = Reserva()
+            Reserva.agregar_reservas(reserva1, "Reserva.txt")
                  
         elif menu == "5":
-            Reserva.eliminar_reservas()
+            reserva2 = Reserva()
+            Reserva.eliminar_reservas(reserva2, "Reserva.txt")
             
         elif menu == "6":
             #user.actualizar_usuarios("Usuarios.txt")
+            #reserva1.actualizar_reservas("Reserva.txt")
+            #reserva2.actualizar_reservas("Reserva.txt")
             break
         
         else:
