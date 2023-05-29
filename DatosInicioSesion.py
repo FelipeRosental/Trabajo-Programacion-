@@ -25,19 +25,20 @@ def menuPrincipal():
                 print("El usuario ya se encuentra ingresado")
 
         elif menu == "2":
-            if len(opciones_ingresadas) == 0 :
-                print("Ingrese sus datos: ")
-                user = Usuario()
+            if 1 not in set(opciones_ingresadas):
+                username = input("Ingrese su usuario: ")
+                password = input("Ingrese su contraseña: ")
+                if Usuario.iniciar_sesion (username, password) is True:
+                    print("Sesion iniciada como: " + str(username))
+                    user = Usuario.buscar_usuario ("Usuarios.txt" ,username, password)
+                    menuUsuarios(user)
+                else:
+                    print("Usuario o Contraseña incorrectos")
             opciones_ingresadas.append(2)
-            if Usuario.iniciar_sesion (user.usuario, user.contraseña) is True:
-                print("Sesion iniciada como: " + str(user.usuario))
-                menuUsuarios(user)
-            else:
-                print("Usuario o Contraseña incorrectos")
                 
         elif menu == "3":
             opciones_ingresadas.append(3)
-            admin = Usuario()
+            admin = Usuario() ### MEJORAR EL INGRESO DE LOS ADMINS...
             if admin.es_administrador (admin.usuario,admin.contraseña) == True:
                 admin.registrar_usuario (admin.usuario,admin.contraseña)
                 admin.actualizar_usuarios("Usuarios.txt")

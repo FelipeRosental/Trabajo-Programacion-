@@ -22,7 +22,6 @@ def menuCanchas():
         else: 
             print("Opcion no disponible")
           
-
+menuCanchas()
 ### NO FUNCIONA BIEN (CUANDO AGREGO UNA CANCHA QUE YA ESTÁ INGRESADA NO ME SALTA ERROR Y ME AGREGA CUALQUIER COSA)
 ### ADEMAS, CUANDO INGRESO OPCIONES REITERATIVAMENTE EL ACTUALIZAR ANDA MAL
-menuCanchas()

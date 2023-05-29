@@ -74,7 +74,7 @@ class Usuario ():
     
     # METODOS DE USUARIOS 
     
-    def leer_usuarios(self,filename):
+    def leer_usuarios(self,filename):  ### LEE LOS USUARIOS DE LA BASE DE DATOS E INSTANCIA USUARIOS EN PYTHON
         users = set()
         try:
             with open(filename) as f:
@@ -88,17 +88,31 @@ class Usuario ():
             print("Error: archivo vacio")
             return False
     
-    def agregar_usuario(self,filename):
+    def buscar_usuario (filename, usuario, contraseña):
+        try:
+            with open(filename) as f:
+                lineas = f.readlines()
+                for linea in lineas:
+                    datos = linea.split(";")
+                    if datos [6] == usuario and datos[7] == contraseña:
+                        user = Usuario(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5], datos[6], datos[7])                  
+            return user    
+        except FileNotFoundError:
+            print("Error: archivo vacio")
+            return False
+    
+    def agregar_usuario(self,filename): ### ESCRIBE USUARIOS EN LA BASE DE DATOS
         with open(filename, "a") as archivo:
             archivo.write(f"{self.dni};{self.nombre};{self.apellido};{self.telefono};{self.edad};{self.email};{self.usuario};{self.contraseña};\n")
             
-    def actualizar_usuarios(self,filename):    
+    def actualizar_usuarios(self,filename):     ### MANTIENE ACTUALIZADA LA BASE DE DATOS
         guardados = self.leer_usuarios(filename)
         a_guardar = Usuario.set_usuarios - guardados 
         for user in a_guardar:
             user.agregar_usuario(filename)
 
     # NO FUNCIONA BIEN!!! CUANDO SE INGRESA UN USUARIO QUE YA ESTÁ EN LA BASE DE DATOS NO SALTA ERROR
+    # CUANDO SE INGRESAN VARIOS USUARIOS Y ALGUNOS REPETIDOS FUNCIONA MAL (CORREGIR)
     
     def cambiar_usuarios (self):   ### CAMBIAR ESTO!!!
         with open("Usuarios.txt", 'r') as archivo:
@@ -151,7 +165,7 @@ class Usuario ():
         with open("InicioSesion.txt", "a") as archivo:
             archivo.write (f"{usuario}:{str(contraseña)}\n")
     
-    def cambiar_contraseña(self, usuario, contraseña_nueva):
+    def cambiar_contraseña(self, usuario, contraseña_nueva): 
         with open("InicioSesion.txt", 'r') as archivo:
             lineas = archivo.readlines()
         with open("InicioSesion.txt", 'w') as archivo:                    
@@ -160,6 +174,7 @@ class Usuario ():
                     archivo.write(str(linea))
                 else:
                     archivo.write(usuario + ":" + str(contraseña_nueva) + "\n")
+    ### CAMBIAR ESTO!! HACERLO POO (CUANDO SE CAMBIA LA CONTRASEÑA, MODIFICAR EL USUARIO GUARDADO EN LA BASE DE DATOS DE USUARIOS!)
     
     def es_administrador (self, usuario, contraseña):
         if usuario in {"Admin", "admin", "ADMIN"} and contraseña in {"Admin", "admin", "ADMIN"}:
@@ -174,12 +189,19 @@ class Usuario ():
                     return True
         return False
        
-    def ver_datos(usuario, contraseña, filename):
-        with open(filename) as f:
-            for linea in f.readlines():
-                if usuario in linea and contraseña in linea:
-                    print(str(linea))
-          
+    def ver_datos(usuario, filename):  ### NO ES ESTRICTAMENTE POO
+        try:
+            with open(filename) as f:
+                lineas = f.readlines()
+                for linea in lineas:
+                    datos = linea.split(";")
+                    if datos[6] == usuario:            
+                        user = linea
+            print (user)
+        except FileNotFoundError:
+            print("Error: archivo vacio")
+            return False
+        
     # IMPRESION
     
     def __str__(self):
@@ -187,7 +209,7 @@ class Usuario ():
       
 class Cancha (): 
     
-    lista_canchas = [] 
+    lista_canchas = []  ### ES UNA LISTA PORQUE NO HAY TANTAS CANCHAS (CANTIDAD DE DATOS PEQUEÑA)
     
     def __init__(self, codigo=None, techada=None, piso=None, estado=None, horario=None):
         
@@ -242,11 +264,11 @@ class Cancha ():
         
     # METODOS DE CANCHAS
         
-    def agregar_cancha (self,filename):
+    def agregar_cancha (self,filename): ### AGREGA UNA CANCHA A LA BASE DE DATOS
         with open(filename, "a") as archivo:
             archivo.write(f"{self.codigo};{self.techada};{self.piso};{self.estado};{self.horario};\n")
     
-    def leer_canchas(self,filename):
+    def leer_canchas(self,filename):  ### LEE LA BASE DE DATOS E INSTANCIA CANCHAS EN PYTHON
         canchas = []
         try:
             with open(filename) as f:
@@ -260,13 +282,13 @@ class Cancha ():
             print("Error: archivo vacio")
             return False                
     
-    def actualizar_canchas(self,filename): 
+    def actualizar_canchas(self,filename):  ### MANTIENE ACTUALIZADA LA BASE DE DATOS
         guardadas = self.leer_canchas(filename)
         a_guardar = set(Cancha.lista_canchas) - set(guardadas)
         for cancha in a_guardar:
             cancha.agregar_cancha("Canchas.txt")
             
-    ### PASA LO MISMO QUE CON LOS METODOS DE USUARIOS, CORREGIR
+    ### PASA LO MISMO QUE CON EL ACTUALIZAR DE USUARIOS, CORREGIR
     
     def eliminar_canchas(self,filename):   ### NO ES ESTRICTAMENTE PROGRAMACION ORIENTADA A OBJETOS....
         with open(filename, 'r') as archivo:
@@ -283,12 +305,13 @@ class Cancha ():
                     Cancha.lista_canchas.remove(self)
                     print("Datos eliminados correctamente")
         
-    def ver_canchas(filename):
-        canchas = []
+    def ver_canchas(filename):  ### NO ES DEL TODOO CORRECTO (NO ES POO ESTRICTAMENTE)
+        canchas = {}
         with open(filename) as f:
             for linea in f.readlines():
-                canchas.append(linea)
-        print(str(canchas))
+                datos = linea.split(";")
+                canchas[datos[0]] = [datos[1], datos[2], datos[3], datos[4]]           
+            print(str(canchas))
     
     # IMPRESION
         
@@ -297,7 +320,7 @@ class Cancha ():
                
 class Reserva ():
     
-    lista_reservas = {}
+    lista_reservas = {}  ### DICCIONARIO PORQUE HAY UN VOLUMEN GRANDE DE DATOS
     
     def __init__(self, codigo=None, fechareserva=None, horareserva=None):
         
@@ -338,7 +361,7 @@ class Reserva ():
     
     # METODOS DE RESERVAS
     
-    def leer_reservas(self, filename):
+    def leer_reservas(self, filename):  ### LEE LA BASE DE DATOS E INSTANCIA RESERVAS EN PYTHON
         reservas = {}
         try:
             with open(filename) as f:
@@ -352,11 +375,11 @@ class Reserva ():
             print("Error: archivo vacio")
             return False
     
-    def agregar_reservas (self, filename):        
+    def agregar_reservas (self, filename):  ### ESCRIBE RESERVAS EN LA BASE DE DATOS
         with open(filename, "a") as archivo:
             archivo.write (f"{self.codigo};{self.fechareserva};{self.horareserva};\n" )
     
-    def eliminar_reservas(self, filename):     
+    def eliminar_reservas(self, filename):     ### ELIMINA RESERVAS LEYENDO LA BASE DE DATOS (NO ES DEL TODOO POO)
         with open(filename, 'r') as archivo:
             lista_lineas = archivo.readlines()
             with open(filename, 'w') as archivo:
@@ -371,7 +394,7 @@ class Reserva ():
                     self.lista_reservas.pop(self.codigo,"No se encontró la reserva a eliminar")
                     print("Datos eliminados correctamente")
     
-    def actualizar_reservas(self, filename): ### NO FUNCA
+    def actualizar_reservas(self, filename): ### NO FUNCIONA :(
         guardados = self.leer_reservas(filename)
         a_guardar = set(Reserva.lista_reservas) - set(guardados)
         for reserva in a_guardar:
@@ -384,7 +407,7 @@ class Reserva ():
         return ("Codigo de Reserva: " + str(self.codigo) + " Fecha de la reserva: " + str(self.fechareserva) + " Hora de la reserva: " + str(self.horareserva))
 
 
-    
+
 
 
 

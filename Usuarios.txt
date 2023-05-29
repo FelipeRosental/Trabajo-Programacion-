@@ -9,3 +9,6 @@
 12345678;matias;lopez;1234;24;@;mati;jojo123;
 12345678;justo;perez;12345;23;@;admin;admin;
 12345678;juana;martinez;1234567;34;@;juanita;123jajas;
+12345678;FELIPE;R;123;20;@;FELI;237;
+12345678;PEDRO;J;12;34;@;admin;admin;
+12345678;feli;ro;123;20;@;feli;kiwi;
