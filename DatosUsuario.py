@@ -15,23 +15,16 @@ def menuUsuarios(user):
             Usuario.ver_datos(user.usuario,"Usuarios.txt")
         
         elif menu == "2": ### NO FUNCA BIEN  (CORREGIR LA FUNCION EN CLASES)
-            login = user.usuario
             contraseña_nueva = input("Ingrese su nueva contraseña: ")
-            if validacion_usuario(login) == True:
-                if validacion_contraseña(contraseña_nueva) == False:
-                    user.cambiar_contraseña (login, contraseña_nueva)
-                else: 
-                    print("La contraseña ingresada es igual a la anterior o ya está en uso")
-            else: 
-                print("No se encontró el usuario ingresado")       
+            user.cambiar_contraseña (contraseña_nueva)      
         
         elif menu == "3":
             Usuario.eliminar_usuarios() ### CORREGIR LA FUNCION EN CLASES (HACERLA POO)
             
         elif menu == "4":
             reserva1 = Reserva()
-            Reserva.agregar_reservas(reserva1, "Reservas.txt")
-                 
+            Reserva.agregar_reservas(reserva1, "Reservas.txt") 
+            ### VINCULAR HORARIOS DE CANCHAS CON RESERVAS Y VINCULAR USUARIO CON RESERVA
         elif menu == "5":
             reserva2 = Reserva()
             Reserva.eliminar_reservas(reserva2, "Reservas.txt")

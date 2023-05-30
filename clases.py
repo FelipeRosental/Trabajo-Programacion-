@@ -88,7 +88,7 @@ class Usuario ():
             print("Error: archivo vacio")
             return False
     
-    def buscar_usuario (filename, usuario, contraseña):
+    def buscar_usuario (filename, usuario, contraseña): ### BUSCA UN USUARIO EN LA BASE DE DATOS
         try:
             with open(filename) as f:
                 lineas = f.readlines()
@@ -161,35 +161,33 @@ class Usuario ():
                 else: 
                     print("Datos eliminados correctamente")
     
-    def registrar_usuario (self,usuario,contraseña):
-        with open("InicioSesion.txt", "a") as archivo:
-            archivo.write (f"{usuario}:{str(contraseña)}\n")
-    
-    def cambiar_contraseña(self, usuario, contraseña_nueva): 
-        with open("InicioSesion.txt", 'r') as archivo:
+    def cambiar_contraseña(self, contraseña_nueva): 
+        with open("Usuarios.txt", 'r') as archivo:
             lineas = archivo.readlines()
-        with open("InicioSesion.txt", 'w') as archivo:                    
+        with open("Usuarios.txt", 'w') as archivo:                    
             for linea in lineas:
-                if usuario not in linea:
-                    archivo.write(str(linea))
+                credenciales = linea.strip().split(';')
+                if credenciales[6] == self.usuario:
+                    self.contraseña = str(contraseña_nueva)
+                    self.agregar_usuario("Usuarios.txt")                       
                 else:
-                    archivo.write(usuario + ":" + str(contraseña_nueva) + "\n")
-    ### CAMBIAR ESTO!! HACERLO POO (CUANDO SE CAMBIA LA CONTRASEÑA, MODIFICAR EL USUARIO GUARDADO EN LA BASE DE DATOS DE USUARIOS!)
+                    archivo.write(str(linea))
+        ### NO FUNCIONA.... POR QUE? 
     
-    def es_administrador (self, usuario, contraseña):
-        if usuario in {"Admin", "admin", "ADMIN"} and contraseña in {"Admin", "admin", "ADMIN"}:
+    def es_administrador (usuario): ### DETERMINA SI UN USUARIO ES ADMINISTRADOR 
+        if usuario in {"admin", "Admin", "ADMIN"}:
             return True
     
-    def iniciar_sesion (usuario,contraseña):
-        with open("InicioSesion.txt", 'r') as archivo:
+    def iniciar_sesion (usuario,contraseña): ### INICIA SESION 
+        with open("Usuarios.txt", 'r') as archivo:
             lineas = archivo.readlines()
             for linea in lineas:
-                credenciales = linea.strip().split(':')
-                if credenciales[0] == usuario and credenciales[1] == str(contraseña):
+                credenciales = linea.strip().split(';')
+                if credenciales[6] == usuario and credenciales[7] == str(contraseña):
                     return True
         return False
        
-    def ver_datos(usuario, filename):  ### NO ES ESTRICTAMENTE POO
+    def ver_datos(usuario, filename):  ### MUESTRA LOS DATOS DEL USUARIO
         try:
             with open(filename) as f:
                 lineas = f.readlines()
