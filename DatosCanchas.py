@@ -19,8 +19,8 @@ def menuAdmins(admin):
         elif menu == "3":
             cancha = Cancha()
             cancha.eliminar_canchas("Canchas.txt")
-        
-        if menu == "4": 
+                    
+        elif menu == "4": 
             Usuario.ver_datos(admin.usuario,"Usuarios.txt")
         
         elif menu == "5": 
@@ -32,8 +32,9 @@ def menuAdmins(admin):
         
         elif menu == "7":
             break
+        
         else: 
-            print("Opcion no disponible")
+            print("Opcion no disponible") 
           
 
 ### NO FUNCIONA BIEN (CUANDO AGREGO UNA CANCHA QUE YA ESTÁ INGRESADA NO ME SALTA ERROR Y ME AGREGA CUALQUIER COSA)

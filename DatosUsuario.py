@@ -9,7 +9,7 @@ from clases import * ### CLASES
 def menuUsuarios(user):
     while True:
         print("DATOS Y RESERVAS")
-        menu = input("1. Ver mis datos \n2. Cambiar mis datos \n3. Borrar mi cuenta \n4. Hacer reserva \n5. Cancelar reserva \n6. Cerrar sesion \nIngrese una opción: ")
+        menu = input("1. Ver mis datos \n2. Cambiar mis datos \n3. Borrar mi cuenta \n4. Ver mis reservas \n5. Hacer reserva \n6. Cancelar reserva \n7. Cerrar sesion \nIngrese una opción: ")
         
         if menu == "1": 
             Usuario.ver_datos(user.usuario,"Usuarios.txt")
@@ -22,15 +22,30 @@ def menuUsuarios(user):
             break
         
         elif menu == "4":
-            reserva1 = Reserva()
-            Reserva.agregar_reservas(reserva1, "Reservas.txt") 
-            ### VINCULAR HORARIOS DE CANCHAS CON RESERVAS Y VINCULAR USUARIO CON RESERVA
-            
+            Reserva.ver_reservas("Reservas.txt", user.dni) 
+        
         elif menu == "5":
-            reserva2 = Reserva()
-            Reserva.eliminar_reservas(reserva2, "Reservas.txt")
+            disponibles = Cancha.ver_horarios("Canchas.txt")
+            print("Canchas disponibles: ")
+            Cancha.ver_canchas("Canchas.txt")
+            reserva1 = Reserva(str(user.dni))
+            if str(reserva1.horareserva) in set(disponibles.values()):
+                horario = str(reserva1.horareserva)
+                codigo = input("Seleccione el codigo de la cancha que desea: ")
+                while codigo not in set(disponibles.keys()):
+                    print("Codigo no disponible")
+                    codigo = input("Seleccione el codigo de la cancha que desea: ")
+                Reserva.agregar_reservas(reserva1, "Reservas.txt")
+                reservada = Cancha.buscar_cancha("Canchas.txt", codigo, horario) 
+                reservada.eliminar_canchas("Canchas.txt")
+            else: 
+                print ("No hay canchas disponibles en ese horario")
             
         elif menu == "6":
+            reserva2 = Reserva(str(user.dni))
+            Reserva.eliminar_reservas(reserva2, "Reservas.txt")
+            
+        elif menu == "7":
             #user.actualizar_usuarios("Usuarios.txt")
             #reserva1.actualizar_reservas("Reserva.txt")
             #reserva2.actualizar_reservas("Reserva.txt")

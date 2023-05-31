@@ -88,7 +88,7 @@ class Usuario ():
             print("Error: archivo vacio")
             return False
     
-    def buscar_usuario (filename, usuario, contraseña): ### BUSCA UN USUARIO EN LA BASE DE DATOS
+    def buscar_usuario (filename, usuario, contraseña): ### BUSCA UN USUARIO EN LA BASE DE DATOS Y LO INSTANCIA
         try:
             with open(filename) as f:
                 lineas = f.readlines()
@@ -250,6 +250,19 @@ class Cancha ():
         with open(filename, "a") as archivo:
             archivo.write(f"{self.codigo};{self.techada};{self.piso};{self.estado};{self.horario};\n")
     
+    def buscar_cancha (filename, codigo, horario): ### BUSCA UNA CANCHA EN LA BASE DE DATOS Y LA INSTANCIA
+        try:
+            with open(filename) as f:
+                lineas = f.readlines()
+                for linea in lineas:
+                    datos = linea.split(";")
+                    if datos [0] == codigo and datos[4] == horario:
+                        cancha = Cancha(datos[0], datos[1], datos[2], datos[3], datos[4]) 
+            return cancha
+        except FileNotFoundError:
+            print("Error: archivo vacio")
+            return False
+    
     def leer_canchas(self,filename):  ### LEE LA BASE DE DATOS E INSTANCIA CANCHAS EN PYTHON
         canchas = []
         try:
@@ -272,28 +285,31 @@ class Cancha ():
             
     ### PASA LO MISMO QUE CON EL ACTUALIZAR DE USUARIOS, CORREGIR
     
-    def eliminar_canchas(self,filename):   ### NO ES ESTRICTAMENTE PROGRAMACION ORIENTADA A OBJETOS....
+    def eliminar_canchas(self,filename):   ### NO FUNCIONA BIEN, CAMBIARLO (ELIMINA MAL ALGUNAS COSAS)
         with open(filename, 'r') as archivo:
-            lista_lineas = archivo.readlines()
+            lineas = archivo.readlines()
             with open(filename, 'w') as archivo:
-                for linea in lista_lineas:
-                    if self.codigo not in linea:
+                for linea in lineas:
+                    credenciales = linea.strip().split(';')
+                    if credenciales[0] != str(self.codigo) and credenciales[3] != self.horario:
                         archivo.write(linea)
-            with open(filename, 'r') as archivo:
-                lista_lineasnueva = archivo.readlines()    
-                if lista_lineasnueva == lista_lineas:
-                    print("No se encontró la cancha a eliminar")
-                else: 
-                    Cancha.lista_canchas.remove(self)
-                    print("Datos eliminados correctamente")
         
-    def ver_canchas(filename):  
+    def ver_canchas(filename):  ### MUESTRA LAS CANCHAS DISPONIBLES
         canchas = {}
         with open(filename) as f:
             for linea in f.readlines():
                 datos = linea.split(";")
                 canchas[datos[0]] = [datos[1], datos[2], datos[3], datos[4]]           
             print(str(canchas))
+        return canchas
+    
+    def ver_horarios(filename):   ### MUESTRA LOS HORARIOS DISPONIBLES
+        horarios = {}
+        with open(filename) as f:
+            for linea in f.readlines():
+                datos = linea.split(";")
+                horarios[datos[0]] = datos[4]       
+        return horarios
     
     # IMPRESION
         
@@ -361,19 +377,19 @@ class Reserva ():
         with open(filename, "a") as archivo:
             archivo.write (f"{self.codigo};{self.fechareserva};{self.horareserva};\n" )
     
-    def eliminar_reservas(self, filename):     ### ELIMINA RESERVAS LEYENDO LA BASE DE DATOS (NO ES DEL TODOO POO)
+    def eliminar_reservas(self, filename):     ### NO FUNCIONA BIEN (ELIMINA CUALQUIER COSA)
         with open(filename, 'r') as archivo:
-            lista_lineas = archivo.readlines()
+            lineas = archivo.readlines()
             with open(filename, 'w') as archivo:
-                for linea in lista_lineas:
-                    if str(self.codigo) not in linea:
+                for linea in lineas:
+                    credenciales = linea.strip().split(';')
+                    if credenciales[0] != str(self.codigo) and credenciales[1] != str(self.fechareserva) and credenciales[2] != str(self.horareserva):
                         archivo.write(linea)         
             with open(filename, 'r') as archivo:
                 lista_lineasnueva = archivo.readlines()    
-                if lista_lineasnueva == lista_lineas:
+                if lista_lineasnueva == lineas:
                     print("No se encontró la reserva a eliminar")
                 else: 
-                    self.lista_reservas.pop(self.codigo,"No se encontró la reserva a eliminar")
                     print("Datos eliminados correctamente")
     
     def actualizar_reservas(self, filename): ### NO FUNCIONA :(
@@ -382,6 +398,22 @@ class Reserva ():
         for reserva in a_guardar:
             reserva.agregar_reservas(filename)
     
+    def ver_reservas(filename, dni): ### MUESTRA LAS RESERVAS DEL USUARIO
+        try:
+            reservas = []
+            with open(filename) as f:
+                lineas = f.readlines()
+                for linea in lineas:
+                    datos = linea.split(";")
+                    if datos[0] == dni:            
+                        reservas.append(f"{datos[1]};{datos[2]}")
+            if reservas == []: 
+                print("No tiene reservas")
+            else: 
+                print(str(reservas))
+        except FileNotFoundError:
+            print("Error: archivo vacio")
+            return False
     
     # IMPRESION
         
