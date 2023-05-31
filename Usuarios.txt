@@ -7,5 +7,4 @@
 15151515;pedro;c;123;34;@;pedrito;jojo;
 20202020;carla;gutierrez;123;20;@;admin;jaja123;
 21212121;luca;prodan;123;20;@;admin;sumo;
-22222222;sting;ja;123;55;@;sting;police;
-90909090;jaja;jojo;123;20;@;admin;123;
+45454545;sting;police;123;12;@;sting;thepolice;

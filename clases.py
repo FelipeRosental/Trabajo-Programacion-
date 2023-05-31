@@ -74,7 +74,7 @@ class Usuario ():
     
     # METODOS DE USUARIOS 
     
-    def leer_usuarios(self,filename):  ### LEE LOS USUARIOS DE LA BASE DE DATOS E INSTANCIA USUARIOS EN PYTHON
+    def leer_usuarios(self,filename):  ### LEE LOS USUARIOS DE LA BASE DE DATOS Y LOS INSTANCIA EN PYTHON
         users = set()
         try:
             with open(filename) as f:
@@ -114,65 +114,49 @@ class Usuario ():
     # NO FUNCIONA BIEN!!! CUANDO SE INGRESA UN USUARIO QUE YA ESTÁ EN LA BASE DE DATOS NO SALTA ERROR
     # CUANDO SE INGRESAN VARIOS USUARIOS Y ALGUNOS REPETIDOS FUNCIONA MAL (CORREGIR)
     
-    def cambiar_usuarios (self):   ### CAMBIAR ESTO!!!
-        with open("Usuarios.txt", 'r') as archivo:
-            dni = input("Ingrese el DNI del usuario a cambiar: ")
-            while len(dni) !=8 :
-                print("El dni debe tener 8 digitos") 
-                dni = input("Ingrese el DNI del usuario a cambiar: ")
-            mail = input ("Ingrese el email del usuario a cambiar: ")
-            while validacionEmail (mail) != True :
-                mail = input ("Ingrese el email del usuario a cambiar: ")
-            lista_lineas = archivo.readlines()
-            with open("Usuarios.txt", 'w') as archivo:
-                for linea in lista_lineas:
-                    if dni not in linea or mail not in linea:
-                        archivo.write(linea)
-                    elif dni in linea and mail in linea:
-                        user = Usuario()
-                        archivo.write (user.__str__()+"\n")
-                    else: 
+    def cambiar_usuario (self,filename):   
+        
+        ### HABRIA QUE HACER ALGO ASI???
+        """ guardados = self.leer_usuarios(filename)   
+        for us in guardados: 
+            if us.dni == self.dni:
+                with open(filename, 'w') as archivo:  
+                    usernuevo = Usuario()
+                    archivo.write(f"{usernuevo.dni};{usernuevo.nombre};{usernuevo.apellido};{usernuevo.telefono};{usernuevo.edad};{usernuevo.email};{usernuevo.usuario};{usernuevo.contraseña};\n")              
+            else: 
+                with open(filename, 'w') as archivo: 
+                    archivo.write(f"{us.dni};{us.nombre};{us.apellido};{us.telefono};{us.edad};{us.email};{us.usuario};{us.contraseña};\n") """
+                    
+        with open(filename, 'r') as archivo:  ### ESTÁ BIEN??? O NO ES POO??
+            lineas = archivo.readlines()
+            with open(filename, 'w') as archivo:
+                for linea in lineas:
+                    credenciales = linea.strip().split(';')
+                    if credenciales[0] == self.dni:
+                        usernuevo = Usuario()
+                        archivo.write(f"{usernuevo.dni};{usernuevo.nombre};{usernuevo.apellido};{usernuevo.telefono};{usernuevo.edad};{usernuevo.email};{usernuevo.usuario};{usernuevo.contraseña};\n")              
+                    else:
                         archivo.write(linea)
             with open("Usuarios.txt", 'r') as archivo:
                 lista_lineasnueva = archivo.readlines()    
-                if lista_lineasnueva == lista_lineas:
-                    print("No se encontró el dni o el email del usuario a cambiar")
+                if lista_lineasnueva == lineas:
+                    print("No se encontró el usuario")
                 else: 
-                    print("Datos cambiados correctamente") 
-        if self.set_usuarios.get (dni,None) != None:  
-            self.set_usuarios [dni] = user
+                    print("Datos cambiados correctamente")  
         
-    def eliminar_usuarios(self):   ### CAMBIAR ESTO!!!
-        
-        dni = input("Ingrese el DNI del usuario a eliminar: ")
-        while len(dni) !=8 :
-            print("El dni debe tener 8 digitos") 
-            dni = str(input("Ingrese el DNI del usuario a eliminar: "))
-        with open("Usuarios.txt", 'r') as archivo:
+    def eliminar_usuario(self, filename):    ### ESTÁ BIEN??? O NO ES POO??
+        with open(filename, 'r') as archivo:
             lista_lineas = archivo.readlines()
-            with open("Usuarios.txt", 'w') as archivo:
+            with open(filename, 'w') as archivo:
                 for linea in lista_lineas:
-                    if dni not in linea:
+                    if self.dni not in linea:
                         archivo.write(linea)
-            with open("Usuarios.txt", 'r') as archivo:
+            with open(filename, 'r') as archivo:
                 lista_lineasnueva = archivo.readlines()    
                 if lista_lineasnueva == lista_lineas:
-                    print("No se encontró el dni del usuario a eliminar")
+                    print("No se encontró el usuario a eliminar")
                 else: 
                     print("Datos eliminados correctamente")
-    
-    def cambiar_contraseña(self, contraseña_nueva): 
-        with open("Usuarios.txt", 'r') as archivo:
-            lineas = archivo.readlines()
-        with open("Usuarios.txt", 'w') as archivo:                    
-            for linea in lineas:
-                credenciales = linea.strip().split(';')
-                if credenciales[6] == self.usuario:
-                    self.contraseña = str(contraseña_nueva)
-                    self.agregar_usuario("Usuarios.txt")                       
-                else:
-                    archivo.write(str(linea))
-        ### NO FUNCIONA.... POR QUE? 
     
     def es_administrador (usuario): ### DETERMINA SI UN USUARIO ES ADMINISTRADOR 
         if usuario in {"admin", "Admin", "ADMIN"}:
@@ -303,7 +287,7 @@ class Cancha ():
                     Cancha.lista_canchas.remove(self)
                     print("Datos eliminados correctamente")
         
-    def ver_canchas(filename):  ### NO ES DEL TODOO CORRECTO (NO ES POO ESTRICTAMENTE)
+    def ver_canchas(filename):  
         canchas = {}
         with open(filename) as f:
             for linea in f.readlines():

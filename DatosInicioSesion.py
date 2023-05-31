@@ -39,7 +39,8 @@ def menuPrincipal():
                 if Usuario.es_administrador(username) is True:
                     if Usuario.iniciar_sesion (username, password) is True:
                         print("Sesion iniciada como administrador")
-                        menuCanchas()
+                        admin = Usuario.buscar_usuario ("Usuarios.txt" ,username, password)
+                        menuAdmins(admin)
                     else:
                         print("Usuario o Contraseña incorrectos") 
                 else: 
@@ -58,4 +59,4 @@ def menuPrincipal():
 
 menuPrincipal()
 
-### PARA CORRER EL PROGRAMA, EJECUTAR ESTE ARCHIVO Y ABRIR EN SIMULTANEO LOS ARCHIVOS DE TEXTO 
+### PARA CORRER EL PROGRAMA, EJECUTAR ESTE ARCHIVO 
