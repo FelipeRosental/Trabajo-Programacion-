@@ -5,8 +5,6 @@ from string import *
 from validaciones import *
 
 class Usuario ():
-    # cada vez que creas un usuario, lo agregas a la lista de usuarios
-    set_usuarios = set()
     
     def __init__(self,dni=None, nombre=None, apellido=None, telefono=None, edad=None, email=None, usuario=None, contraseña=None):
         
@@ -68,121 +66,34 @@ class Usuario ():
         if contraseña is None:
             self.contraseña = str(input("Ingrese contraseña: "))
         else:
-            self.contraseña = email
+            self.contraseña = contraseña
         
-        Usuario.set_usuarios.add(self)
     
     # METODOS DE USUARIOS 
     
-    def leer_usuarios(self,filename):  ### LEE LOS USUARIOS DE LA BASE DE DATOS Y LOS INSTANCIA EN PYTHON
-        users = set()
+    @staticmethod
+    def leer_usuarios(filename):  ### LEE LOS USUARIOS DE LA BASE DE DATOS Y LOS INSTANCIA EN PYTHON
+        users = {}
         try:
             with open(filename) as f:
                 lineas = f.readlines()
                 for linea in lineas:
                     datos = linea.split(";")
                     user = Usuario(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5], datos[6], datos[7])            
-                    users.add(user)
+                    users[user.dni] = user
             return users     
         except FileNotFoundError:
             print("Error: archivo vacio")
             return False
     
-    def buscar_usuario (filename, usuario, contraseña): ### BUSCA UN USUARIO EN LA BASE DE DATOS Y LO INSTANCIA
-        try:
-            with open(filename) as f:
-                lineas = f.readlines()
-                for linea in lineas:
-                    datos = linea.split(";")
-                    if datos [6] == usuario and datos[7] == contraseña:
-                        user = Usuario(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5], datos[6], datos[7])                  
-            return user    
-        except FileNotFoundError:
-            print("Error: archivo vacio")
-            return False
-    
+    def buscar_usuario (usuarios, usuario, contraseña): ### BUSCA UN USUARIO EN LA BASE DE DATOS Y LO INSTANCIA
+        for us in usuarios.values():
+            if us.usuario == usuario and us.contraseña == contraseña:
+                return us
+            
     def agregar_usuario(self,filename): ### ESCRIBE USUARIOS EN LA BASE DE DATOS
         with open(filename, "a") as archivo:
             archivo.write(f"{self.dni};{self.nombre};{self.apellido};{self.telefono};{self.edad};{self.email};{self.usuario};{self.contraseña};\n")
-            
-    def actualizar_usuarios(self,filename):     ### MANTIENE ACTUALIZADA LA BASE DE DATOS
-        guardados = self.leer_usuarios(filename)
-        a_guardar = Usuario.set_usuarios - guardados 
-        for user in a_guardar:
-            user.agregar_usuario(filename)
-
-    # NO FUNCIONA BIEN!!! CUANDO SE INGRESA UN USUARIO QUE YA ESTÁ EN LA BASE DE DATOS NO SALTA ERROR
-    # CUANDO SE INGRESAN VARIOS USUARIOS Y ALGUNOS REPETIDOS FUNCIONA MAL (CORREGIR)
-    
-    def cambiar_usuario (self,filename):   
-        
-        ### HABRIA QUE HACER ALGO ASI???
-        """ guardados = self.leer_usuarios(filename)   
-        for us in guardados: 
-            if us.dni == self.dni:
-                with open(filename, 'w') as archivo:  
-                    usernuevo = Usuario()
-                    archivo.write(f"{usernuevo.dni};{usernuevo.nombre};{usernuevo.apellido};{usernuevo.telefono};{usernuevo.edad};{usernuevo.email};{usernuevo.usuario};{usernuevo.contraseña};\n")              
-            else: 
-                with open(filename, 'w') as archivo: 
-                    archivo.write(f"{us.dni};{us.nombre};{us.apellido};{us.telefono};{us.edad};{us.email};{us.usuario};{us.contraseña};\n") """
-                    
-        with open(filename, 'r') as archivo:  ### ESTÁ BIEN??? O NO ES POO??
-            lineas = archivo.readlines()
-            with open(filename, 'w') as archivo:
-                for linea in lineas:
-                    credenciales = linea.strip().split(';')
-                    if credenciales[0] == self.dni:
-                        usernuevo = Usuario()
-                        archivo.write(f"{usernuevo.dni};{usernuevo.nombre};{usernuevo.apellido};{usernuevo.telefono};{usernuevo.edad};{usernuevo.email};{usernuevo.usuario};{usernuevo.contraseña};\n")              
-                    else:
-                        archivo.write(linea)
-            with open("Usuarios.txt", 'r') as archivo:
-                lista_lineasnueva = archivo.readlines()    
-                if lista_lineasnueva == lineas:
-                    print("No se encontró el usuario")
-                else: 
-                    print("Datos cambiados correctamente")  
-        
-    def eliminar_usuario(self, filename):    ### ESTÁ BIEN??? O NO ES POO??
-        with open(filename, 'r') as archivo:
-            lista_lineas = archivo.readlines()
-            with open(filename, 'w') as archivo:
-                for linea in lista_lineas:
-                    if self.dni not in linea:
-                        archivo.write(linea)
-            with open(filename, 'r') as archivo:
-                lista_lineasnueva = archivo.readlines()    
-                if lista_lineasnueva == lista_lineas:
-                    print("No se encontró el usuario a eliminar")
-                else: 
-                    print("Datos eliminados correctamente")
-    
-    def es_administrador (usuario): ### DETERMINA SI UN USUARIO ES ADMINISTRADOR 
-        if usuario in {"admin", "Admin", "ADMIN"}:
-            return True
-    
-    def iniciar_sesion (usuario,contraseña): ### INICIA SESION 
-        with open("Usuarios.txt", 'r') as archivo:
-            lineas = archivo.readlines()
-            for linea in lineas:
-                credenciales = linea.strip().split(';')
-                if credenciales[6] == usuario and credenciales[7] == str(contraseña):
-                    return True
-        return False
-       
-    def ver_datos(usuario, filename):  ### MUESTRA LOS DATOS DEL USUARIO
-        try:
-            with open(filename) as f:
-                lineas = f.readlines()
-                for linea in lineas:
-                    datos = linea.split(";")
-                    if datos[6] == usuario:            
-                        user = linea
-            print (user)
-        except FileNotFoundError:
-            print("Error: archivo vacio")
-            return False
         
     # IMPRESION
     
@@ -190,8 +101,6 @@ class Usuario ():
         return ("Nombre: " + self.nombre + " Apellido: " +  self.apellido + " Telefono: " + self.telefono + " Edad: " + str(self.edad) + " Mail: " + self.email + " Dni: " + str(self.dni))
       
 class Cancha (): 
-    
-    lista_canchas = []  ### ES UNA LISTA PORQUE NO HAY TANTAS CANCHAS (CANTIDAD DE DATOS PEQUEÑA)
     
     def __init__(self, codigo=None, techada=None, piso=None, estado=None, horario=None):
         
@@ -242,8 +151,6 @@ class Cancha ():
         else: 
             self.horario = horario    
         
-        Cancha.lista_canchas.append(self)
-        
     # METODOS DE CANCHAS
         
     def agregar_cancha (self,filename): ### AGREGA UNA CANCHA A LA BASE DE DATOS
@@ -263,53 +170,20 @@ class Cancha ():
             print("Error: archivo vacio")
             return False
     
-    def leer_canchas(self,filename):  ### LEE LA BASE DE DATOS E INSTANCIA CANCHAS EN PYTHON
-        canchas = []
+    @staticmethod
+    def leer_canchas(filename):  ### LEE LA BASE DE DATOS E INSTANCIA CANCHAS EN PYTHON
+        canchas = {}
         try:
             with open(filename) as f:
                 lineas = f.readlines()
                 for linea in lineas:
                     datos = linea.split(";")
                     cancha = Cancha(datos[0], datos[1], datos[2], datos[3], datos[4])            
-                    canchas.append(cancha)
+                    canchas[cancha.codigo] = f"{cancha.techada};{cancha.piso};{cancha.estado};{cancha.horario}"
             return canchas     
         except FileNotFoundError:
             print("Error: archivo vacio")
             return False                
-    
-    def actualizar_canchas(self,filename):  ### MANTIENE ACTUALIZADA LA BASE DE DATOS
-        guardadas = self.leer_canchas(filename)
-        a_guardar = set(Cancha.lista_canchas) - set(guardadas)
-        for cancha in a_guardar:
-            cancha.agregar_cancha("Canchas.txt")
-            
-    ### PASA LO MISMO QUE CON EL ACTUALIZAR DE USUARIOS, CORREGIR
-    
-    def eliminar_canchas(self,filename):   ### NO FUNCIONA BIEN, CAMBIARLO (ELIMINA MAL ALGUNAS COSAS)
-        with open(filename, 'r') as archivo:
-            lineas = archivo.readlines()
-            with open(filename, 'w') as archivo:
-                for linea in lineas:
-                    credenciales = linea.strip().split(';')
-                    if credenciales[0] != str(self.codigo) and credenciales[3] != self.horario:
-                        archivo.write(linea)
-        
-    def ver_canchas(filename):  ### MUESTRA LAS CANCHAS DISPONIBLES
-        canchas = {}
-        with open(filename) as f:
-            for linea in f.readlines():
-                datos = linea.split(";")
-                canchas[datos[0]] = [datos[1], datos[2], datos[3], datos[4]]           
-            print(str(canchas))
-        return canchas
-    
-    def ver_horarios(filename):   ### MUESTRA LOS HORARIOS DISPONIBLES
-        horarios = {}
-        with open(filename) as f:
-            for linea in f.readlines():
-                datos = linea.split(";")
-                horarios[datos[0]] = datos[4]       
-        return horarios
     
     # IMPRESION
         
@@ -318,7 +192,7 @@ class Cancha ():
                
 class Reserva ():
     
-    lista_reservas = {}  ### DICCIONARIO PORQUE HAY UN VOLUMEN GRANDE DE DATOS
+    lista_reservas = {}  
     
     def __init__(self, codigo=None, fechareserva=None, horareserva=None):
         
@@ -355,11 +229,12 @@ class Reserva ():
         else: 
             self.horareserva = horareserva
         
-        self.lista_reservas[self.codigo] = [str(self.fechareserva) + ";" + str(self.horareserva)]
+        self.lista_reservas[self.codigo] = str(self.fechareserva) + ";" + str(self.horareserva)
     
     # METODOS DE RESERVAS
     
-    def leer_reservas(self, filename):  ### LEE LA BASE DE DATOS E INSTANCIA RESERVAS EN PYTHON
+    @staticmethod
+    def leer_reservas(filename):  ### LEE LA BASE DE DATOS E INSTANCIA RESERVAS EN PYTHON
         reservas = {}
         try:
             with open(filename) as f:
@@ -367,7 +242,7 @@ class Reserva ():
                 for linea in lineas:
                     datos = linea.split(";")
                     user = Reserva(datos[0], datos[1], datos[2])
-                    reservas[user.codigo] = [str(user.fechareserva) + ";" + str(user.horareserva)]
+                    reservas[user.codigo] = str(user.fechareserva) + ";" + str(user.horareserva)
             return reservas    
         except FileNotFoundError:
             print("Error: archivo vacio")
@@ -375,45 +250,7 @@ class Reserva ():
     
     def agregar_reservas (self, filename):  ### ESCRIBE RESERVAS EN LA BASE DE DATOS
         with open(filename, "a") as archivo:
-            archivo.write (f"{self.codigo};{self.fechareserva};{self.horareserva};\n" )
-    
-    def eliminar_reservas(self, filename):     ### NO FUNCIONA BIEN (ELIMINA CUALQUIER COSA)
-        with open(filename, 'r') as archivo:
-            lineas = archivo.readlines()
-            with open(filename, 'w') as archivo:
-                for linea in lineas:
-                    credenciales = linea.strip().split(';')
-                    if credenciales[0] != str(self.codigo) and credenciales[1] != str(self.fechareserva) and credenciales[2] != str(self.horareserva):
-                        archivo.write(linea)         
-            with open(filename, 'r') as archivo:
-                lista_lineasnueva = archivo.readlines()    
-                if lista_lineasnueva == lineas:
-                    print("No se encontró la reserva a eliminar")
-                else: 
-                    print("Datos eliminados correctamente")
-    
-    def actualizar_reservas(self, filename): ### NO FUNCIONA :(
-        guardados = self.leer_reservas(filename)
-        a_guardar = set(Reserva.lista_reservas) - set(guardados)
-        for reserva in a_guardar:
-            reserva.agregar_reservas(filename)
-    
-    def ver_reservas(filename, dni): ### MUESTRA LAS RESERVAS DEL USUARIO
-        try:
-            reservas = []
-            with open(filename) as f:
-                lineas = f.readlines()
-                for linea in lineas:
-                    datos = linea.split(";")
-                    if datos[0] == dni:            
-                        reservas.append(f"{datos[1]};{datos[2]}")
-            if reservas == []: 
-                print("No tiene reservas")
-            else: 
-                print(str(reservas))
-        except FileNotFoundError:
-            print("Error: archivo vacio")
-            return False
+            archivo.write (f"{self.codigo};{self.fechareserva};{self.horareserva};\n")
     
     # IMPRESION
         
@@ -421,7 +258,7 @@ class Reserva ():
         return ("Codigo de Reserva: " + str(self.codigo) + " Fecha de la reserva: " + str(self.fechareserva) + " Hora de la reserva: " + str(self.horareserva))
 
 
-
+    
 
 
 

@@ -73,29 +73,3 @@ def validacionEmail (email):
     else:
         return True
 
-def validacion_usuario (usuario):
-    with open("Usuarios.txt", "r") as archivo:
-        lineas = archivo.readlines()
-    for linea in lineas:
-        credenciales = linea.strip().split(';')
-        if credenciales[6] == usuario:
-            return True
-    return False
-
-def validacion_DNI_repetido (dni):
-    with open("Usuarios.txt", "r") as archivo:
-        lineas = archivo.readlines()
-    for linea in lineas:
-        credenciales = linea.strip().split(';')
-        if credenciales[0] == dni:
-            return True
-    return False
-
-def validacion_contraseña (contraseña):
-    with open("Usuarios.txt", "r") as archivo:
-        lineas = archivo.readlines()
-    for linea in lineas:
-        credenciales = linea.strip().split(';')
-        if credenciales[7] == contraseña:
-            return True
-    return False

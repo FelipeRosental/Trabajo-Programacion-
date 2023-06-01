@@ -4,59 +4,108 @@ from string import *
 
 from validaciones import * ### VALIDACIONES
 from clases import * ### CLASES
-from DatosUsuario import * ### DATOS DE USUARIOS Y RESERVAS
-from DatosCanchas import * ### DATOS DE CANCHAS
+
+
+usuarios_guardados = Usuario.leer_usuarios("Usuarios.txt")
+reservas_guardadas = Reserva.leer_reservas("Reserva.txt")
+canchas_guardadas = Cancha.leer_canchas("Canchas.txt")
 
 def menuPrincipal():
+
     while True:
         print("INICIO DE SESION")
         menu = input("1. Registrarse \n2. Iniciar sesión \n3. Salir \nIngrese una opción: ")
-        opciones_ingresadas = []
         if menu == "1":
-            opciones_ingresadas.append(1)
             user = Usuario()
-            if Usuario.es_administrador(user.usuario) == True:
-                if validacion_DNI_repetido(user.dni) == False:
-                    if validacion_contraseña (user.contraseña)== False:    
-                        user.agregar_usuario ("Usuarios.txt")
-                    else: 
-                        print("La contraseña ya está en uso")
-                else: 
-                    print ("El DNI ya se encuentra registrado")
-            else:  
-                if validacion_usuario(user.usuario) == False: 
-                    if validacion_DNI_repetido(user.dni) == False:
-                        user.agregar_usuario ("Usuarios.txt")
-                    else: 
-                        print ("El DNI ya se encuentra registrado")
-                else: 
-                    print("El usuario ya se encuentra ingresado")
-                    
-        elif menu == "2":
-            if 1 not in set(opciones_ingresadas): 
-                username = input("Ingrese su usuario: ")
-                password = input("Ingrese su contraseña: ")
-                if Usuario.es_administrador(username) is True:
-                    if Usuario.iniciar_sesion (username, password) is True:
-                        print("Sesion iniciada como administrador")
-                        admin = Usuario.buscar_usuario ("Usuarios.txt" ,username, password)
-                        menuAdmins(admin)
-                    else:
-                        print("Usuario o Contraseña incorrectos") 
-                else: 
-                    if Usuario.iniciar_sesion (username, password) is True:
-                        print("Sesion iniciada como: " + str(username))
-                        user = Usuario.buscar_usuario ("Usuarios.txt" ,username, password)
-                        menuUsuarios(user)
-                    else:
-                        print("Usuario o Contraseña incorrectos")
-                           
+            if user.dni not in set(usuarios_guardados.keys()):
+                usuarios_guardados[user.dni] = f"{user.nombre};{user.apellido};{user.telefono};{user.edad};{user.email};{user.usuario};{user.contraseña}"
+            else:
+                print("El usuario ya está ingresado")
                 
+        elif menu == "2":
+            usuario = input("Ingrese su usuario: ")
+            contraseña = input("Ingrese su contraseña: ")
+            for us in usuarios_guardados.values():
+                if usuario == us.usuario and contraseña == us.contraseña:
+                    print("Sesion iniciada como " + str(usuario))
+                    if usuario in {"admin", "Admin", "ADMIN"}:
+                        menuAdmins()
+                    else:
+                        user = Usuario.buscar_usuario(usuarios_guardados,usuario,contraseña)
+                        menuUsuarios(user)
+                    break
+            else:
+                print("Datos incorrectos")
+                     
         elif menu == "3":
             break
         else: 
             print("Opcion no valida")
 
-menuPrincipal()
 
+
+def menuUsuarios(user):
+    
+    while True:
+        print("DATOS Y RESERVAS")
+        menu = input("1. Ver mis datos \n2. Cambiar mis datos \n3. Borrar mi cuenta \n4. Ver mis reservas \n5. Hacer reserva \n6. Cancelar reserva \n7. Cerrar sesion \nIngrese una opción: ")
+        
+        if menu == "1": 
+            usuario = usuarios_guardados.get(user.dni)
+            print(usuario.__str__())
+            
+        elif menu == "2": 
+            pass     
+        
+        elif menu == "3":
+            pass
+            break
+        
+        elif menu == "4":
+            pass
+        
+        elif menu == "5":
+            pass
+            
+        elif menu == "6":
+            pass
+            
+        elif menu == "7":
+            break 
+        
+        else:
+            print("Opcion no disponible")
+            
+def menuAdmins():
+    
+    while True:
+        print("ADMINISTRACION")
+        menu = input("1. Ver canchas\n2. Agregar canchas\n3. Eliminar canchas\n4. Ver mis datos\n5. Cambiar mis datos\n6. Borrar mi cuenta\n7. Salir \nIngrese una opción: ")
+        if menu == "1":
+            pass
+            
+        elif menu == "2":
+            pass
+            
+        elif menu == "3":
+            pass
+                    
+        elif menu == "4": 
+            pass
+        
+        elif menu == "5": 
+            pass   
+        
+        elif menu == "6":
+            pass
+            
+        
+        elif menu == "7":
+            break
+        
+        else: 
+            print("Opcion no disponible") 
+          
+menuPrincipal()
+   
 ### PARA CORRER EL PROGRAMA, EJECUTAR ESTE ARCHIVO 
