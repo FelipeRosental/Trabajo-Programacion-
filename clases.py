@@ -99,19 +99,24 @@ class Usuario ():
             print("El usuario ya está ingresado")  
                 
     def cambiar_usuario(self, usuarios):   
-        print(f"Sus datos son:\n Nombre: {self.nombre} \n Apellido: {self.apellido} \n DNI: {self.dni} \n Telefono: {self.telefono} \n Edad: {self.edad} \n Mail: {self.email} \n Usuario: {self.usuario} \n Contraseña: {self.contraseña}")
+        print("Sus datos son:")
+        print(self)
         print("Ingrese sus nuevos datos:")
         usuarios[self.dni] = Usuario()    
         print("Sus datos fueron cambiados con exito")     
-             
+    
+    def eliminar_usuario(self, usuarios):
+        usuarios.pop(self.dni)
+        print("Datos eliminados con exito")
+              
     # IMPRESION
     
     def __str__(self):
-        return f"{self.dni};{self.nombre};{self.apellido};{self.telefono};{self.edad};{self.email};{self.usuario};{self.contraseña}"
+        return f" Nombre: {self.nombre} \n Apellido: {self.apellido} \n DNI: {self.dni} \n Telefono: {self.telefono} \n Edad: {self.edad} \n Mail: {self.email}"
       
 class Cancha (): 
     
-    def __init__(self, codigo=None, techada=None, piso=None, estado=None, horario=None):
+    def __init__(self, codigo=None, techada=None, piso=None, estado=None):
         
         # ATRIBUTOS
         
@@ -145,20 +150,7 @@ class Cancha ():
                 print ("Estado de la cancha no valido.")
                 self.estado = input ("Ingrese el Estado de la cancha: ")
         else: 
-            self.estado = estado
-        
-        if horario is None:  
-            while True:
-                self.horario = input ("Ingrese horario disponible (HH:MM): ")
-                try:
-                    self.horario = datetime.strptime(self.horario, "%H:%M").time()
-                except ValueError:
-                    print("Hora invalida, ingresarla con formato (HH:MM)")
-                    continue
-                else:
-                    break   
-        else: 
-            self.horario = horario    
+            self.estado = estado  
         
     # METODOS DE CANCHAS
     
@@ -175,17 +167,31 @@ class Cancha ():
                 lineas = f.readlines()
                 for linea in lineas:
                     datos = linea.split(";")
-                    cancha = Cancha(datos[0], datos[1], datos[2], datos[3], datos[4])            
-                    canchas[cancha.codigo] = f"{cancha.techada};{cancha.piso};{cancha.estado};{cancha.horario}"
+                    cancha = Cancha(datos[0], datos[1], datos[2], datos[3])            
+                    canchas[cancha.codigo] = cancha
             return canchas     
         except FileNotFoundError:
             print("Error: archivo vacio")
             return False                
     
+    def agregar_cancha(self,canchas):
+        if self.codigo not in canchas.keys():
+            canchas[self.codigo] = self       
+            print("Cancha registrada correctamente")
+        else:                               
+            print("La cancha ya está ingresada")  
+    
+    def eliminar_cancha(codigo,canchas):
+        if codigo in canchas.keys():
+            canchas.pop(codigo)
+            print("Cancha eliminada con exito")
+        else: 
+            print("Codigo incorrecto")
+     
     # IMPRESION
         
     def __str__(self):
-        return f"{self.codigo};{self.techada};{self.piso};{self.estado};{self.horario}"
+        return f"Codigo: {self.codigo} \nTechada: {self.techada} \nSuperficie: {self.piso} \nEstado: {self.estado}"
                
 class Reserva (): 
     
@@ -234,8 +240,8 @@ class Reserva ():
                 lineas = f.readlines()
                 for linea in lineas:
                     datos = linea.split(";")
-                    user = Reserva(datos[0], datos[1], datos[2])
-                    reservas[user.codigo] = str(user.fechareserva) + ";" + str(user.horareserva)
+                    reserva = Reserva(datos[0], datos[1], datos[2])
+                    reservas[reserva.codigo] = reserva
             return reservas    
         except FileNotFoundError:
             print("Error: archivo vacio")
@@ -245,11 +251,13 @@ class Reserva ():
         for reserva in reservas.values():
             if reserva.codigo == codigo:
                 return reserva
+    
             
     # IMPRESION
 
     def __str__(self):
-        return f"{self.codigo};{self.fechareserva};{self.horareserva}"
+        return f"Codigo: {self.codigo}\nFecha: {self.fechareserva}\nHora: {self.horareserva}"
+
 
 
     
