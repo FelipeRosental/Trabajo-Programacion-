@@ -7,7 +7,7 @@ from clases import * ### CLASES
 
 
 usuarios_guardados = Usuario.leer_usuarios("Usuarios.txt")
-reservas_guardadas = Reserva.leer_reservas("Reserva.txt")
+reservas_guardadas = Reserva.leer_reservas("Reservas.txt")
 canchas_guardadas = Cancha.leer_canchas("Canchas.txt")
 
 def menuPrincipal():
@@ -41,7 +41,7 @@ def menuPrincipal():
         elif menu == "3":
             with open("Usuarios.txt","w") as baseusuarios:
                 for us in usuarios_guardados.values():
-                    baseusuarios.write(f"{str(us)}  \n" )
+                    baseusuarios.write(str(us))
                 
             break
         else: 
