@@ -86,7 +86,7 @@ class Usuario ():
             print("Error: archivo vacio")
             return False
     
-    def buscar_usuario (usuarios, usuario, contraseña): ### BUSCA UN USUARIO EN LA BASE DE DATOS Y LO INSTANCIA
+    def buscar_usuario (usuarios, usuario, contraseña): ### BUSCA UN USUARIO EN el diccionario Y LO INSTANCIA
         for us in usuarios.values():
             if us.usuario == usuario and us.contraseña == contraseña:
                 return us
@@ -98,7 +98,7 @@ class Usuario ():
     # IMPRESION
     
     def __str__(self):
-        return ("Nombre: " + self.nombre + " Apellido: " +  self.apellido + " Telefono: " + self.telefono + " Edad: " + str(self.edad) + " Mail: " + self.email + " Dni: " + str(self.dni))
+        return (str(self.dni) +";"+ self.nombre +";" +self.apellido + ";" + self.telefono + ";" + str(self.edad) + ";" + self.email + ";" + str(self.usuario) +";"+ str(self.contraseña))
       
 class Cancha (): 
     

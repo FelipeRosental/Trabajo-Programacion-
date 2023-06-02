@@ -17,9 +17,10 @@ def menuPrincipal():
         menu = input("1. Registrarse \n2. Iniciar sesión \n3. Salir \nIngrese una opción: ")
         if menu == "1":
             user = Usuario()
-            if user.dni not in set(usuarios_guardados.keys()):
-                usuarios_guardados[user.dni] = f"{user.nombre};{user.apellido};{user.telefono};{user.edad};{user.email};{user.usuario};{user.contraseña}"
-            else:
+            if user.dni not in usuarios_guardados.keys():
+                usuarios_guardados[user.dni] = user        #ANTES ESTABA ESTO:f"{user.nombre};{user.apellido};{user.telefono};{user.edad};{user.email};{user.usuario};{user.contraseña}"
+                print("Usuario registrado correctamente")
+            else:                               
                 print("El usuario ya está ingresado")
                 
         elif menu == "2":
@@ -38,6 +39,10 @@ def menuPrincipal():
                 print("Datos incorrectos")
                      
         elif menu == "3":
+            with open("Usuarios.txt","w") as baseusuarios:
+                for us in usuarios_guardados.values():
+                    baseusuarios.write(f"{str(us)}  \n" )
+                
             break
         else: 
             print("Opcion no valida")
