@@ -78,7 +78,7 @@ class Usuario ():
             with open(filename) as f:
                 lineas = f.readlines()
                 for linea in lineas:
-                    datos = linea.split(";")
+                    datos = linea.strip().split(";")
                     user = Usuario(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5], datos[6], datos[7])            
                     users[user.dni] = user
             return users     
@@ -91,7 +91,7 @@ class Usuario ():
             if us.usuario == usuario and us.contraseña == contraseña:
                 return us
             
-    def agregar_usuario(self,filename): ### ESCRIBE USUARIOS EN LA BASE DE DATOS
+    def agregar_usuario(self,filename): ### ya no sirve
         with open(filename, "a") as archivo:
             archivo.write(f"{self.dni};{self.nombre};{self.apellido};{self.telefono};{self.edad};{self.email};{self.usuario};{self.contraseña};\n")
         

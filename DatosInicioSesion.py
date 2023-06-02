@@ -13,7 +13,7 @@ canchas_guardadas = Cancha.leer_canchas("Canchas.txt")
 def menuPrincipal():
 
     while True:
-        print("INICIO DE SESION")
+        print("MENU PRINCIPAL")
         menu = input("1. Registrarse \n2. Iniciar sesión \n3. Salir \nIngrese una opción: ")
         if menu == "1":
             user = Usuario()
@@ -28,11 +28,11 @@ def menuPrincipal():
             contraseña = input("Ingrese su contraseña: ")
             for us in usuarios_guardados.values():
                 if usuario == us.usuario and contraseña == us.contraseña:
+                    user = Usuario.buscar_usuario(usuarios_guardados,usuario,contraseña)
                     print("Sesion iniciada como " + str(usuario))
                     if usuario in {"admin", "Admin", "ADMIN"}:
                         menuAdmins()
                     else:
-                        user = Usuario.buscar_usuario(usuarios_guardados,usuario,contraseña)
                         menuUsuarios(user)
                     break
             else:
@@ -41,7 +41,7 @@ def menuPrincipal():
         elif menu == "3":
             with open("Usuarios.txt","w") as baseusuarios:
                 for us in usuarios_guardados.values():
-                    baseusuarios.write(str(us))
+                    baseusuarios.write(str(us) + "\n")
                 
             break
         else: 
@@ -56,11 +56,17 @@ def menuUsuarios(user):
         menu = input("1. Ver mis datos \n2. Cambiar mis datos \n3. Borrar mi cuenta \n4. Ver mis reservas \n5. Hacer reserva \n6. Cancelar reserva \n7. Cerrar sesion \nIngrese una opción: ")
         
         if menu == "1": 
-            usuario = usuarios_guardados.get(user.dni)
-            print(usuario.__str__())
+            #usuario = usuarios_guardados.get(user.dni)
+            print(f" Nombre: {user.nombre} \n Apellido: {user.apellido} \n DNI: {user.dni} \n Telefono: {user.telefono} \n Edad: {user.edad} \n Mail: {user.email}")
+            
+            # ACA ABAJO AGREGARIA UN MENU QUE PERMITA ELEGIR SI VOLVER AL MENUUSUARIO O SALIR DEL PROGRAMA
+            #  O QUE AL PRECIONAR ENTER TE VUELVA AL MENUUSUARIOS, PERO Q NO SE HAGA AUTOMATICAMENTE (ES ESTETICA NOMAS)
             
         elif menu == "2": 
-            pass     
+            print(f"Sus antiguos datos eran:\n Nombre: {user.nombre} \n Apellido: {user.apellido} \n DNI: {user.dni} \n Telefono: {user.telefono} \n Edad: {user.edad} \n Mail: {user.email} \n Usuario: {user.usuario} \n Contraseña: {user.contraseña}")
+            print("Ingrese sus nuevos datos:")
+            usuarios_guardados[user.dni] = Usuario()    
+            print("Sus datos fueron cambiados con exito")
         
         elif menu == "3":
             pass
