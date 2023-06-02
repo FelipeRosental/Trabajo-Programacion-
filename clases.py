@@ -86,19 +86,28 @@ class Usuario ():
             print("Error: archivo vacio")
             return False
     
-    def buscar_usuario (usuarios, usuario, contraseña): ### BUSCA UN USUARIO EN el diccionario Y LO INSTANCIA
+    def buscar_usuario (usuarios, usuario, contraseña): ### BUSCA UN USUARIO EN EL DICCIONARIO Y LO INSTANCIA
         for us in usuarios.values():
             if us.usuario == usuario and us.contraseña == contraseña:
                 return us
-            
-    def agregar_usuario(self,filename): ### ya no sirve
-        with open(filename, "a") as archivo:
-            archivo.write(f"{self.dni};{self.nombre};{self.apellido};{self.telefono};{self.edad};{self.email};{self.usuario};{self.contraseña};\n")
-        
+     
+    def registrar_usuario(self, usuarios):
+        if self.dni not in usuarios.keys():
+            usuarios[self.dni] = self       
+            print("Usuario registrado correctamente")
+        else:                               
+            print("El usuario ya está ingresado")  
+                
+    def cambiar_usuario(self, usuarios):   
+        print(f"Sus datos son:\n Nombre: {self.nombre} \n Apellido: {self.apellido} \n DNI: {self.dni} \n Telefono: {self.telefono} \n Edad: {self.edad} \n Mail: {self.email} \n Usuario: {self.usuario} \n Contraseña: {self.contraseña}")
+        print("Ingrese sus nuevos datos:")
+        usuarios[self.dni] = Usuario()    
+        print("Sus datos fueron cambiados con exito")     
+             
     # IMPRESION
     
     def __str__(self):
-        return (str(self.dni) +";"+ self.nombre +";" +self.apellido + ";" + self.telefono + ";" + str(self.edad) + ";" + self.email + ";" + str(self.usuario) +";"+ str(self.contraseña))
+        return f"{self.dni};{self.nombre};{self.apellido};{self.telefono};{self.edad};{self.email};{self.usuario};{self.contraseña}"
       
 class Cancha (): 
     
@@ -152,23 +161,11 @@ class Cancha ():
             self.horario = horario    
         
     # METODOS DE CANCHAS
-        
-    def agregar_cancha (self,filename): ### AGREGA UNA CANCHA A LA BASE DE DATOS
-        with open(filename, "a") as archivo:
-            archivo.write(f"{self.codigo};{self.techada};{self.piso};{self.estado};{self.horario};\n")
     
-    def buscar_cancha (filename, codigo, horario): ### BUSCA UNA CANCHA EN LA BASE DE DATOS Y LA INSTANCIA
-        try:
-            with open(filename) as f:
-                lineas = f.readlines()
-                for linea in lineas:
-                    datos = linea.split(";")
-                    if datos [0] == codigo and datos[4] == horario:
-                        cancha = Cancha(datos[0], datos[1], datos[2], datos[3], datos[4]) 
-            return cancha
-        except FileNotFoundError:
-            print("Error: archivo vacio")
-            return False
+    def buscar_cancha (canchas, codigo): ### BUSCA UNA CANCHA EN EL DICCIONARIO Y LA INSTANCIA
+        for cancha in canchas.values():
+            if cancha.codigo == codigo:
+                return cancha
     
     @staticmethod
     def leer_canchas(filename):  ### LEE LA BASE DE DATOS E INSTANCIA CANCHAS EN PYTHON
@@ -188,11 +185,9 @@ class Cancha ():
     # IMPRESION
         
     def __str__(self):
-        return ("Codigo: " + str(self.codigo) + " Techada: " + self.techada + " Piso: " + self.piso + " Estado: " + self.estado + " Horario: " + str(self.horario))
+        return f"{self.codigo};{self.techada};{self.piso};{self.estado};{self.horario}"
                
-class Reserva ():
-    
-    lista_reservas = {}  
+class Reserva (): 
     
     def __init__(self, codigo=None, fechareserva=None, horareserva=None):
         
@@ -228,8 +223,6 @@ class Reserva ():
                     break       
         else: 
             self.horareserva = horareserva
-        
-        self.lista_reservas[self.codigo] = str(self.fechareserva) + ";" + str(self.horareserva)
     
     # METODOS DE RESERVAS
     
@@ -248,14 +241,15 @@ class Reserva ():
             print("Error: archivo vacio")
             return False
     
-    def agregar_reservas (self, filename):  ### ESCRIBE RESERVAS EN LA BASE DE DATOS
-        with open(filename, "a") as archivo:
-            archivo.write (f"{self.codigo};{self.fechareserva};{self.horareserva};\n")
-    
+    def buscar_reserva (reservas, codigo): ### BUSCA UNA RESERVA EN EL DICCIONARIO Y LA INSTANCIA
+        for reserva in reservas.values():
+            if reserva.codigo == codigo:
+                return reserva
+            
     # IMPRESION
-        
+
     def __str__(self):
-        return ("Codigo de Reserva: " + str(self.codigo) + " Fecha de la reserva: " + str(self.fechareserva) + " Hora de la reserva: " + str(self.horareserva))
+        return f"{self.codigo};{self.fechareserva};{self.horareserva}"
 
 
     

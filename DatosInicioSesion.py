@@ -17,11 +17,7 @@ def menuPrincipal():
         menu = input("1. Registrarse \n2. Iniciar sesión \n3. Salir \nIngrese una opción: ")
         if menu == "1":
             user = Usuario()
-            if user.dni not in usuarios_guardados.keys():
-                usuarios_guardados[user.dni] = user        #ANTES ESTABA ESTO:f"{user.nombre};{user.apellido};{user.telefono};{user.edad};{user.email};{user.usuario};{user.contraseña}"
-                print("Usuario registrado correctamente")
-            else:                               
-                print("El usuario ya está ingresado")
+            user.registrar_usuario(usuarios_guardados)
                 
         elif menu == "2":
             usuario = input("Ingrese su usuario: ")
@@ -31,10 +27,9 @@ def menuPrincipal():
                     user = Usuario.buscar_usuario(usuarios_guardados,usuario,contraseña)
                     print("Sesion iniciada como " + str(usuario))
                     if usuario in {"admin", "Admin", "ADMIN"}:
-                        menuAdmins()
+                        menuAdmins(user) 
                     else:
                         menuUsuarios(user)
-                    break
             else:
                 print("Datos incorrectos")
                      
@@ -56,20 +51,17 @@ def menuUsuarios(user):
         menu = input("1. Ver mis datos \n2. Cambiar mis datos \n3. Borrar mi cuenta \n4. Ver mis reservas \n5. Hacer reserva \n6. Cancelar reserva \n7. Cerrar sesion \nIngrese una opción: ")
         
         if menu == "1": 
-            #usuario = usuarios_guardados.get(user.dni)
             print(f" Nombre: {user.nombre} \n Apellido: {user.apellido} \n DNI: {user.dni} \n Telefono: {user.telefono} \n Edad: {user.edad} \n Mail: {user.email}")
             
             # ACA ABAJO AGREGARIA UN MENU QUE PERMITA ELEGIR SI VOLVER AL MENUUSUARIO O SALIR DEL PROGRAMA
-            #  O QUE AL PRECIONAR ENTER TE VUELVA AL MENUUSUARIOS, PERO Q NO SE HAGA AUTOMATICAMENTE (ES ESTETICA NOMAS)
+            #  O QUE AL PRESIONAR ENTER TE VUELVA AL MENUUSUARIOS, PERO Q NO SE HAGA AUTOMATICAMENTE (ES ESTETICA NOMAS)
             
         elif menu == "2": 
-            print(f"Sus antiguos datos eran:\n Nombre: {user.nombre} \n Apellido: {user.apellido} \n DNI: {user.dni} \n Telefono: {user.telefono} \n Edad: {user.edad} \n Mail: {user.email} \n Usuario: {user.usuario} \n Contraseña: {user.contraseña}")
-            print("Ingrese sus nuevos datos:")
-            usuarios_guardados[user.dni] = Usuario()    
-            print("Sus datos fueron cambiados con exito")
+            user.cambiar_usuario(usuarios_guardados)
         
         elif menu == "3":
-            pass
+            usuarios_guardados.pop(user.dni)
+            print("Datos eliminados con exito")
             break
         
         elif menu == "4":
@@ -87,7 +79,7 @@ def menuUsuarios(user):
         else:
             print("Opcion no disponible")
             
-def menuAdmins():
+def menuAdmins(user):
     
     while True:
         print("ADMINISTRACION")
@@ -102,15 +94,16 @@ def menuAdmins():
             pass
                     
         elif menu == "4": 
-            pass
+            print(f" Nombre: {user.nombre} \n Apellido: {user.apellido} \n DNI: {user.dni} \n Telefono: {user.telefono} \n Edad: {user.edad} \n Mail: {user.email}")
         
         elif menu == "5": 
-            pass   
+            user.cambiar_usuario(usuarios_guardados)
         
         elif menu == "6":
-            pass
+            usuarios_guardados.pop(user.dni)
+            print("Datos eliminados con exito")
+            break
             
-        
         elif menu == "7":
             break
         
