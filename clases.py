@@ -85,18 +85,21 @@ class Usuario ():
      
     def registrar_usuario(self, usuarios):
         if self.dni not in usuarios.keys():
-            usuarios[self.dni] = self       
-            print("Usuario registrado correctamente")
+            for us in usuarios.values():
+                if self.usuario == us.usuario:
+                    print("El usuario ingresado ya está en uso") 
+                    break
+            else:
+                usuarios[self.dni] = self       
+                print("Usuario registrado correctamente")
         else:                               
-            print("El usuario ya está ingresado")  
+            print("DNI incorrecto")  
                 
     def cambiar_usuario(self, usuarios):   
-        print("Sus datos son:")
-        print(self)
-        print("Ingrese sus nuevos datos:")
-        usuarios[self.dni] = Usuario()    
-        print("Sus datos fueron cambiados con exito")     
-    
+        print(f"Sus datos son:\n{self}\nIngrese sus nuevos datos:")
+        usuarios[self.dni] = Usuario(dni=self.dni,usuario=self.usuario)    
+        print("Sus datos fueron cambiados con exito")    
+        
     def eliminar_usuario(self, usuarios):
         usuarios.pop(self.dni)
         print("Datos eliminados con exito")
@@ -137,7 +140,10 @@ class Cancha ():
                 self.estado = input ("Ingrese el Estado de la cancha: ")
         else: 
             self.estado = estado  
-    
+        
+        self.horarios_disponibles = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"]
+        self.horarios_reservados = []
+        
     def buscar_cancha (canchas, codigo): ### BUSCA UNA CANCHA EN EL DICCIONARIO Y LA INSTANCIA
         for cancha in canchas.values():
             if cancha.codigo == codigo:
@@ -166,10 +172,8 @@ class Cancha ():
             print("La cancha ya está ingresada")  
     
     def cambiar_cancha(cancha, canchas):   
-        print("Los datos de la cancha son:")
-        print(cancha)
-        print("Ingrese los nuevos datos:")
-        canchas[cancha.codigo] = Cancha()    
+        print(f"Los datos de la cancha son:\n{cancha}\nIngrese los nuevos datos:")
+        canchas[cancha.codigo] = Cancha(codigo=cancha.codigo)    
         print("Los datos fueron cambiados con exito") 
     
     def eliminar_cancha(canchas):
@@ -227,6 +231,17 @@ class Reserva ():
             if reserva.cliente == cliente:
                 return reserva
 
+    def hacer_reserva (self,reservas):
+        if self.codigo not in reservas.keys():
+            reservas[self.codigo]=self
+        else:
+            print("Error")
+        
+    def cambiar_reserva(reserva, reservas):   ### METODO BASTANTE COMPLEJO... (HACERLO BIEN, ESTE ES UN PRIMER INTENTO)
+        print(f"Los datos de la reserva son:\n{reserva}\nIngrese los nuevos datos:")
+        reservas[reserva.codigo] = Reserva(codigo=reserva.codigo)    
+        print("Los datos fueron cambiados con exito") 
+    
     def eliminar_reserva(reservas):
         codigo = input("Ingrese el codigo de la reserva a eliminar: ")
         if codigo in reservas.keys():

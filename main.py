@@ -41,7 +41,7 @@ def menuPrincipal():
 def menuUsuarios(user):
     while True:
         print("DATOS Y RESERVAS")
-        menu = input("1. Ver mis datos \n2. Modificar mis datos \n3. Borrar mi cuenta \n4. Ver mis reservas \n5. Hacer reserva \n6. Cancelar reserva \n7. Cerrar sesion \nIngrese una opción: ")
+        menu = input("1. Ver mis datos \n2. Modificar mis datos \n3. Borrar mi cuenta \n4. Ver mis reservas \n5. Hacer reserva \n6. Modificar reserva \n7. Cancelar reserva \n8. Cerrar sesion \nIngrese una opción: ")
         
         if menu == "1": 
             print(user) 
@@ -57,16 +57,31 @@ def menuUsuarios(user):
             for reserva in reservas_guardadas.values():    
                 if user.usuario == reserva.cliente:
                     print(reserva)
-            
-            ### FALTARIA ENCONTRAR UNA FORMA DE QUE SI UN USUARIO NO TIENE RESERVAS, SALTARA UN ERROR
+            ### FALTARIA ENCONTRAR UNA FORMA DE QUE SI UN USUARIO NO TIENE RESERVAS, SALTE UN ERROR
                 
-        elif menu == "5":
-            pass
+        elif menu == "5": ### ESTO ES COMPLEJO Y ES LO MAS IMPORTANTE DEL TRABAJO (ESTE ES UN PRIMER INTENTO)
+            hora=input("Ingrese la hora de su reserva: ")
+            for cancha in canchas_guardadas.values():
+                if hora in set(cancha.horarios_disponibles):
+                    codcancha=cancha.codigo
+                    cancha.horarios_disponibles.remove(hora)
+                    cancha.horarios_reservados.append(hora)
+                    break
+            else:
+                print("No hay canchas disponibles en ese horario")
+            reserva = Reserva(cliente=user.usuario,cancha=codcancha,horareserva=hora)
+            reserva.hacer_reserva(reservas_guardadas)
             
         elif menu == "6":
+            codigo = input("Ingrese el codigo de la reserva a modificar: ")
+            for reserva in reservas_guardadas.values():
+                if reserva.codigo == codigo:
+                    reserva.cambiar_reserva(reservas_guardadas)
+        
+        elif menu == "7":
             Reserva.eliminar_reserva(reservas_guardadas)
             
-        elif menu == "7":
+        elif menu == "8":
             with open("Reservas.txt","w") as basereservas:
                 for reserva in reservas_guardadas.values():
                     basereservas.write(f"{reserva.codigo};{reserva.cancha};{reserva.horareserva};{reserva.cliente};\n")
