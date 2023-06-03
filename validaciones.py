@@ -1,5 +1,3 @@
-from random import *
-from datetime import *
 from string import *
 
 def validacionDNI (dni):

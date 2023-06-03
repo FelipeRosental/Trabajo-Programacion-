@@ -1,15 +1,10 @@
 from random import *
 from datetime import *
 from string import *
-
-from validaciones import *
+from validaciones import * ### VALIDACIONES
 
 class Usuario ():
-    
     def __init__(self,dni=None, nombre=None, apellido=None, telefono=None, edad=None, email=None, usuario=None, contraseña=None):
-        
-        # ATRIBUTOS
-        
         if dni is None:
             self.dni = input("Ingrese DNI: ")
             while validacionDNI(self.dni) != True:
@@ -67,9 +62,6 @@ class Usuario ():
             self.contraseña = str(input("Ingrese contraseña: "))
         else:
             self.contraseña = contraseña
-        
-    
-    # METODOS DE USUARIOS 
     
     @staticmethod
     def leer_usuarios(filename):  ### LEE LOS USUARIOS DE LA BASE DE DATOS Y LOS INSTANCIA EN PYTHON
@@ -108,18 +100,12 @@ class Usuario ():
     def eliminar_usuario(self, usuarios):
         usuarios.pop(self.dni)
         print("Datos eliminados con exito")
-              
-    # IMPRESION
     
     def __str__(self):
         return f" Nombre: {self.nombre} \n Apellido: {self.apellido} \n DNI: {self.dni} \n Telefono: {self.telefono} \n Edad: {self.edad} \n Mail: {self.email}"
       
 class Cancha (): 
-    
     def __init__(self, codigo=None, techada=None, piso=None, estado=None):
-        
-        # ATRIBUTOS
-        
         if codigo is None:
             self.codigo = input ("Ingrese el codigo de cancha (numero de 4 digitos): ")
             while validacionCodigo (self.codigo) != True:
@@ -151,8 +137,6 @@ class Cancha ():
                 self.estado = input ("Ingrese el Estado de la cancha: ")
         else: 
             self.estado = estado  
-        
-    # METODOS DE CANCHAS
     
     def buscar_cancha (canchas, codigo): ### BUSCA UNA CANCHA EN EL DICCIONARIO Y LA INSTANCIA
         for cancha in canchas.values():
@@ -181,41 +165,32 @@ class Cancha ():
         else:                               
             print("La cancha ya está ingresada")  
     
-    def eliminar_cancha(codigo,canchas):
+    def cambiar_cancha(cancha, canchas):   
+        print("Los datos de la cancha son:")
+        print(cancha)
+        print("Ingrese los nuevos datos:")
+        canchas[cancha.codigo] = Cancha()    
+        print("Los datos fueron cambiados con exito") 
+    
+    def eliminar_cancha(canchas):
+        codigo = input("Ingrese el codigo de la cancha a eliminar: ")
         if codigo in canchas.keys():
             canchas.pop(codigo)
             print("Cancha eliminada con exito")
         else: 
             print("Codigo incorrecto")
      
-    # IMPRESION
-        
     def __str__(self):
         return f"Codigo: {self.codigo} \nTechada: {self.techada} \nSuperficie: {self.piso} \nEstado: {self.estado}"
                
 class Reserva (): 
-    
-    def __init__(self, codigo=None, fechareserva=None, horareserva=None):
-        
-        # ATRIBUTOS
-        
+    def __init__(self, codigo=None, cancha=None, horareserva=None, cliente=None):        
         if codigo is None: 
             self.codigo = randint(1000,9999)
         else: 
             self.codigo = codigo
         
-        if fechareserva is None: 
-            while True: 
-                self.fechareserva = input("ingrese la fecha (dd-mm-yyyy): ")
-                try:
-                    self.fechareserva = datetime.strptime(self.fechareserva, "%d-%m-%Y").date()
-                except ValueError:
-                    print("Fecha invalida, ingresarla con formato (dd-mm-yyyy)")
-                    continue
-                else: 
-                    break    
-        else: 
-            self.fechareserva = fechareserva
+        self.cancha = cancha
         
         if horareserva is None:
             while True:
@@ -229,9 +204,9 @@ class Reserva ():
                     break       
         else: 
             self.horareserva = horareserva
-    
-    # METODOS DE RESERVAS
-    
+
+        self.cliente = cliente
+            
     @staticmethod
     def leer_reservas(filename):  ### LEE LA BASE DE DATOS E INSTANCIA RESERVAS EN PYTHON
         reservas = {}
@@ -240,23 +215,28 @@ class Reserva ():
                 lineas = f.readlines()
                 for linea in lineas:
                     datos = linea.split(";")
-                    reserva = Reserva(datos[0], datos[1], datos[2])
+                    reserva = Reserva(datos[0], datos[1], datos[2],datos[3])
                     reservas[reserva.codigo] = reserva
             return reservas    
         except FileNotFoundError:
             print("Error: archivo vacio")
             return False
     
-    def buscar_reserva (reservas, codigo): ### BUSCA UNA RESERVA EN EL DICCIONARIO Y LA INSTANCIA
+    def buscar_reserva (reservas, cliente): ### BUSCA UNA RESERVA EN EL DICCIONARIO Y LA INSTANCIA
         for reserva in reservas.values():
-            if reserva.codigo == codigo:
+            if reserva.cliente == cliente:
                 return reserva
-    
-            
-    # IMPRESION
 
+    def eliminar_reserva(reservas):
+        codigo = input("Ingrese el codigo de la reserva a eliminar: ")
+        if codigo in reservas.keys():
+            reservas.pop(codigo)
+            print("Reserva eliminada con exito")
+        else: 
+            print("Codigo incorrecto")
+    
     def __str__(self):
-        return f"Codigo: {self.codigo}\nFecha: {self.fechareserva}\nHora: {self.horareserva}"
+        return f"Codigo de reserva: {self.codigo}\nCodigo de cancha: {self.cancha}\nHora: {self.horareserva}"
 
 
 
