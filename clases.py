@@ -108,7 +108,7 @@ class Usuario ():
         return f" Nombre: {self.nombre} \n Apellido: {self.apellido} \n DNI: {self.dni} \n Telefono: {self.telefono} \n Edad: {self.edad} \n Mail: {self.email}"
       
 class Cancha (): 
-    def __init__(self, codigo=None, techada=None, piso=None, estado=None):
+    def __init__(self, codigo=None, techada=None, piso=None, estado=None, horarios_disponibles=None):
         if codigo is None:
             self.codigo = input ("Ingrese el codigo de cancha (numero de 4 digitos): ")
             while validacionCodigo (self.codigo) != True:
@@ -141,8 +141,10 @@ class Cancha ():
         else: 
             self.estado = estado  
         
-        self.horarios_disponibles = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"]
-        self.horarios_reservados = []
+        if horarios_disponibles is None:
+            self.horarios_disponibles = set(10.00, 11.00, 12.00, 13.00, 14.00, 15.00, 16.00, 17.00, 18.00)
+        else:
+            self.horarios_disponibles = horarios_disponibles
         
     def buscar_cancha (canchas, codigo): ### BUSCA UNA CANCHA EN EL DICCIONARIO Y LA INSTANCIA
         for cancha in canchas.values():
@@ -157,7 +159,7 @@ class Cancha ():
                 lineas = f.readlines()
                 for linea in lineas:
                     datos = linea.split(";")
-                    cancha = Cancha(datos[0], datos[1], datos[2], datos[3])            
+                    cancha = Cancha(datos[0], datos[1], datos[2], datos[3], datos[4])            
                     canchas[cancha.codigo] = cancha
             return canchas     
         except FileNotFoundError:
@@ -183,9 +185,15 @@ class Cancha ():
             print("Cancha eliminada con exito")
         else: 
             print("Codigo incorrecto")
+    
+    def eliminar_horario_disponible(canchas, horario, codigo):
+        for cancha in canchas.values():
+            if str(codigo) == str(cancha.codigo):
+                horarios = cancha.horarios_disponibles 
+                horarios.remove(horario)
      
     def __str__(self):
-        return f"Codigo: {self.codigo} \nTechada: {self.techada} \nSuperficie: {self.piso} \nEstado: {self.estado}"
+        return f"Codigo: {self.codigo} \nTechada: {self.techada} \nSuperficie: {self.piso} \nEstado: {self.estado} \nHorarios disponibles: {self.horarios_disponibles}"
                
 class Reserva (): 
     def __init__(self, codigo=None, cancha=None, horareserva=None, cliente=None):        
@@ -197,15 +205,7 @@ class Reserva ():
         self.cancha = cancha
         
         if horareserva is None:
-            while True:
-                self.horareserva = input("ingrese hora (HH:MM): ")
-                try:
-                    self.horareserva = datetime.strptime(self.horareserva, "%H:%M").time()
-                except ValueError:
-                    print("Hora invalida, ingresarla con formato (HH:MM)")
-                    continue
-                else:
-                    break       
+            self.horareserva = input("ingrese hora (HH.MM): ")
         else: 
             self.horareserva = horareserva
 
@@ -252,11 +252,3 @@ class Reserva ():
     
     def __str__(self):
         return f"Codigo de reserva: {self.codigo}\nCodigo de cancha: {self.cancha}\nHora: {self.horareserva}"
-
-
-
-    
-
-
-
-

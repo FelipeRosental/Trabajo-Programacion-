@@ -60,18 +60,19 @@ def menuUsuarios(user):
             ### FALTARIA ENCONTRAR UNA FORMA DE QUE SI UN USUARIO NO TIENE RESERVAS, SALTE UN ERROR
                 
         elif menu == "5": ### ESTO ES COMPLEJO Y ES LO MAS IMPORTANTE DEL TRABAJO (ESTE ES UN PRIMER INTENTO)
-            hora=input("Ingrese la hora de su reserva: ")
             for cancha in canchas_guardadas.values():
-                if hora in set(cancha.horarios_disponibles):
-                    codcancha=cancha.codigo
-                    cancha.horarios_disponibles.remove(hora)
-                    cancha.horarios_reservados.append(hora)
-                    break
-            else:
-                print("No hay canchas disponibles en ese horario")
-            reserva = Reserva(cliente=user.usuario,cancha=codcancha,horareserva=hora)
-            reserva.hacer_reserva(reservas_guardadas)
-            
+                print(cancha)
+            codcancha = input("Ingrese el codigo de la cancha que desea: ")
+            hora = input("Ingrese el horario de su reserva: ")
+            for cancha in canchas_guardadas.values():
+                if codcancha == cancha.codigo:
+                    if hora in cancha.horarios_disponibles:
+                        reserva = Reserva(cliente=user.usuario,cancha=codcancha,horareserva=hora)
+                        reserva.hacer_reserva(reservas_guardadas) 
+                        Cancha.eliminar_horario_disponible(canchas_guardadas,hora,codcancha)  
+                        print("Reserva realizada con exito")
+                ### NO FUNCA BIEN, REVISAR
+                
         elif menu == "6":
             codigo = input("Ingrese el codigo de la reserva a modificar: ")
             for reserva in reservas_guardadas.values():
@@ -85,6 +86,9 @@ def menuUsuarios(user):
             with open("Reservas.txt","w") as basereservas:
                 for reserva in reservas_guardadas.values():
                     basereservas.write(f"{reserva.codigo};{reserva.cancha};{reserva.horareserva};{reserva.cliente};\n")
+            with open("Canchas.txt","w") as basecanchas:
+                for canchas in canchas_guardadas.values():
+                    basecanchas.write(f"{canchas.codigo};{canchas.techada};{canchas.piso};{canchas.estado};{canchas.horarios_disponibles};\n")
             break
         
         else:
@@ -124,7 +128,7 @@ def menuAdmins(user):
         elif menu == "8":
             with open("Canchas.txt","w") as basecanchas:
                 for canchas in canchas_guardadas.values():
-                    basecanchas.write(f"{canchas.codigo};{canchas.techada};{canchas.piso};{canchas.estado};\n")
+                    basecanchas.write(f"{canchas.codigo};{canchas.techada};{canchas.piso};{canchas.estado};{canchas.horarios_disponibles};\n")
             break
         
         else: 
