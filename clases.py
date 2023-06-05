@@ -64,7 +64,7 @@ class Usuario ():
             self.contraseña = contraseña
     
     @staticmethod
-    def leer_usuarios(filename):  ### LEE LOS USUARIOS DE LA BASE DE DATOS Y LOS INSTANCIA EN PYTHON
+    def leer_usuarios(filename):  ### LEE LOS USUARIOS DE LA BASE DE DATOS Y LOS INSTANCIA EN PYTHON EN UN DICCIONARIO
         users = {}
         try:
             with open(filename) as f:
@@ -78,37 +78,84 @@ class Usuario ():
             print("Error: archivo vacio")
             return False
     
-    def buscar_usuario (usuarios, usuario, contraseña): ### BUSCA UN USUARIO EN EL DICCIONARIO Y LO INSTANCIA
+    def buscar_usuario (usuarios, usuario, contraseña): ### BUSCA UN USUARIO EN EL DICCIONARIO QUE ALMACENA USUARIOS Y LO INSTANCIA
         for us in usuarios.values():
             if us.usuario == usuario and us.contraseña == contraseña:
                 return us
+        else:
+            print("Error en los datos ingresados")
      
-    def registrar_usuario(self, usuarios):
+    def registrar_usuario(self, usuarios):  ### REGISTRA USUARIOS Y ADMINISTRADORES EN UN DICCIONARIO
         if self.dni not in usuarios.keys():
             for us in usuarios.values():
-                if self.usuario == us.usuario:
+                if self.usuario == us.usuario and self.usuario != "admin":
                     print("El usuario ingresado ya está en uso") 
                     break
             else:
-                usuarios[self.dni] = self       
-                print("Usuario registrado correctamente")
+                if self.usuario != "admin":
+                    usuarios[self.dni] = self       
+                    print("Usuario registrado correctamente")
+                else:
+                    for us in usuarios.values():
+                        if self.contraseña == us.contraseña:
+                            print("La contraseña ya está siendo utilizada por otro administrador")
+                            break
+                    else:
+                        usuarios[self.dni] = self       
+                        print("Usuario registrado correctamente")
         else:                               
             print("DNI incorrecto")  
                 
-    def cambiar_usuario(self, usuarios):   
+    def cambiar_usuario(self, usuarios):   ### CAMBIA UN USUARIO EN EL DICCIONARIO
         print(f"Sus datos son:\n{self}\nIngrese sus nuevos datos:")
         usuarios[self.dni] = Usuario(dni=self.dni,usuario=self.usuario)    
         print("Sus datos fueron cambiados con exito")    
         
-    def eliminar_usuario(self, usuarios):
+    def eliminar_usuario(self, usuarios):   ### ELIMINA UN USUARIO EN EL DICCIONARIO
         usuarios.pop(self.dni)
         print("Datos eliminados con exito")
     
+    def ver_mis_reservas(self, reservas): ### MUESTRA LAS RESERVAS DE UN USUARIO
+        print("Sus reservas: ")
+        for reserva in reservas.values():    
+            if self.usuario == reserva.cliente:
+                print(f"{reserva}\n")
+    
+    def iniciar_sesion(usuarios, usuario, contraseña, menu):    ### INICIA SESION TANTO PARA USUARIOS COMO PARA ADMINISTRADORES
+        for us in usuarios.values():
+            if usuario == us.usuario and contraseña == us.contraseña:
+                user = Usuario.buscar_usuario(usuarios,usuario,contraseña)
+                print("Sesion iniciada como " + str(usuario))
+                if user.usuario != "admin":
+                    menu(user)
+                else:
+                    menu(user)
+                break
+        else:
+            print("Datos incorrectos") 
+    
     def __str__(self):
         return f" Nombre: {self.nombre} \n Apellido: {self.apellido} \n DNI: {self.dni} \n Telefono: {self.telefono} \n Edad: {self.edad} \n Mail: {self.email}"
-      
+
+class Administrador (Usuario):
+    def __init__(self,dni=None, nombre=None, apellido=None, telefono=None, edad=None, email=None, usuario="admin", contraseña=None):
+        super().__init__(dni,nombre, apellido, telefono, edad, email, usuario,contraseña)
+    
+    def ver_canchas(self,canchas): ### MUESTRA LAS CANCHAS GUARDADAS EN EL DICCIONARIO DE CANCHAS (QUE SE OBTIENE DE LA BASE DE DATOS)
+        for cancha in canchas.values():
+            print(f"{cancha}\n")
+    
+    def ver_usuarios(self,usuarios): ### MUESTRA LOS USUARIOS GUARDADOS EN EL DICCIONARIO DE USUARIOS (QUE SE OBTIENE DE LA BASE DE DATOS)
+        for us in usuarios.values():
+            if us.usuario != "admin":
+                print(f"{us}\n")
+    
+    def ver_reservas(self,reservas): ### MUESTRA LOS USUARIOS GUARDADOS EN EL DICCIONARIO DE RESERVAS (QUE SE OBTIENE DE LA BASE DE DATOS)
+        for reserva in reservas.values():
+            print(f"{reserva}\n")
+        
 class Cancha (): 
-    def __init__(self, codigo=None, techada=None, piso=None, estado=None, horarios_disponibles=None):
+    def __init__(self, codigo=None, techada=None, piso=None, estado=None):
         if codigo is None:
             self.codigo = input ("Ingrese el codigo de cancha (numero de 4 digitos): ")
             while validacionCodigo (self.codigo) != True:
@@ -141,44 +188,41 @@ class Cancha ():
         else: 
             self.estado = estado  
         
-        if horarios_disponibles is None:
-            self.horarios_disponibles = set(10.00, 11.00, 12.00, 13.00, 14.00, 15.00, 16.00, 17.00, 18.00)
-        else:
-            self.horarios_disponibles = horarios_disponibles
-        
     def buscar_cancha (canchas, codigo): ### BUSCA UNA CANCHA EN EL DICCIONARIO Y LA INSTANCIA
         for cancha in canchas.values():
             if cancha.codigo == codigo:
                 return cancha
+        else:
+            print("No se encontró el codigo ingresado")
     
     @staticmethod
-    def leer_canchas(filename):  ### LEE LA BASE DE DATOS E INSTANCIA CANCHAS EN PYTHON
+    def leer_canchas(filename):  ### LEE LA BASE DE DATOS E INSTANCIA CANCHAS EN PYTHON, LAS DEVUELVE EN UN DICCIONARIO 
         canchas = {}
         try:
             with open(filename) as f:
                 lineas = f.readlines()
                 for linea in lineas:
                     datos = linea.split(";")
-                    cancha = Cancha(datos[0], datos[1], datos[2], datos[3], datos[4])            
+                    cancha = Cancha(datos[0], datos[1], datos[2], datos[3])            
                     canchas[cancha.codigo] = cancha
             return canchas     
         except FileNotFoundError:
             print("Error: archivo vacio")
             return False                
     
-    def agregar_cancha(self,canchas):
+    def agregar_cancha(self,canchas):   ### AGREGA UNA CANCHA EN EL DICCIONARIO
         if self.codigo not in canchas.keys():
             canchas[self.codigo] = self       
             print("Cancha registrada correctamente")
         else:                               
             print("La cancha ya está ingresada")  
     
-    def cambiar_cancha(cancha, canchas):   
+    def cambiar_cancha(cancha, canchas):    ### CAMBIA UNA CANCHA EN EL DICCIONARIO
         print(f"Los datos de la cancha son:\n{cancha}\nIngrese los nuevos datos:")
         canchas[cancha.codigo] = Cancha(codigo=cancha.codigo)    
         print("Los datos fueron cambiados con exito") 
     
-    def eliminar_cancha(canchas):
+    def eliminar_cancha(canchas):   ### ELIMINA UNA CANCHA EN EL DICCIONARIO
         codigo = input("Ingrese el codigo de la cancha a eliminar: ")
         if codigo in canchas.keys():
             canchas.pop(codigo)
@@ -186,17 +230,11 @@ class Cancha ():
         else: 
             print("Codigo incorrecto")
     
-    def eliminar_horario_disponible(canchas, horario, codigo):
-        for cancha in canchas.values():
-            if str(codigo) == str(cancha.codigo):
-                horarios = cancha.horarios_disponibles 
-                horarios.remove(horario)
-     
     def __str__(self):
-        return f"Codigo: {self.codigo} \nTechada: {self.techada} \nSuperficie: {self.piso} \nEstado: {self.estado} \nHorarios disponibles: {self.horarios_disponibles}"
+        return f"Codigo: {self.codigo} \nTechada: {self.techada} \nSuperficie: {self.piso} \nEstado: {self.estado}"
                
 class Reserva (): 
-    def __init__(self, codigo=None, cancha=None, horareserva=None, cliente=None):        
+    def __init__(self, codigo=None, cancha=None, fecha_hora=None, cliente=None):        
         if codigo is None: 
             self.codigo = randint(1000,9999)
         else: 
@@ -204,15 +242,16 @@ class Reserva ():
         
         self.cancha = cancha
         
-        if horareserva is None:
-            self.horareserva = input("ingrese hora (HH.MM): ")
+        if fecha_hora is None:
+            ### VALIDAR ESTOOOOO
+            self.fecha_hora = input("ingrese la fecha y la hora de la reserva (Dia/Mes/Año/Hora:Minutos): ")
         else: 
-            self.horareserva = horareserva
+            self.fecha_hora = fecha_hora
 
         self.cliente = cliente
             
     @staticmethod
-    def leer_reservas(filename):  ### LEE LA BASE DE DATOS E INSTANCIA RESERVAS EN PYTHON
+    def leer_reservas(filename):  ### LEE LA BASE DE DATOS E INSTANCIA RESERVAS EN PYTHON, DEVUELVE UN DICCIONARIO
         reservas = {}
         try:
             with open(filename) as f:
@@ -226,23 +265,36 @@ class Reserva ():
             print("Error: archivo vacio")
             return False
     
-    def buscar_reserva (reservas, cliente): ### BUSCA UNA RESERVA EN EL DICCIONARIO Y LA INSTANCIA
+    def buscar_reserva (reservas, cliente): ### BUSCA UNA RESERVA EN EL DICCIONARIO Y LA INSTANCIA (NO SE USA)
         for reserva in reservas.values():
             if reserva.cliente == cliente:
                 return reserva
 
-    def hacer_reserva (self,reservas):
+    def elegir_cancha(canchas): ### SUB MENU QUE MUESTRA LAS CANCHAS DISPONIBLES SEGUN LA PREFERENCIA DEL USUARIO
+        techada = input("Desea una cancha techada? (si/no) ")
+        superficie = input("Que tipo de superficie desea? (cesped/cemento/polvo de ladrillo) ")
+        for cancha in canchas.values():
+            if cancha.techada == techada and cancha.piso == superficie:
+                return cancha.codigo
+            
+    def hacer_reserva (self,reservas):     ### REALIZA UNA RESERVA Y LA AGREGA AL DICCIONARIO
         if self.codigo not in reservas.keys():
-            reservas[self.codigo]=self
+            for reserva in reservas.values():
+                if self.fecha_hora != reserva.fecha_hora and self.cancha != reserva.cancha:
+                    reservas[self.codigo]=self
+                    break
+            else:
+                print("La cancha no está disponible en la fecha ingresada")   
         else:
             print("Error")
         
-    def cambiar_reserva(reserva, reservas):   ### METODO BASTANTE COMPLEJO... (HACERLO BIEN, ESTE ES UN PRIMER INTENTO)
-        print(f"Los datos de la reserva son:\n{reserva}\nIngrese los nuevos datos:")
-        reservas[reserva.codigo] = Reserva(codigo=reserva.codigo)    
+    def cambiar_reserva(reserva, reservas):   ### CAMBIA UNA RESERVA EN EL DICCIONARIO
+        reservas[reserva.codigo] = Reserva(codigo = reserva.codigo, cancha = reserva.cancha, cliente = reserva.cliente)    
         print("Los datos fueron cambiados con exito") 
     
-    def eliminar_reserva(reservas):
+    ### ACÁ HABRIA QUE VERIFICAR QUE LA NUEVA FECHA INGRESADA NO ESTÉ RESERVADA, Y TAMBIEN HABRÍA QUE VER SI NO QUIERE CAMBIAR LA CANCHA...
+    
+    def eliminar_reserva(reservas): ### ELIMINA UNA RESERVA DEL DICCIONARIO
         codigo = input("Ingrese el codigo de la reserva a eliminar: ")
         if codigo in reservas.keys():
             reservas.pop(codigo)
@@ -251,4 +303,32 @@ class Reserva ():
             print("Codigo incorrecto")
     
     def __str__(self):
-        return f"Codigo de reserva: {self.codigo}\nCodigo de cancha: {self.cancha}\nHora: {self.horareserva}"
+        return f"Codigo de reserva: {self.codigo}\nCodigo de cancha: {self.cancha}\nHora: {self.fecha_hora}"
+
+class Archivo():   ### EN ESTA CLASE ALMACENAMOS LOS METODOS QUE ACTUALIZAN LAS BASES DE DATOS
+    def reescribir_baseusuarios(usuarios, filename):
+        try:
+            with open(filename,"w") as baseusuarios:
+                for us in usuarios.values():
+                    baseusuarios.write(f"{us.dni};{us.nombre};{us.apellido};{us.telefono};{us.edad};{us.email};{us.usuario};{us.contraseña};\n")
+        except FileNotFoundError:
+            print("Error: archivo vacio")
+            return False
+        
+    def reescribir_basecanchas(canchas, filename):
+        try:
+            with open(filename,"w") as basecanchas:
+                for cancha in canchas.values():
+                    basecanchas.write(f"{cancha.codigo};{cancha.techada};{cancha.piso};{cancha.estado};\n")
+        except FileNotFoundError:
+            print("Error: archivo vacio")
+            return False
+        
+    def reescribir_basereservas(reservas, filename):
+        try:
+            with open(filename,"w") as basereservas:
+                for reserva in reservas.values():
+                    basereservas.write(f"{reserva.codigo};{reserva.cancha};{reserva.fecha_hora};{reserva.cliente};\n")
+        except FileNotFoundError:
+            print("Error: archivo vacio")
+            return False 

@@ -5,3 +5,4 @@
 19191919;luca;prodan;12345;45;@;admin;sumo;
 20202020;luis;gutierrez;123;45;@;lucho;123jaja;
 15151515;lucia;tomei;123;24;@;lu;pollo;
+30303030;juan;xd;12345;34;@;admin;12345;

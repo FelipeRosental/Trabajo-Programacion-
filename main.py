@@ -9,31 +9,22 @@ canchas_guardadas = Cancha.leer_canchas("Canchas.txt")
 def menuPrincipal():
     while True:
         print("MENU PRINCIPAL")
-        menu = input("1. Registrarse \n2. Iniciar sesión \n3. Salir \nIngrese una opción: ")
+        menu = input("1. Registrarse \n2. Iniciar sesión \n3. Soy administrador \n4. Salir \nIngrese una opción: ")
         if menu == "1":
             user = Usuario()
             user.registrar_usuario(usuarios_guardados)
                 
         elif menu == "2":
-            usuario = input("Ingrese su usuario: ")
+            usuario = input("Ingrese su usuario: ")    
             contraseña = input("Ingrese su contraseña: ")
-            for us in usuarios_guardados.values():
-                if usuario == us.usuario and contraseña == us.contraseña:
-                    user = Usuario.buscar_usuario(usuarios_guardados,usuario,contraseña)
-                    print("Sesion iniciada como " + str(usuario))
-                    if usuario in {"admin", "Admin", "ADMIN"}:
-                        menuAdmins(user) 
-                        break
-                    else:
-                        menuUsuarios(user)
-                        break
-            else:
-                print("Datos incorrectos") 
-                     
-        elif menu == "3":
-            with open("Usuarios.txt","w") as baseusuarios:
-                for us in usuarios_guardados.values():
-                    baseusuarios.write(f"{us.dni};{us.nombre};{us.apellido};{us.telefono};{us.edad};{us.email};{us.usuario};{us.contraseña};\n")
+            Usuario.iniciar_sesion(usuarios_guardados, usuario, contraseña, menuUsuarios)
+        
+        elif menu == "3":       
+            contraseña = input("Ingrese su contraseña: ")
+            Administrador.iniciar_sesion(usuarios_guardados, "admin", contraseña, menuAdmins)
+            
+        elif menu == "4":
+            Archivo.reescribir_baseusuarios(usuarios_guardados,"Usuarios.txt")
             break
         else: 
             print("Opcion no valida")
@@ -42,65 +33,54 @@ def menuUsuarios(user):
     while True:
         print("DATOS Y RESERVAS")
         menu = input("1. Ver mis datos \n2. Modificar mis datos \n3. Borrar mi cuenta \n4. Ver mis reservas \n5. Hacer reserva \n6. Modificar reserva \n7. Cancelar reserva \n8. Cerrar sesion \nIngrese una opción: ")
-        
         if menu == "1": 
             print(user) 
             
         elif menu == "2": 
-            user.cambiar_usuario(usuarios_guardados)
+            Usuario.cambiar_usuario(user,usuarios_guardados)
         
         elif menu == "3":
-            user.eliminar_usuario(usuarios_guardados)
+            Usuario.eliminar_usuario(user,usuarios_guardados)
             break
         
         elif menu == "4":
-            for reserva in reservas_guardadas.values():    
-                if user.usuario == reserva.cliente:
-                    print(reserva)
-            ### FALTARIA ENCONTRAR UNA FORMA DE QUE SI UN USUARIO NO TIENE RESERVAS, SALTE UN ERROR
+            Usuario.ver_mis_reservas(user,reservas_guardadas)
+        ### FALTARIA ENCONTRAR UNA FORMA DE QUE SI UN USUARIO NO TIENE RESERVAS, SALTE UN ERROR
                 
-        elif menu == "5": ### ESTO ES COMPLEJO Y ES LO MAS IMPORTANTE DEL TRABAJO (ESTE ES UN PRIMER INTENTO)
-            for cancha in canchas_guardadas.values():
-                print(cancha)
-            codcancha = input("Ingrese el codigo de la cancha que desea: ")
-            hora = input("Ingrese el horario de su reserva: ")
-            for cancha in canchas_guardadas.values():
-                if codcancha == cancha.codigo:
-                    if hora in cancha.horarios_disponibles:
-                        reserva = Reserva(cliente=user.usuario,cancha=codcancha,horareserva=hora)
-                        reserva.hacer_reserva(reservas_guardadas) 
-                        Cancha.eliminar_horario_disponible(canchas_guardadas,hora,codcancha)  
-                        print("Reserva realizada con exito")
-                ### NO FUNCA BIEN, REVISAR
+        elif menu == "5": 
+            codcancha = Reserva.elegir_cancha(canchas_guardadas)
+            if codcancha is not None:
+                reserva = Reserva(cliente=user.usuario,cancha=codcancha)
+                Reserva.hacer_reserva(reserva,reservas_guardadas)
+                print("Reserva realizada con exito")
+            else: 
+                print("Error")
                 
         elif menu == "6":
+            Usuario.ver_mis_reservas(user, reservas_guardadas)
             codigo = input("Ingrese el codigo de la reserva a modificar: ")
             for reserva in reservas_guardadas.values():
                 if reserva.codigo == codigo:
                     reserva.cambiar_reserva(reservas_guardadas)
         
         elif menu == "7":
+            Usuario.ver_mis_reservas(user, reservas_guardadas)
             Reserva.eliminar_reserva(reservas_guardadas)
             
         elif menu == "8":
-            with open("Reservas.txt","w") as basereservas:
-                for reserva in reservas_guardadas.values():
-                    basereservas.write(f"{reserva.codigo};{reserva.cancha};{reserva.horareserva};{reserva.cliente};\n")
-            with open("Canchas.txt","w") as basecanchas:
-                for canchas in canchas_guardadas.values():
-                    basecanchas.write(f"{canchas.codigo};{canchas.techada};{canchas.piso};{canchas.estado};{canchas.horarios_disponibles};\n")
+            Archivo.reescribir_basereservas(reservas_guardadas,"Reservas.txt")
+            Archivo.reescribir_basecanchas(canchas_guardadas,"Canchas.txt")
             break
-        
+    
         else:
             print("Opcion no disponible")
            
-def menuAdmins(user):
+def menuAdmins(admin):
     while True:
         print("ADMINISTRACION")
-        menu = input("1. Ver canchas\n2. Agregar cancha\n3. Modificar cancha\n4. Eliminar cancha\n5. Ver mis datos\n6. Modificar mis datos\n7. Borrar mi cuenta\n8. Salir \nIngrese una opción: ")
+        menu = input("1. Ver canchas\n2. Agregar cancha\n3. Modificar cancha\n4. Eliminar cancha\n5. Ver usuarios\n6. Ver reservas\n7. Ver mis datos\n8. Modificar mis datos\n9. Borrar mi cuenta\n10. Salir \nIngrese una opción: ")
         if menu == "1":
-            for cancha in canchas_guardadas.values():
-                print(cancha)
+            Administrador.ver_canchas(admin,canchas_guardadas)
             
         elif menu == "2":
             cancha = Cancha()
@@ -108,27 +88,31 @@ def menuAdmins(user):
             
         elif menu == "3":
             codigo = input("Ingrese el codigo de la cancha a modificar: ")
-            for cancha in canchas_guardadas.values():
-                if cancha.codigo == codigo:
-                    cancha.cambiar_cancha(canchas_guardadas)
-            
+            cancha = Cancha.buscar_cancha(canchas_guardadas,codigo)
+            if cancha is not None:
+                cancha.cambiar_cancha(canchas_guardadas)
+        
         elif menu == "4":
             Cancha.eliminar_cancha(canchas_guardadas)
-                    
-        elif menu == "5": 
-            print(user) 
-            
-        elif menu == "6": 
-            user.cambiar_usuario(usuarios_guardados)
         
-        elif menu == "7":
-            user.eliminar_usuario(usuarios_guardados)
+        elif menu == "5":
+            Administrador.ver_usuarios(admin,usuarios_guardados)    
+        
+        elif menu == "6": 
+            Administrador.ver_reservas(admin,reservas_guardadas)
+                  
+        elif menu == "7": 
+            print(admin) 
+            
+        elif menu == "8": 
+            Administrador.cambiar_usuario(admin,usuarios_guardados)
+        
+        elif menu == "9":
+            Administrador.eliminar_usuario(admin,usuarios_guardados)
             break
             
-        elif menu == "8":
-            with open("Canchas.txt","w") as basecanchas:
-                for canchas in canchas_guardadas.values():
-                    basecanchas.write(f"{canchas.codigo};{canchas.techada};{canchas.piso};{canchas.estado};{canchas.horarios_disponibles};\n")
+        elif menu == "10":
+            Archivo.reescribir_basecanchas(canchas_guardadas,"Canchas.txt")
             break
         
         else: 
