@@ -7,7 +7,7 @@ class Usuario ():
     def __init__(self,dni=None, nombre=None, apellido=None, telefono=None, edad=None, email=None, usuario=None, contraseña=None):
         if dni is None:
             self.dni = input("Ingrese DNI: ")
-            while validacionDNI(self.dni) != True:
+            while validacion_DNI(self.dni) != True:
                 print("DNI no valido.")
                 self.dni = input("Ingrese DNI: ")
         else:
@@ -15,7 +15,7 @@ class Usuario ():
             
         if nombre is None:
             self.nombre = input("Ingrese Nombre: ")
-            while validacionNombre(self.nombre) != True:
+            while validacion_string(self.nombre) != True:
                 print ("Nombre no valido.")
                 self.nombre = input("Ingrese Nombre: ")
         else: 
@@ -23,7 +23,7 @@ class Usuario ():
         
         if apellido is None:
             self.apellido = input("Ingrese Apellido: ") 
-            while validacionApellido(self.apellido) != True:
+            while validacion_string(self.apellido) != True:
                 print ("Apellido no valido.")
                 self.apellido = input("Ingrese Apellido: ")
         else: 
@@ -31,7 +31,7 @@ class Usuario ():
         
         if telefono is None:
             self.telefono = input("Ingrese Telefono: ")
-            while validacionTelefono(self.telefono) != True:
+            while validacion_numeros(self.telefono) != True:
                 print("Telefono no valido.")
                 self.telefono = input("Ingrese Telefono: ")
         else: 
@@ -39,7 +39,7 @@ class Usuario ():
         
         if edad is None:
             self.edad = input("Ingrese Edad: ")    
-            while validacionEdad(self.edad) != True:
+            while validacion_numeros(self.edad) != True:
                 print ("Edad no valida.")
                 self.edad = input("Ingrese Edad: ")
         else: 
@@ -64,7 +64,7 @@ class Usuario ():
             self.contraseña = contraseña
     
     @staticmethod
-    def leer_usuarios(filename):  ### LEE LOS USUARIOS DE LA BASE DE DATOS Y LOS INSTANCIA EN PYTHON EN UN DICCIONARIO
+    def leer_usuarios(filename):  ### LEE LOS USUARIOS/ADMINISTRADORES DE LA BASE DE DATOS Y LOS INSTANCIA EN PYTHON EN UN DICCIONARIO
         users = {}
         try:
             with open(filename) as f:
@@ -106,20 +106,30 @@ class Usuario ():
         else:                               
             print("DNI incorrecto")  
                 
-    def cambiar_usuario(self, usuarios):   ### CAMBIA UN USUARIO EN EL DICCIONARIO
+    def cambiar_usuario(self, usuarios):   ### CAMBIA UN USUARIO/ADMINISTRADOR EN EL DICCIONARIO
         print(f"Sus datos son:\n{self}\nIngrese sus nuevos datos:")
-        usuarios[self.dni] = Usuario(dni=self.dni,usuario=self.usuario)    
+        usuarios[self.dni] = Usuario()    
         print("Sus datos fueron cambiados con exito")    
         
-    def eliminar_usuario(self, usuarios):   ### ELIMINA UN USUARIO EN EL DICCIONARIO
+    def eliminar_usuario(self, usuarios):   ### ELIMINA UN USUARIO/ADMINISTRADOR EN EL DICCIONARIO
         usuarios.pop(self.dni)
         print("Datos eliminados con exito")
     
     def ver_mis_reservas(self, reservas): ### MUESTRA LAS RESERVAS DE UN USUARIO
-        print("Sus reservas: ")
+        print("Sus reservas:\n")
+        tiene_reservas = []
         for reserva in reservas.values():    
             if self.usuario == reserva.cliente:
                 print(f"{reserva}\n")
+                tiene_reservas.append("Si")
+        if "Si" not in set(tiene_reservas):
+            print("No tiene reservas realizadas\n")
+            
+    def ver_mis_datos(self, usuarios):  ### MUESTRA LOS DATOS DE UN USUARIO/ADMINISTRADOR
+        print("Sus datos: ")
+        for user in usuarios.values():    
+            if self.dni == user.dni or self.usuario == user.usuario:
+                print(f"{user}\n")
     
     def iniciar_sesion(usuarios, usuario, contraseña, menu):    ### INICIA SESION TANTO PARA USUARIOS COMO PARA ADMINISTRADORES
         for us in usuarios.values():
@@ -137,6 +147,7 @@ class Usuario ():
     def __str__(self):
         return f" Nombre: {self.nombre} \n Apellido: {self.apellido} \n DNI: {self.dni} \n Telefono: {self.telefono} \n Edad: {self.edad} \n Mail: {self.email}"
 
+
 class Administrador (Usuario):
     def __init__(self,dni=None, nombre=None, apellido=None, telefono=None, edad=None, email=None, usuario="admin", contraseña=None):
         super().__init__(dni,nombre, apellido, telefono, edad, email, usuario,contraseña)
@@ -153,12 +164,13 @@ class Administrador (Usuario):
     def ver_reservas(self,reservas): ### MUESTRA LOS USUARIOS GUARDADOS EN EL DICCIONARIO DE RESERVAS (QUE SE OBTIENE DE LA BASE DE DATOS)
         for reserva in reservas.values():
             print(f"{reserva}\n")
-        
+  
+      
 class Cancha (): 
     def __init__(self, codigo=None, techada=None, piso=None, estado=None):
         if codigo is None:
             self.codigo = input ("Ingrese el codigo de cancha (numero de 4 digitos): ")
-            while validacionCodigo (self.codigo) != True:
+            while validacion_Codigo (self.codigo) != True:
                 print ("Codigo de cancha no valido (debe ser de 4 digitos).")
                 self.codigo = input ("Ingrese el codigo de cancha: ")
         else: 
@@ -232,7 +244,8 @@ class Cancha ():
     
     def __str__(self):
         return f"Codigo: {self.codigo} \nTechada: {self.techada} \nSuperficie: {self.piso} \nEstado: {self.estado}"
-               
+
+            
 class Reserva (): 
     def __init__(self, codigo=None, cancha=None, fecha_hora=None, cliente=None):        
         if codigo is None: 
@@ -287,11 +300,11 @@ class Reserva ():
                 print("La cancha no está disponible en la fecha ingresada")   
         else:
             print("Error")
+     ### NO FUNCIONA BIEN, CUANDO SE INGRESA UNA RESERVA EN UNA CANCHA QUE YA ESTA RESERVADA EN EL MISMO DIA Y HORARIO, NO SALTA ERROR
         
     def cambiar_reserva(reserva, reservas):   ### CAMBIA UNA RESERVA EN EL DICCIONARIO
         reservas[reserva.codigo] = Reserva(codigo = reserva.codigo, cancha = reserva.cancha, cliente = reserva.cliente)    
         print("Los datos fueron cambiados con exito") 
-    
     ### ACÁ HABRIA QUE VERIFICAR QUE LA NUEVA FECHA INGRESADA NO ESTÉ RESERVADA, Y TAMBIEN HABRÍA QUE VER SI NO QUIERE CAMBIAR LA CANCHA...
     
     def eliminar_reserva(reservas): ### ELIMINA UNA RESERVA DEL DICCIONARIO
@@ -305,8 +318,9 @@ class Reserva ():
     def __str__(self):
         return f"Codigo de reserva: {self.codigo}\nCodigo de cancha: {self.cancha}\nHora: {self.fecha_hora}"
 
-class Archivo():   ### EN ESTA CLASE ALMACENAMOS LOS METODOS QUE ACTUALIZAN LAS BASES DE DATOS
-    def reescribir_baseusuarios(usuarios, filename):
+
+class Archivo():   
+    def reescribir_baseusuarios(usuarios, filename):    ### REESCRIBE LA BASE DE DATOS DE USUARIOS Y ADMINISTRADORES
         try:
             with open(filename,"w") as baseusuarios:
                 for us in usuarios.values():
@@ -315,7 +329,7 @@ class Archivo():   ### EN ESTA CLASE ALMACENAMOS LOS METODOS QUE ACTUALIZAN LAS 
             print("Error: archivo vacio")
             return False
         
-    def reescribir_basecanchas(canchas, filename):
+    def reescribir_basecanchas(canchas, filename):  ### REESCRIBE LA BASE DE DATOS DE CANCHAS
         try:
             with open(filename,"w") as basecanchas:
                 for cancha in canchas.values():
@@ -324,7 +338,7 @@ class Archivo():   ### EN ESTA CLASE ALMACENAMOS LOS METODOS QUE ACTUALIZAN LAS 
             print("Error: archivo vacio")
             return False
         
-    def reescribir_basereservas(reservas, filename):
+    def reescribir_basereservas(reservas, filename):    ### REESCRIBE LA BASE DE DATOS DE RESERVAS
         try:
             with open(filename,"w") as basereservas:
                 for reserva in reservas.values():

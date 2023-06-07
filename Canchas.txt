@@ -1,4 +1,4 @@
 1001;si;cesped;bueno;
 1003;si;cesped;malo;
 1004;no;cesped;bueno;
-1002;no;cemento;bueno;
+1002;si;cemento;malo;

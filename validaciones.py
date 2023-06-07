@@ -1,52 +1,30 @@
 from string import *
 
-def validacionDNI (dni):
-    while len(dni)==8:
-        if dni.isdigit() == False:
-            return False
-        else:
-            return True
-    return False
-
-def validacionTelefono (telefono):
-        if telefono.isdigit() == False :
-            return False
-        else:
-            return True
-
-def validacionEdad (edad):
-    if edad.isdigit() == False:
+def validacion_numeros (dato_numerico):
+    if dato_numerico.isdigit() == False :
         return False
-    else:  
-        return True  
-    
-def validacionCodigo (codigo):
-    while len(codigo)==4:
-        if codigo.isdigit() == False:
-            return False
-        else:
-            return True
-    return False
-    
-def validacionNombre (nombre):
-    if nombre.isalpha() == False:
-        if  " " in nombre: 
-            return True
-        else: 
-            return False       
-    else:
-        return True
-        
-    
-def validacionApellido (apellido):
-    if apellido.isalpha() == False:
-        if  " " in apellido: 
-            return True
-        else: 
-            return False       
     else:
         return True
 
+def validacion_string (dato_string):
+    if dato_string.isalpha() == False:
+        if  " " in dato_string: 
+            return True
+        else: 
+            return False       
+    else:
+        return True
+           
+def validacion_DNI (dni):
+    if len(dni)==8:
+        return validacion_numeros(dni)
+    return False
+
+def validacion_Codigo (codigo):
+    if len(codigo)==4:
+        return validacion_numeros(codigo)
+    return False 
+        
 def validacionTechada (techada):
     if  techada not in {"si", "no", "Si", "No"}:
         return False
