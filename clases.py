@@ -136,7 +136,7 @@ class Usuario ():
         """MUESTRA LOS DATOS DE UN USUARIO/ADMINISTRADOR"""
         print("Sus datos: ")
         for user in usuarios.values():    
-            if self.dni == user.dni or self.usuario == user.usuario:
+            if self.dni == user.dni and self.usuario == user.usuario:
                 print(f"{user}\n")
     
     @staticmethod
@@ -324,34 +324,61 @@ class Reserva ():
             if reserva.cliente == cliente:
                 return reserva
 
-    def elegir_cancha(canchas): 
+    def ver_canchas_disponibles(canchas): 
         """SUB MENU QUE MUESTRA LAS CANCHAS DISPONIBLES SEGUN LA PREFERENCIA DEL USUARIO"""
-        techada = input("Desea una cancha techada? (si/no) ")
+        techada = input ("Ingrese si desea una cancha techada (si,no): ")
+        while validacionTechada (techada) != True:
+            print ("Respuesta no valida (debe ser si o no)")
+            techada = input ("Ingrese si la cancha que desea es techada: ")
         superficie = input("Que tipo de superficie desea? (cesped/cemento/polvo de ladrillo) ")
+        while validacionPiso (superficie) != True:
+            print("Respuesta no valida")
+            superficie = input("Que tipo de superficie desea? (cesped/cemento/polvo de ladrillo) ")
         codigos = []
         for cancha in canchas.values():
             if cancha.techada == techada and cancha.piso == superficie:
                 codigos.append(cancha.codigo)
-                return cancha.codigo
+        return codigos
         
-    def hacer_reserva (self,reservas):    
+    def hacer_reserva (reservas,canchas,usuario):    
         """REALIZA UNA RESERVA Y LA AGREGA AL DICCIONARIO"""
-        if self.codigo not in reservas.keys():
-            for reserva in reservas.values():
-                if self.fecha_hora.__str__() != reserva.fecha_hora.__str__() and self.cancha != reserva.cancha:
-                    reservas[self.codigo]=self
-                    print("Reserva realizada con exito")
+        cod_canchas_disponibles = Reserva.ver_canchas_disponibles(canchas)
+        if len(cod_canchas_disponibles) == 0:
+            print ("No hay canchas de esas características")
+            return
+        while True: 
+            fecha_hora_input = input("ingrese la fecha y la hora de la reserva (dd/mm/aaaa/hh:mm): ")
+            try:
+                fecha_hora_input = datetime.strptime(fecha_hora_input, "%d/%m/%Y/%H:%M")
+            except ValueError:
+                print("Fecha invalida, ingresarla con formato (dd/mm/aaaa/hh:mm)")
+                continue
+            else: 
+                break  
+        salir = False
+        for cod_cancha in cod_canchas_disponibles:
+            for reserva in reservas.values():    
+                if cod_cancha == reserva.cancha and fecha_hora_input.__str__() != reserva.fecha_hora.__str__():
+                    reserva1 = Reserva(cancha = cod_cancha, cliente = usuario.usuario, fecha_hora=fecha_hora_input)
+                    reservas[reserva1.codigo]=reserva1
+                    salir == True
                     break
-            else:
-                print("La cancha no está disponible en la fecha ingresada")   
-        else:
-            print("Error")
-        
+                elif  cod_cancha != reserva.cancha:
+                    reserva1 = Reserva(cancha = cod_cancha, cliente = usuario.usuario, fecha_hora=fecha_hora_input)
+                    reservas[reserva1.codigo]=reserva1
+                    salir == True
+                    break
+            if salir == True:
+                print("Reserva realizada con exito")
+                break
+        # NO FUNCA !!!!
+                                 
     def cambiar_reserva(reserva, reservas):   
         """CAMBIA UNA RESERVA EN EL DICCIONARIO"""
         reservas[reserva.codigo] = Reserva(codigo = reserva.codigo, cancha = reserva.cancha, cliente = reserva.cliente)    
         print("Los datos fueron cambiados con exito") 
     
+    # HACER ESTO BIEN !!!
     # ACÁ HABRIA QUE VERIFICAR QUE LA NUEVA FECHA INGRESADA NO ESTÉ RESERVADA, Y TAMBIEN HABRÍA QUE VER SI NO QUIERE CAMBIAR LA CANCHA...
     
     @staticmethod

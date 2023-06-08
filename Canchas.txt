@@ -2,3 +2,5 @@
 1003;si;cesped;malo;
 1004;no;cesped;bueno;
 1002;no;cesped;malo;
+1005;no;cemento;malo;
+1006;no;polvo de ladrillo;bueno;

@@ -60,12 +60,7 @@ def menuUsuarios(user):
                 
         elif menu == "5":   
             """SE REGISTRA UNA RESERVA DEL USUARIO"""
-            codcancha = Reserva.elegir_cancha(canchas_guardadas)
-            if codcancha is not None:
-                reserva = Reserva(cliente=user.usuario,cancha=codcancha)
-                Reserva.hacer_reserva(reserva,reservas_guardadas)
-            else: 
-                print("Error")          
+            Reserva.hacer_reserva(reservas_guardadas,canchas_guardadas,user)       
                
         elif menu == "6":  
             """SE MODIFICA UNA RESERVA DEL USUARIO"""
