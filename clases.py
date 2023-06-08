@@ -1,7 +1,7 @@
 from random import *
 from datetime import *
 from string import *
-from validaciones import * ### VALIDACIONES
+from validaciones import *
 
 class Usuario ():
     def __init__(self,dni=None, nombre=None, apellido=None, telefono=None, edad=None, email=None, usuario=None, contraseña=None):
@@ -64,7 +64,8 @@ class Usuario ():
             self.contraseña = contraseña
     
     @staticmethod
-    def leer_usuarios(filename):  ### LEE LOS USUARIOS/ADMINISTRADORES DE LA BASE DE DATOS Y LOS INSTANCIA EN PYTHON EN UN DICCIONARIO
+    def leer_usuarios(filename): 
+        """LEE LOS USUARIOS/ADMINISTRADORES DE LA BASE DE DATOS Y LOS INSTANCIA EN PYTHON EN UN DICCIONARIO"""
         users = {}
         try:
             with open(filename) as f:
@@ -79,14 +80,16 @@ class Usuario ():
             return False
     
     @staticmethod
-    def buscar_usuario (usuarios, usuario, contraseña): ### BUSCA UN USUARIO EN EL DICCIONARIO QUE ALMACENA USUARIOS Y LO INSTANCIA
+    def instanciar_usuario (usuarios, usuario, contraseña): 
+        """BUSCA UN USUARIO EN EL DICCIONARIO QUE ALMACENA USUARIOS Y LO INSTANCIA"""
         for us in usuarios.values():
             if us.usuario == usuario and us.contraseña == contraseña:
                 return us
         else:
             print("Error en los datos ingresados")
      
-    def registrar_usuario(self, usuarios):  ### REGISTRA USUARIOS Y ADMINISTRADORES EN UN DICCIONARIO
+    def registrar_usuario(self, usuarios): 
+        """REGISTRA USUARIOS Y ADMINISTRADORES EN UN DICCIONARIO"""
         if self.dni not in usuarios.keys():
             for us in usuarios.values():
                 if self.usuario == us.usuario and self.usuario != "admin":
@@ -107,16 +110,19 @@ class Usuario ():
         else:                               
             print("DNI incorrecto")  
                 
-    def cambiar_usuario(self, usuarios):   ### CAMBIA UN USUARIO/ADMINISTRADOR EN EL DICCIONARIO
+    def cambiar_usuario(self, usuarios):  
+        """CAMBIA UN USUARIO/ADMINISTRADOR EN EL DICCIONARIO"""
         print(f"Sus datos son:\n{self}\nIngrese sus nuevos datos:")
         usuarios[self.dni] = Usuario()    
         print("Sus datos fueron cambiados con exito")    
         
-    def eliminar_usuario(self, usuarios):   ### ELIMINA UN USUARIO/ADMINISTRADOR EN EL DICCIONARIO
+    def eliminar_usuario(self, usuarios):  
+        """ELIMINA UN USUARIO/ADMINISTRADOR EN EL DICCIONARIO"""
         usuarios.pop(self.dni)
         print("Datos eliminados con exito")
     
-    def ver_mis_reservas(self, reservas): ### MUESTRA LAS RESERVAS DE UN USUARIO
+    def ver_mis_reservas(self, reservas): 
+        """MUESTRA LAS RESERVAS DE UN USUARIO"""
         print("Sus reservas:\n")
         tiene_reservas = []
         for reserva in reservas.values():    
@@ -126,17 +132,19 @@ class Usuario ():
         if "Si" not in set(tiene_reservas):
             print("No tiene reservas realizadas\n")
             
-    def ver_mis_datos(self, usuarios):  ### MUESTRA LOS DATOS DE UN USUARIO/ADMINISTRADOR
+    def ver_mis_datos(self, usuarios):
+        """MUESTRA LOS DATOS DE UN USUARIO/ADMINISTRADOR"""
         print("Sus datos: ")
         for user in usuarios.values():    
             if self.dni == user.dni or self.usuario == user.usuario:
                 print(f"{user}\n")
     
     @staticmethod
-    def iniciar_sesion(usuarios, usuario, contraseña, menu):    ### INICIA SESION TANTO PARA USUARIOS COMO PARA ADMINISTRADORES
+    def iniciar_sesion(usuarios, usuario, contraseña, menu):   
+        """INICIA SESION TANTO PARA USUARIOS COMO PARA ADMINISTRADORES"""
         for us in usuarios.values():
             if usuario == us.usuario and contraseña == us.contraseña:
-                user = Usuario.buscar_usuario(usuarios,usuario,contraseña)
+                user = Usuario.instanciar_usuario(usuarios,usuario,contraseña)
                 print("Sesion iniciada como " + str(usuario))
                 if user.usuario != "admin":
                     menu(user)
@@ -147,7 +155,8 @@ class Usuario ():
             print("Datos incorrectos") 
     
     @staticmethod
-    def reescribir_baseusuarios(usuarios, filename):    ### REESCRIBE LA BASE DE DATOS DE USUARIOS Y ADMINISTRADORES
+    def reescribir_baseusuarios(usuarios, filename):    
+        """REESCRIBE LA BASE DE DATOS DE USUARIOS Y ADMINISTRADORES"""
         try:
             with open(filename,"w") as baseusuarios:
                 for us in usuarios.values():
@@ -164,19 +173,10 @@ class Administrador (Usuario):
     def __init__(self,dni=None, nombre=None, apellido=None, telefono=None, edad=None, email=None, usuario="admin", contraseña=None):
         super().__init__(dni,nombre, apellido, telefono, edad, email, usuario,contraseña)
     
-    def ver_canchas(self,canchas): ### MUESTRA LAS CANCHAS GUARDADAS EN EL DICCIONARIO DE CANCHAS (QUE SE OBTIENE DE LA BASE DE DATOS)
-        for cancha in canchas.values():
-            print(f"{cancha}\n")
-    
-    def ver_usuarios(self,usuarios): ### MUESTRA LOS USUARIOS GUARDADOS EN EL DICCIONARIO DE USUARIOS (QUE SE OBTIENE DE LA BASE DE DATOS)
-        for us in usuarios.values():
-            if us.usuario != "admin":
-                print(f"{us}\n")
-    
-    def ver_reservas(self,reservas): ### MUESTRA LOS USUARIOS GUARDADOS EN EL DICCIONARIO DE RESERVAS (QUE SE OBTIENE DE LA BASE DE DATOS)
-        for reserva in reservas.values():
-            print(f"{reserva}\n")
-  
+    def ver_datos(self,base_de_datos):
+        """MUESTRA LOS USUARIOS, CANCHAS O RESERVAS GUARDADAS EN LOS DICCIONARIOS (QUE SE OBTIENEN DE LAS BASES DE DATOS)"""
+        for dato in base_de_datos.values():
+                print(f"{dato}\n")
       
 class Cancha (): 
     def __init__(self, codigo=None, techada=None, piso=None, estado=None):
@@ -213,7 +213,7 @@ class Cancha ():
             self.estado = estado  
     
     @staticmethod    
-    def buscar_cancha (canchas, codigo): 
+    def instanciar_cancha (canchas, codigo): 
         """BUSCA UNA CANCHA EN EL DICCIONARIO Y LA INSTANCIA"""
         for cancha in canchas.values():
             if cancha.codigo == codigo:
@@ -222,7 +222,8 @@ class Cancha ():
             print("No se encontró el codigo ingresado")
     
     @staticmethod
-    def leer_canchas(filename):  ### LEE LA BASE DE DATOS E INSTANCIA CANCHAS EN PYTHON, LAS DEVUELVE EN UN DICCIONARIO 
+    def leer_canchas(filename):  
+        """LEE LA BASE DE DATOS E INSTANCIA CANCHAS EN PYTHON, LAS DEVUELVE EN UN DICCIONARIO """
         canchas = {}
         try:
             with open(filename) as f:
@@ -236,20 +237,23 @@ class Cancha ():
             print("Error: archivo vacio")
             return False                
     
-    def agregar_cancha(self,canchas):   ### AGREGA UNA CANCHA EN EL DICCIONARIO
+    def agregar_cancha(self,canchas):  
+        """AGREGA UNA CANCHA EN EL DICCIONARIO"""
         if self.codigo not in canchas.keys():
             canchas[self.codigo] = self       
             print("Cancha registrada correctamente")
         else:                               
             print("La cancha ya está ingresada")  
     
-    def cambiar_cancha(self, canchas):    ### CAMBIA UNA CANCHA EN EL DICCIONARIO
+    def cambiar_cancha(self, canchas):   
+        """CAMBIA UNA CANCHA EN EL DICCIONARIO"""
         print(f"Los datos de la cancha son:\n{self}\nIngrese los nuevos datos:")
         canchas[self.codigo] = Cancha(codigo=self.codigo)    
         print("Los datos fueron cambiados con exito") 
     
     @staticmethod
-    def eliminar_cancha(canchas):   ### ELIMINA UNA CANCHA EN EL DICCIONARIO
+    def eliminar_cancha(canchas): 
+        """ELIMINA UNA CANCHA EN EL DICCIONARIO"""
         codigo = input("Ingrese el codigo de la cancha a eliminar: ")
         if codigo in canchas.keys():
             canchas.pop(codigo)
@@ -258,7 +262,8 @@ class Cancha ():
             print("Codigo incorrecto")
     
     @staticmethod
-    def reescribir_basecanchas(canchas, filename):  ### REESCRIBE LA BASE DE DATOS DE CANCHAS
+    def reescribir_basecanchas(canchas, filename): 
+        """REESCRIBE LA BASE DE DATOS DE CANCHAS"""
         try:
             with open(filename,"w") as basecanchas:
                 for cancha in canchas.values():
@@ -297,7 +302,8 @@ class Reserva ():
         self.cliente = cliente
     
     @staticmethod
-    def leer_reservas(filename):  ### LEE LA BASE DE DATOS E INSTANCIA RESERVAS EN PYTHON, DEVUELVE UN DICCIONARIO
+    def leer_reservas(filename):  
+        """LEE LA BASE DE DATOS E INSTANCIA RESERVAS EN PYTHON, DEVUELVE UN DICCIONARIO"""
         reservas = {}
         try:
             with open(filename) as f:
@@ -312,12 +318,14 @@ class Reserva ():
             return False
     
     @staticmethod
-    def buscar_reserva (reservas, cliente): ### BUSCA UNA RESERVA EN EL DICCIONARIO Y LA INSTANCIA (NO SE USA)
+    def buscar_reserva (reservas, cliente): # NO SE USA
+        """BUSCA UNA RESERVA EN EL DICCIONARIO Y LA INSTANCIA"""
         for reserva in reservas.values():
             if reserva.cliente == cliente:
                 return reserva
 
-    def elegir_cancha(canchas): ### SUB MENU QUE MUESTRA LAS CANCHAS DISPONIBLES SEGUN LA PREFERENCIA DEL USUARIO
+    def elegir_cancha(canchas): 
+        """SUB MENU QUE MUESTRA LAS CANCHAS DISPONIBLES SEGUN LA PREFERENCIA DEL USUARIO"""
         techada = input("Desea una cancha techada? (si/no) ")
         superficie = input("Que tipo de superficie desea? (cesped/cemento/polvo de ladrillo) ")
         codigos = []
@@ -326,7 +334,8 @@ class Reserva ():
                 codigos.append(cancha.codigo)
                 return cancha.codigo
         
-    def hacer_reserva (self,reservas):     ### REALIZA UNA RESERVA Y LA AGREGA AL DICCIONARIO
+    def hacer_reserva (self,reservas):    
+        """REALIZA UNA RESERVA Y LA AGREGA AL DICCIONARIO"""
         if self.codigo not in reservas.keys():
             for reserva in reservas.values():
                 if self.fecha_hora.__str__() != reserva.fecha_hora.__str__() and self.cancha != reserva.cancha:
@@ -338,13 +347,16 @@ class Reserva ():
         else:
             print("Error")
         
-    def cambiar_reserva(reserva, reservas):   ### CAMBIA UNA RESERVA EN EL DICCIONARIO
+    def cambiar_reserva(reserva, reservas):   
+        """CAMBIA UNA RESERVA EN EL DICCIONARIO"""
         reservas[reserva.codigo] = Reserva(codigo = reserva.codigo, cancha = reserva.cancha, cliente = reserva.cliente)    
         print("Los datos fueron cambiados con exito") 
-    ### ACÁ HABRIA QUE VERIFICAR QUE LA NUEVA FECHA INGRESADA NO ESTÉ RESERVADA, Y TAMBIEN HABRÍA QUE VER SI NO QUIERE CAMBIAR LA CANCHA...
+    
+    # ACÁ HABRIA QUE VERIFICAR QUE LA NUEVA FECHA INGRESADA NO ESTÉ RESERVADA, Y TAMBIEN HABRÍA QUE VER SI NO QUIERE CAMBIAR LA CANCHA...
     
     @staticmethod
-    def eliminar_reserva(reservas): ### ELIMINA UNA RESERVA DEL DICCIONARIO
+    def eliminar_reserva(reservas): 
+        """ELIMINA UNA RESERVA DEL DICCIONARIO"""
         codigo = input("Ingrese el codigo de la reserva a eliminar: ")
         if codigo in reservas.keys():
             reservas.pop(codigo)
@@ -353,7 +365,8 @@ class Reserva ():
             print("Codigo incorrecto")
     
     @staticmethod
-    def reescribir_basereservas(reservas, filename):    ### REESCRIBE LA BASE DE DATOS DE RESERVAS
+    def reescribir_basereservas(reservas, filename):   
+        """REESCRIBE LA BASE DE DATOS DE RESERVAS"""
         try:
             with open(filename,"w") as basereservas:
                 for reserva in reservas.values():
@@ -363,4 +376,4 @@ class Reserva ():
             return False 
         
     def __str__(self):
-        return f"Codigo de reserva: {self.codigo}\nCodigo de cancha: {self.cancha}\nHora: {self.fecha_hora}"
+        return f"Codigo de reserva: {self.codigo}\nCodigo de cancha: {self.cancha}\nFecha y hora: {self.fecha_hora}"
