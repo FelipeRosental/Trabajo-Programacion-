@@ -24,7 +24,7 @@ def menuPrincipal():    ### ES EL MENU PRINCIPAL DE PROGRAMA (DONDE SE INICIA SE
             Administrador.iniciar_sesion(usuarios_guardados, "admin", contraseña, menuAdmins)
             
         elif menu == "4":   ### SE REESCRIBE LA BASE DE DATOS DE USUARIOS
-            Archivo.reescribir_baseusuarios(usuarios_guardados,"Usuarios.txt")
+            Usuario.reescribir_baseusuarios(usuarios_guardados,"Usuarios.txt")
             break
         else: 
             print("Opcion no valida")
@@ -51,7 +51,6 @@ def menuUsuarios(user):     ### ES EL MENU DE LOS USUARIOS (LO ACCEDEN SOLO AQUE
             if codcancha is not None:
                 reserva = Reserva(cliente=user.usuario,cancha=codcancha)
                 Reserva.hacer_reserva(reserva,reservas_guardadas)
-                print("Reserva realizada con exito")
             else: 
                 print("Error")          
                
@@ -67,8 +66,8 @@ def menuUsuarios(user):     ### ES EL MENU DE LOS USUARIOS (LO ACCEDEN SOLO AQUE
             Reserva.eliminar_reserva(reservas_guardadas)
             
         elif menu == "8":   ### SE REESCRIBEN LAS BASES DE DATOS DE CANCHAS Y RESERVAS
-            Archivo.reescribir_basereservas(reservas_guardadas,"Reservas.txt")
-            Archivo.reescribir_basecanchas(canchas_guardadas,"Canchas.txt")
+            Reserva.reescribir_basereservas(reservas_guardadas,"Reservas.txt")
+            Cancha.reescribir_basecanchas(canchas_guardadas,"Canchas.txt")
             break
     
         else:
@@ -89,7 +88,7 @@ def menuAdmins(admin):  ### ES EL MENU DE LOS ADMINISTRADORES (SOLO TIENEN ACCES
             codigo = input("Ingrese el codigo de la cancha a modificar: ")
             cancha = Cancha.buscar_cancha(canchas_guardadas,codigo)
             if cancha is not None:
-                cancha.cambiar_cancha(canchas_guardadas)
+                Cancha.cambiar_cancha(cancha, canchas_guardadas)
         
         elif menu == "4":   ### SE ELIMINAN CANCHAS
             Cancha.eliminar_cancha(canchas_guardadas)
@@ -111,7 +110,7 @@ def menuAdmins(admin):  ### ES EL MENU DE LOS ADMINISTRADORES (SOLO TIENEN ACCES
             break
             
         elif menu == "10":  ### SE REESCRIBE LA BASE DE DATOS DE CANCHAS
-            Archivo.reescribir_basecanchas(canchas_guardadas,"Canchas.txt")
+            Cancha.reescribir_basecanchas(canchas_guardadas,"Canchas.txt")
             break
         
         else: 

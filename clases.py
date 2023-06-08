@@ -78,6 +78,7 @@ class Usuario ():
             print("Error: archivo vacio")
             return False
     
+    @staticmethod
     def buscar_usuario (usuarios, usuario, contraseña): ### BUSCA UN USUARIO EN EL DICCIONARIO QUE ALMACENA USUARIOS Y LO INSTANCIA
         for us in usuarios.values():
             if us.usuario == usuario and us.contraseña == contraseña:
@@ -131,6 +132,7 @@ class Usuario ():
             if self.dni == user.dni or self.usuario == user.usuario:
                 print(f"{user}\n")
     
+    @staticmethod
     def iniciar_sesion(usuarios, usuario, contraseña, menu):    ### INICIA SESION TANTO PARA USUARIOS COMO PARA ADMINISTRADORES
         for us in usuarios.values():
             if usuario == us.usuario and contraseña == us.contraseña:
@@ -143,6 +145,16 @@ class Usuario ():
                 break
         else:
             print("Datos incorrectos") 
+    
+    @staticmethod
+    def reescribir_baseusuarios(usuarios, filename):    ### REESCRIBE LA BASE DE DATOS DE USUARIOS Y ADMINISTRADORES
+        try:
+            with open(filename,"w") as baseusuarios:
+                for us in usuarios.values():
+                    baseusuarios.write(f"{us.dni};{us.nombre};{us.apellido};{us.telefono};{us.edad};{us.email};{us.usuario};{us.contraseña};\n")
+        except FileNotFoundError:
+            print("Error: archivo vacio")
+            return False
     
     def __str__(self):
         return f" Nombre: {self.nombre} \n Apellido: {self.apellido} \n DNI: {self.dni} \n Telefono: {self.telefono} \n Edad: {self.edad} \n Mail: {self.email}"
@@ -199,8 +211,10 @@ class Cancha ():
                 self.estado = input ("Ingrese el Estado de la cancha: ")
         else: 
             self.estado = estado  
-        
-    def buscar_cancha (canchas, codigo): ### BUSCA UNA CANCHA EN EL DICCIONARIO Y LA INSTANCIA
+    
+    @staticmethod    
+    def buscar_cancha (canchas, codigo): 
+        """BUSCA UNA CANCHA EN EL DICCIONARIO Y LA INSTANCIA"""
         for cancha in canchas.values():
             if cancha.codigo == codigo:
                 return cancha
@@ -229,11 +243,12 @@ class Cancha ():
         else:                               
             print("La cancha ya está ingresada")  
     
-    def cambiar_cancha(cancha, canchas):    ### CAMBIA UNA CANCHA EN EL DICCIONARIO
-        print(f"Los datos de la cancha son:\n{cancha}\nIngrese los nuevos datos:")
-        canchas[cancha.codigo] = Cancha(codigo=cancha.codigo)    
+    def cambiar_cancha(self, canchas):    ### CAMBIA UNA CANCHA EN EL DICCIONARIO
+        print(f"Los datos de la cancha son:\n{self}\nIngrese los nuevos datos:")
+        canchas[self.codigo] = Cancha(codigo=self.codigo)    
         print("Los datos fueron cambiados con exito") 
     
+    @staticmethod
     def eliminar_cancha(canchas):   ### ELIMINA UNA CANCHA EN EL DICCIONARIO
         codigo = input("Ingrese el codigo de la cancha a eliminar: ")
         if codigo in canchas.keys():
@@ -241,6 +256,16 @@ class Cancha ():
             print("Cancha eliminada con exito")
         else: 
             print("Codigo incorrecto")
+    
+    @staticmethod
+    def reescribir_basecanchas(canchas, filename):  ### REESCRIBE LA BASE DE DATOS DE CANCHAS
+        try:
+            with open(filename,"w") as basecanchas:
+                for cancha in canchas.values():
+                    basecanchas.write(f"{cancha.codigo};{cancha.techada};{cancha.piso};{cancha.estado};\n")
+        except FileNotFoundError:
+            print("Error: archivo vacio")
+            return False
     
     def __str__(self):
         return f"Codigo: {self.codigo} \nTechada: {self.techada} \nSuperficie: {self.piso} \nEstado: {self.estado}"
@@ -256,13 +281,21 @@ class Reserva ():
         self.cancha = cancha
         
         if fecha_hora is None:
-            ### VALIDAR ESTOOOOO
-            self.fecha_hora = input("ingrese la fecha y la hora de la reserva (Dia/Mes/Año/Hora:Minutos): ")
+            while True: 
+                self.fecha_hora = input("ingrese la fecha y la hora de la reserva (dd/mm/aaaa/hh:mm): ")
+                try:
+                    self.fecha_hora = datetime.strptime(self.fecha_hora, "%d/%m/%Y/%H:%M")
+                except ValueError:
+                    print("Fecha invalida, ingresarla con formato (dd/mm/aaaa/hh:mm)")
+                    continue
+                else: 
+                    break   
+            
         else: 
             self.fecha_hora = fecha_hora
 
         self.cliente = cliente
-            
+    
     @staticmethod
     def leer_reservas(filename):  ### LEE LA BASE DE DATOS E INSTANCIA RESERVAS EN PYTHON, DEVUELVE UN DICCIONARIO
         reservas = {}
@@ -278,6 +311,7 @@ class Reserva ():
             print("Error: archivo vacio")
             return False
     
+    @staticmethod
     def buscar_reserva (reservas, cliente): ### BUSCA UNA RESERVA EN EL DICCIONARIO Y LA INSTANCIA (NO SE USA)
         for reserva in reservas.values():
             if reserva.cliente == cliente:
@@ -286,27 +320,30 @@ class Reserva ():
     def elegir_cancha(canchas): ### SUB MENU QUE MUESTRA LAS CANCHAS DISPONIBLES SEGUN LA PREFERENCIA DEL USUARIO
         techada = input("Desea una cancha techada? (si/no) ")
         superficie = input("Que tipo de superficie desea? (cesped/cemento/polvo de ladrillo) ")
+        codigos = []
         for cancha in canchas.values():
             if cancha.techada == techada and cancha.piso == superficie:
+                codigos.append(cancha.codigo)
                 return cancha.codigo
-            
+        
     def hacer_reserva (self,reservas):     ### REALIZA UNA RESERVA Y LA AGREGA AL DICCIONARIO
         if self.codigo not in reservas.keys():
             for reserva in reservas.values():
-                if self.fecha_hora != reserva.fecha_hora and self.cancha != reserva.cancha:
+                if self.fecha_hora.__str__() != reserva.fecha_hora.__str__() and self.cancha != reserva.cancha:
                     reservas[self.codigo]=self
+                    print("Reserva realizada con exito")
                     break
             else:
                 print("La cancha no está disponible en la fecha ingresada")   
         else:
             print("Error")
-     ### NO FUNCIONA BIEN, CUANDO SE INGRESA UNA RESERVA EN UNA CANCHA QUE YA ESTA RESERVADA EN EL MISMO DIA Y HORARIO, NO SALTA ERROR
         
     def cambiar_reserva(reserva, reservas):   ### CAMBIA UNA RESERVA EN EL DICCIONARIO
         reservas[reserva.codigo] = Reserva(codigo = reserva.codigo, cancha = reserva.cancha, cliente = reserva.cliente)    
         print("Los datos fueron cambiados con exito") 
     ### ACÁ HABRIA QUE VERIFICAR QUE LA NUEVA FECHA INGRESADA NO ESTÉ RESERVADA, Y TAMBIEN HABRÍA QUE VER SI NO QUIERE CAMBIAR LA CANCHA...
     
+    @staticmethod
     def eliminar_reserva(reservas): ### ELIMINA UNA RESERVA DEL DICCIONARIO
         codigo = input("Ingrese el codigo de la reserva a eliminar: ")
         if codigo in reservas.keys():
@@ -315,29 +352,7 @@ class Reserva ():
         else: 
             print("Codigo incorrecto")
     
-    def __str__(self):
-        return f"Codigo de reserva: {self.codigo}\nCodigo de cancha: {self.cancha}\nHora: {self.fecha_hora}"
-
-
-class Archivo():   
-    def reescribir_baseusuarios(usuarios, filename):    ### REESCRIBE LA BASE DE DATOS DE USUARIOS Y ADMINISTRADORES
-        try:
-            with open(filename,"w") as baseusuarios:
-                for us in usuarios.values():
-                    baseusuarios.write(f"{us.dni};{us.nombre};{us.apellido};{us.telefono};{us.edad};{us.email};{us.usuario};{us.contraseña};\n")
-        except FileNotFoundError:
-            print("Error: archivo vacio")
-            return False
-        
-    def reescribir_basecanchas(canchas, filename):  ### REESCRIBE LA BASE DE DATOS DE CANCHAS
-        try:
-            with open(filename,"w") as basecanchas:
-                for cancha in canchas.values():
-                    basecanchas.write(f"{cancha.codigo};{cancha.techada};{cancha.piso};{cancha.estado};\n")
-        except FileNotFoundError:
-            print("Error: archivo vacio")
-            return False
-        
+    @staticmethod
     def reescribir_basereservas(reservas, filename):    ### REESCRIBE LA BASE DE DATOS DE RESERVAS
         try:
             with open(filename,"w") as basereservas:
@@ -346,3 +361,6 @@ class Archivo():
         except FileNotFoundError:
             print("Error: archivo vacio")
             return False 
+        
+    def __str__(self):
+        return f"Codigo de reserva: {self.codigo}\nCodigo de cancha: {self.cancha}\nHora: {self.fecha_hora}"
