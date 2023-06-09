@@ -358,20 +358,22 @@ class Reserva ():
         salir = False
         for cod_cancha in cod_canchas_disponibles:
             for reserva in reservas.values():    
-                if cod_cancha == reserva.cancha and fecha_hora_input.__str__() != reserva.fecha_hora.__str__():
+                if cod_cancha == reserva.cancha and str(fecha_hora_input) != str(reserva.fecha_hora):
                     reserva1 = Reserva(cancha = cod_cancha, cliente = usuario.usuario, fecha_hora=fecha_hora_input)
                     reservas[reserva1.codigo]=reserva1
-                    salir == True
+                    salir = True
                     break
                 elif  cod_cancha != reserva.cancha:
                     reserva1 = Reserva(cancha = cod_cancha, cliente = usuario.usuario, fecha_hora=fecha_hora_input)
                     reservas[reserva1.codigo]=reserva1
-                    salir == True
+                    salir = True
                     break
+                else:
+                    continue
             if salir == True:
                 print("Reserva realizada con exito")
                 break
-        # NO FUNCA !!!!
+        # NO FUNCA !!!! SE PUEDEN REPETIR RESERVAS IDENTICAS (DEBERIA SALTAR ERROR) Y NO LEE BIEN TODAS LAS CANCHAS
                                  
     def cambiar_reserva(reserva, reservas):   
         """CAMBIA UNA RESERVA EN EL DICCIONARIO"""
