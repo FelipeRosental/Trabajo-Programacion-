@@ -1,4 +1,6 @@
-from clases import * ### CLASES
+from usuario import *
+from cancha import *
+from reserva import *
 
 """CUANDO COMIENZA EL PROGRAMA, SE LEEN LAS BASES DE DATOS 
 Y SE GUARDAN 3 DICCIONARIOS CON LOS USUARIOS, LAS CANCHAS Y LAS RESERVAS.
@@ -68,7 +70,10 @@ def menuUsuarios(user):
             codigo = input("Ingrese el codigo de la reserva a modificar: ")
             for reserva in reservas_guardadas.values():
                 if reserva.codigo == codigo:
-                    reserva.cambiar_reserva(reservas_guardadas)
+                    Reserva.cambiar_reserva(reserva, reservas_guardadas, canchas_guardadas)
+                    break
+            else: 
+                print("Error en el codigo ingresado")
         
         elif menu == "7":   
             """SE CANCELA UNA RESERVA DEL USUARIO"""
@@ -137,6 +142,6 @@ def menuAdmins(admin):
         
         else: 
             print("Opcion no disponible") 
-          
+
 menuPrincipal()
 """ PARA CORRER EL PROGRAMA, EJECUTAR ESTE ARCHIVO """

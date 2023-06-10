@@ -1,6 +1,6 @@
 1001;si;cesped;bueno;
-1003;si;cesped;malo;
-1004;no;cesped;bueno;
 1002;no;cesped;malo;
-1005;no;cemento;malo;
+1003;si;cemento;malo;
+1004;no;cemento;intermedio;
+1005;si;polvo de ladrillo;bueno;
 1006;no;polvo de ladrillo;bueno;

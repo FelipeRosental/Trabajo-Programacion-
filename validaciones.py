@@ -1,4 +1,5 @@
 from string import *
+from datetime import *
 
 def validacion_numeros (dato_numerico):
     if dato_numerico.isdigit() == False :
@@ -49,3 +50,15 @@ def validacionEmail (email):
     else:
         return True
 
+def validacion_fecha_hora ():
+    """DEVUELVE UNA FECHA Y HORA CON FORMATO DATETIME VALIDADO"""
+    while True: 
+        fecha_hora = input("ingrese la fecha y la hora de la reserva (dd/mm/aaaa/hh:mm): ")
+        try:
+            fecha_hora = datetime.strptime(fecha_hora, "%d/%m/%Y/%H:%M")
+        except ValueError:
+            print("Fecha invalida, ingresarla con formato (dd/mm/aaaa/hh:mm)")
+            continue
+        else: 
+            break  
+    return fecha_hora
