@@ -16,7 +16,7 @@ def menuPrincipal():
         print("MENU PRINCIPAL")
         menu = input("1. Registrarse \n2. Iniciar sesión \n3. Soy administrador \n4. Salir \nIngrese una opción: ")
         if menu == "1": 
-            """SE REGISTRAN USUARIOS Y ADMINISTRADORES"""
+            """SE REGISTRAN USUARIOS Y ADMINISTRADORES, LOS ADMINISTRADORES TIENEN USUARIO: "admin" Y CONTRASEÑA ÚNICA"""
             user = Usuario()
             user.registrar_usuario(usuarios_guardados)
                 

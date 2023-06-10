@@ -12,7 +12,7 @@ class Cancha ():
         
         if techada is None: 
             self.techada = input ("Ingrese si la cancha es techada (si,no): ")
-            while validacionTechada (self.techada) != True:
+            while validacion_techada (self.techada) != True:
                 print ("Respuesta no valida (debe ser si o no).")
                 self.techada = input ("Ingrese si la cancha es techada: ")
         else: 
@@ -20,7 +20,7 @@ class Cancha ():
         
         if piso is None:
             self.piso = input ("Ingrese el tipo de Piso (cesped, polvo de ladrillo, cemento): ")
-            while validacionPiso (self.piso) != True:
+            while validacion_tipo_piso (self.piso) != True:
                 print ("Tipo de piso no valido.")
                 self.piso = input ("Ingrese el tipo de Piso: ")
         else: 
@@ -28,7 +28,7 @@ class Cancha ():
            
         if estado is None: 
             self.estado = input ("Ingrese el Estado de la cancha (bueno, malo, intermedio): ")
-            while validacionEstado (self.estado) != True:
+            while validacion_estado_cancha (self.estado) != True:
                 print ("Estado de la cancha no valido.")
                 self.estado = input ("Ingrese el Estado de la cancha: ")
         else: 

@@ -3,4 +3,4 @@
 1003;si;cemento;malo;
 1004;no;cemento;intermedio;
 1005;si;polvo de ladrillo;bueno;
-1006;no;polvo de ladrillo;bueno;
+1006;no;polvo de ladrillo;malo;

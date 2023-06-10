@@ -28,7 +28,7 @@ class Usuario ():
         
         if telefono is None:
             self.telefono = input("Ingrese Telefono: ")
-            while validacion_numeros(self.telefono) != True:
+            while validacion_numero(self.telefono) != True:
                 print("Telefono no valido.")
                 self.telefono = input("Ingrese Telefono: ")
         else: 
@@ -36,7 +36,7 @@ class Usuario ():
         
         if edad is None:
             self.edad = input("Ingrese Edad: ")    
-            while validacion_numeros(self.edad) != True:
+            while validacion_numero(self.edad) != True:
                 print ("Edad no valida.")
                 self.edad = input("Ingrese Edad: ")
         else: 
@@ -44,7 +44,7 @@ class Usuario ():
             
         if email is None:    
             self.email = input("Ingrese Email: ")  
-            while validacionEmail(self.email) != True:
+            while validacion_mail(self.email) != True:
                 print ("Email no valido.")
                 self.email = input("Ingrese Email: ")
         else: 
@@ -110,9 +110,20 @@ class Usuario ():
     def cambiar_usuario(self, usuarios):  
         """CAMBIA UN USUARIO/ADMINISTRADOR EN EL DICCIONARIO"""
         print(f"Sus datos son:\n{self}\nIngrese sus nuevos datos:")
-        usuarios[self.dni] = Usuario()    
-        print("Sus datos fueron cambiados con exito")    
-        
+        dni_nuevo = input("Ingrese su dni: ")
+        while validacion_DNI(self.dni) != True:
+            print("DNI no valido.")
+            dni_nuevo = input("Ingrese su dni: ")
+        if dni_nuevo == self.dni:
+            usuarios[self.dni] = Usuario(dni=dni_nuevo)    
+            print("Sus datos fueron cambiados con exito")  
+        else:
+            if dni_nuevo not in usuarios.keys():
+                usuarios[self.dni] = Usuario(dni=dni_nuevo)    
+                print("Sus datos fueron cambiados con exito")    
+            else:
+                print("El dni ya se encuentra ingresado")
+            
     def eliminar_usuario(self, usuarios):  
         """ELIMINA UN USUARIO/ADMINISTRADOR EN EL DICCIONARIO"""
         usuarios.pop(self.dni)

@@ -32,22 +32,15 @@ class Reserva ():
         except FileNotFoundError:
             print("Error: archivo vacio")
             return False
-    
-    @staticmethod
-    def buscar_reserva (reservas, cliente): # NO SE USA
-        """BUSCA UNA RESERVA EN EL DICCIONARIO Y LA INSTANCIA"""
-        for reserva in reservas.values():
-            if reserva.cliente == cliente:
-                return reserva
 
     def ver_cancha_disponible(canchas): 
         """SUB MENU QUE MUESTRA LA CANCHA DISPONIBLE SEGUN LA PREFERENCIA DEL USUARIO"""
         techada = input ("Ingrese si desea una cancha techada (si,no): ")
-        while validacionTechada (techada) != True:
+        while validacion_techada (techada) != True:
             print ("Respuesta no valida (debe ser si o no)")
             techada = input ("Ingrese si la cancha que desea es techada: ")
         superficie = input("Que tipo de superficie desea? (cesped/cemento/polvo de ladrillo) ")
-        while validacionPiso (superficie) != True:
+        while validacion_tipo_piso (superficie) != True:
             print("Respuesta no valida")
             superficie = input("Que tipo de superficie desea? (cesped/cemento/polvo de ladrillo) ")
         for cancha in canchas.values():
@@ -67,6 +60,7 @@ class Reserva ():
                 reserva_valida = True
             elif cod_cancha_disponible == reserva.cancha and str(fecha_hora_input) == str(reserva.fecha_hora):
                 reserva_valida = False
+                break
             else: 
                 reserva_valida = True
         if reserva_valida is True:
@@ -89,15 +83,14 @@ class Reserva ():
                 reserva_valida = True
             elif cancha_nueva == reserva.cancha and str(fecha_hora_nueva) == str(reserva.fecha_hora):
                 reserva_valida = False
+                break
             else: 
                 reserva_valida = True
         if reserva_valida is True:
             reservas[self.codigo] = Reserva(codigo = self.codigo, cancha = cancha_nueva, cliente = self.cliente, fecha_hora = fecha_hora_nueva)    
             print("Los datos fueron cambiados con exito") 
         else:
-            print("Horario ingresado no valido")
-        
-        # CORREGIR ESTO BIEN Y NO REPETIR TANTO CODIGO!
+            print("El horario ingresado ya está reservado en esa cancha")
         
     @staticmethod
     def eliminar_reserva(reservas): 
