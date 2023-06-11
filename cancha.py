@@ -77,7 +77,7 @@ class Cancha ():
     def eliminar_cancha(canchas): 
         """ELIMINA UNA CANCHA EN EL DICCIONARIO"""
         codigo = input("Ingrese el codigo de la cancha a eliminar: ")
-        if codigo in canchas.keys():
+        if codigo in set(canchas.keys()):
             canchas.pop(codigo)
             print("Cancha eliminada con exito")
         else: 

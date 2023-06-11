@@ -49,6 +49,8 @@ class Reserva ():
         
     def hacer_reserva (reservas,canchas,usuario):    
         """REALIZA UNA RESERVA Y LA AGREGA AL DICCIONARIO"""
+        print("A saber: las canchas se pueden reservar únicamente por 1 hora entre las 10:00 y las 18:00")
+        print("Que tipo de cancha desea?")
         cod_cancha_disponible = Reserva.ver_cancha_disponible(canchas)
         if cod_cancha_disponible is None:
             print ("No hay canchas de esas características")
@@ -96,7 +98,7 @@ class Reserva ():
     def eliminar_reserva(reservas): 
         """ELIMINA UNA RESERVA DEL DICCIONARIO"""
         codigo = input("Ingrese el codigo de la reserva a eliminar: ")
-        if codigo in reservas.keys():
+        if codigo in set(reservas.keys()):
             reservas.pop(codigo)
             print("Reserva eliminada con exito")
         else: 
@@ -116,4 +118,4 @@ class Reserva ():
     def __str__(self):
         return f"Codigo de reserva: {self.codigo}\nCodigo de cancha: {self.cancha}\nFecha y hora: {self.fecha_hora}"
 
-            
+       

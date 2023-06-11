@@ -116,11 +116,11 @@ class Usuario ():
             dni_nuevo = input("Ingrese su dni: ")
         if dni_nuevo == self.dni:
             usuarios[self.dni] = Usuario(dni=dni_nuevo)    
-            print("Sus datos fueron cambiados con exito")  
+            print("Sus datos fueron cambiados con exito")     
         else:
             if dni_nuevo not in usuarios.keys():
                 usuarios[self.dni] = Usuario(dni=dni_nuevo)    
-                print("Sus datos fueron cambiados con exito")    
+                print("Sus datos fueron cambiados con exito")          
             else:
                 print("El dni ya se encuentra ingresado")
             

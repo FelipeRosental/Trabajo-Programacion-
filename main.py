@@ -3,7 +3,7 @@ from cancha import *
 from reserva import *
 
 """CUANDO COMIENZA EL PROGRAMA, SE LEEN LAS BASES DE DATOS 
-Y SE GUARDAN 3 DICCIONARIOS CON LOS USUARIOS, LAS CANCHAS Y LAS RESERVAS.
+Y SE GUARDAN 3 DICCIONARIOS CON LOS USUARIOS (Y ADMINISTRADORES), LAS CANCHAS Y LAS RESERVAS.
 CUANDO FINALIZA EL PROGRAMA, SE ACTUALIZAN LAS BASES DE DATOS"""
 
 usuarios_guardados = Usuario.leer_usuarios("Usuarios.txt")
@@ -11,7 +11,7 @@ reservas_guardadas = Reserva.leer_reservas("Reservas.txt")
 canchas_guardadas = Cancha.leer_canchas("Canchas.txt")
 
 def menuPrincipal():    
-    """ES EL MENU PRINCIPAL DE PROGRAMA (DONDE SE INICIA SESION Y SE REGISTRA TANTO USUARIOS COMO ADMINISTRADORES)"""
+    """ES EL MENU PRINCIPAL DE PROGRAMA (DONDE SE INICIA SESION Y SE REGISTRAN TANTO USUARIOS COMO ADMINISTRADORES)"""
     while True:
         print("MENU PRINCIPAL")
         menu = input("1. Registrarse \n2. Iniciar sesión \n3. Soy administrador \n4. Salir \nIngrese una opción: ")
@@ -69,7 +69,7 @@ def menuUsuarios(user):
             Usuario.ver_mis_reservas(user, reservas_guardadas)
             codigo = input("Ingrese el codigo de la reserva a modificar: ")
             for reserva in reservas_guardadas.values():
-                if reserva.codigo == codigo:
+                if str(reserva.codigo) == codigo:
                     Reserva.cambiar_reserva(reserva, reservas_guardadas, canchas_guardadas)
                     break
             else: 

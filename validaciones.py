@@ -75,3 +75,4 @@ def validacion_fecha_hora ():
         except ValueError:
             print("Fecha invalida, ingresarla con formato (dd/mm/aaaa/hh:mm)")
             continue
+    
