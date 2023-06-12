@@ -1,6 +1,6 @@
-from usuario import *
-from cancha import *
-from reserva import *
+from Clase_usuario import *
+from Clase_cancha import *
+from Clase_reserva import *
 
 """CUANDO COMIENZA EL PROGRAMA, SE LEEN LAS BASES DE DATOS 
 Y SE GUARDAN 3 DICCIONARIOS CON LOS USUARIOS (Y ADMINISTRADORES), LAS CANCHAS Y LAS RESERVAS.
@@ -105,6 +105,7 @@ def menuAdmins(admin):
             
         elif menu == "3":  
             """SE MODIFICAN CANCHAS"""
+            Administrador.ver_datos(admin,canchas_guardadas)
             codigo = input("Ingrese el codigo de la cancha a modificar: ")
             cancha = Cancha.instanciar_cancha(canchas_guardadas,codigo)
             if cancha is not None:
@@ -112,6 +113,7 @@ def menuAdmins(admin):
         
         elif menu == "4":   
             """SE ELIMINAN CANCHAS"""
+            Administrador.ver_datos(admin,canchas_guardadas)
             Cancha.eliminar_cancha(canchas_guardadas)
         
         elif menu == "5":   

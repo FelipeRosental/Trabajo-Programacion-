@@ -36,7 +36,7 @@ class Cancha ():
     
     @staticmethod    
     def instanciar_cancha (canchas, codigo): 
-        """BUSCA UNA CANCHA EN EL DICCIONARIO Y LA INSTANCIA"""
+        """BUSCA UNA CANCHA EN EL DICCIONARIO Y LA DEVUELVE"""
         for cancha in canchas.values():
             if cancha.codigo == codigo:
                 return cancha

@@ -78,7 +78,7 @@ class Usuario ():
     
     @staticmethod
     def instanciar_usuario (usuarios, usuario, contraseña): 
-        """BUSCA UN USUARIO EN EL DICCIONARIO QUE ALMACENA USUARIOS Y LO INSTANCIA"""
+        """BUSCA UN USUARIO EN EL DICCIONARIO QUE ALMACENA USUARIOS Y LO DEVUELVE"""
         for us in usuarios.values():
             if us.usuario == usuario and us.contraseña == contraseña:
                 return us
@@ -111,18 +111,64 @@ class Usuario ():
         """CAMBIA UN USUARIO/ADMINISTRADOR EN EL DICCIONARIO"""
         print(f"Sus datos son:\n{self}\nIngrese sus nuevos datos:")
         dni_nuevo = input("Ingrese su dni: ")
-        while validacion_DNI(self.dni) != True:
+        while validacion_DNI(dni_nuevo) != True:
             print("DNI no valido.")
             dni_nuevo = input("Ingrese su dni: ")
         if dni_nuevo == self.dni:
-            usuarios[self.dni] = Usuario(dni=dni_nuevo)    
-            print("Sus datos fueron cambiados con exito")     
+            if self.usuario == "admin":
+                contraseña_nueva = str(input("Ingrese su nueva contraseña: "))
+                contraseña_valida = []
+                for admin in usuarios.values():
+                    if str(admin.contraseña) == contraseña_nueva and str(admin.contraseña) != self.contraseña:
+                        contraseña_valida.append("No")
+                if len(contraseña_valida) == 0:
+                    usuarios[self.dni] = Usuario(dni=dni_nuevo, usuario=self.usuario, contraseña = contraseña_nueva)    
+                    print("Sus datos fueron cambiados con exito")  
+                else:
+                    print("La contraseña ingresada ya se encuentra registrada")
+            else: 
+                usuario_nuevo = input("Ingrese su nuevo usuario: ")
+                while usuario_nuevo == "admin":
+                    print("Usuario no valido (usted no es un administrador)")
+                    usuario_nuevo = input("Ingrese su nuevo usuario: ")
+                usuario_valido = []
+                for us in usuarios.values():
+                    if usuario_nuevo == us.usuario and self.usuario != "admin" and usuario_nuevo != self.usuario:
+                        usuario_valido.append("No")
+                if len(usuario_valido) == 0:
+                    usuarios[self.dni] = Usuario(dni=dni_nuevo, usuario=usuario_nuevo)    
+                    print("Sus datos fueron cambiados con exito")     
+                else:
+                    print("El usuario ingresado ya se encuentra registrado")   
         else:
             if dni_nuevo not in usuarios.keys():
-                usuarios[self.dni] = Usuario(dni=dni_nuevo)    
-                print("Sus datos fueron cambiados con exito")          
+                if self.usuario == "admin":
+                    contraseña_nueva = str(input("Ingrese su nueva contraseña: "))
+                    contraseña_valida = []
+                    for admin in usuarios.values():
+                        if str(admin.contraseña) == contraseña_nueva:
+                            contraseña_valida.append("No")
+                    if len(contraseña_valida) == 0:
+                        usuarios[self.dni] = Usuario(dni=dni_nuevo, usuario=self.usuario, contraseña = contraseña_nueva)    
+                        print("Sus datos fueron cambiados con exito")  
+                    else:
+                        print("La contraseña ingresada ya está registrada")
+                else:
+                    usuario_nuevo = input("Ingrese su nuevo usuario: ")
+                    while usuario_nuevo == "admin":
+                        print("Usuario no valido (usted no es un administrador)")
+                        usuario_nuevo = input("Ingrese su nuevo usuario: ")
+                    usuario_valido = []
+                    for us in usuarios.values():
+                        if usuario_nuevo == us.usuario and self.usuario != "admin" and usuario_nuevo != self.usuario:
+                            usuario_valido.append("No")
+                    if len(usuario_valido) == 0:
+                        usuarios[self.dni] = Usuario(dni=dni_nuevo, usuario=usuario_nuevo)    
+                        print("Sus datos fueron cambiados con exito")     
+                    else:
+                        print("El usuario ingresado ya se encuentra registrado")   
             else:
-                print("El dni ya se encuentra ingresado")
+                print("El dni ya se encuentra registrado")
             
     def eliminar_usuario(self, usuarios):  
         """ELIMINA UN USUARIO/ADMINISTRADOR EN EL DICCIONARIO"""
