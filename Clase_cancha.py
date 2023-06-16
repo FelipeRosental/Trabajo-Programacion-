@@ -1,6 +1,6 @@
 from validaciones import *
 
-class Cancha (): 
+class Cancha: 
     def __init__(self, codigo=None, techada=None, piso=None, estado=None):
         if codigo is None:
             self.codigo = input ("Ingrese el codigo de cancha (numero de 4 digitos): ")
@@ -35,7 +35,7 @@ class Cancha ():
             self.estado = estado  
     
     @staticmethod    
-    def instanciar_cancha (canchas, codigo): 
+    def buscar_cancha (canchas, codigo): 
         """BUSCA UNA CANCHA EN EL DICCIONARIO Y LA DEVUELVE"""
         for cancha in canchas.values():
             if cancha.codigo == codigo:

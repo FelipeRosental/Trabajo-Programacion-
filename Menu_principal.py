@@ -1,20 +1,20 @@
-from Clase_usuario import *
-from Clase_cancha import *
-from Clase_reserva import *
+from Clase_club import *
 
 """CUANDO COMIENZA EL PROGRAMA, SE LEEN LAS BASES DE DATOS 
 Y SE GUARDAN 3 DICCIONARIOS CON LOS USUARIOS (Y ADMINISTRADORES), LAS CANCHAS Y LAS RESERVAS.
 CUANDO FINALIZA EL PROGRAMA, SE ACTUALIZAN LAS BASES DE DATOS"""
 
-usuarios_guardados = Usuario.leer_usuarios("Usuarios.txt")
-reservas_guardadas = Reserva.leer_reservas("Reservas.txt")
-canchas_guardadas = Cancha.leer_canchas("Canchas.txt")
+club = Club("ITBA", "Lavardén 315", "10:00 a 18:00")
 
-def menuPrincipal():    
+usuarios_guardados = club.usuarios_y_admins
+reservas_guardadas = club.reservas
+canchas_guardadas = club.canchas
+
+def menu_Principal():    
     """ES EL MENU PRINCIPAL DE PROGRAMA (DONDE SE INICIA SESION Y SE REGISTRAN TANTO USUARIOS COMO ADMINISTRADORES)"""
     while True:
         print("MENU PRINCIPAL")
-        menu = input("1. Registrarse \n2. Iniciar sesión \n3. Soy administrador \n4. Salir \nIngrese una opción: ")
+        menu = input("1. Registrarse \n2. Iniciar sesión \n3. Soy administrador \n4. Sobre el club \n5. Salir \nIngrese una opción: ")
         if menu == "1": 
             """SE REGISTRAN USUARIOS Y ADMINISTRADORES, LOS ADMINISTRADORES TIENEN USUARIO: "admin" Y CONTRASEÑA ÚNICA"""
             user = Usuario()
@@ -24,21 +24,26 @@ def menuPrincipal():
             """SE INICIA SESION COMO USUARIO""" 
             usuario = input("Ingrese su usuario: ")    
             contraseña = input("Ingrese su contraseña: ")
-            Usuario.iniciar_sesion(usuarios_guardados, usuario, contraseña, menuUsuarios)
+            Usuario.iniciar_sesion(usuarios_guardados, usuario, contraseña, menu_Usuarios)
         
         elif menu == "3":  
             """SE INICIA SESION COMO ADMINISTRADOR"""
             contraseña = input("Ingrese su contraseña: ")
-            Administrador.iniciar_sesion(usuarios_guardados, "admin", contraseña, menuAdmins)
+            Administrador.iniciar_sesion(usuarios_guardados, "admin", contraseña, menu_Admins)
+        
+        elif menu == "4":
+            """SE MUESTRAN LOS DATOS DEL CLUB"""
+            print(club)
             
-        elif menu == "4":   
+        elif menu == "5":   
             """SE REESCRIBE LA BASE DE DATOS DE USUARIOS"""
             Usuario.reescribir_baseusuarios(usuarios_guardados,"Usuarios.txt")
             break
+        
         else: 
             print("Opcion no valida")
 
-def menuUsuarios(user):    
+def menu_Usuarios(user):    
     """ES EL MENU DE LOS USUARIOS (LO ACCEDEN SOLO AQUELLOS QUE INICIARON SESION COMO USUARIOS)"""
     while True:
         print("DATOS Y RESERVAS")
@@ -89,11 +94,11 @@ def menuUsuarios(user):
         else:
             print("Opcion no disponible")
            
-def menuAdmins(admin):  
+def menu_Admins(admin):  
     """ES EL MENU DE LOS ADMINISTRADORES (SOLO TIENEN ACCESO AQUELLOS QUE INICIARON SESION COMO ADMINISTRADORES)"""
     while True:
         print("ADMINISTRACION")
-        menu = input("1. Ver canchas\n2. Agregar cancha\n3. Modificar cancha\n4. Eliminar cancha\n5. Ver usuarios\n6. Ver reservas\n7. Ver mis datos\n8. Modificar mis datos\n9. Borrar mi cuenta\n10. Cerrar sesion \nIngrese una opción: ")
+        menu = input("1. Ver canchas\n2. Agregar cancha\n3. Modificar cancha\n4. Eliminar cancha\n5. Ver usuarios\n6. Ver reservas\n7. Ver ingresos del club\n8. Ver mis datos\n9. Modificar mis datos\n10. Borrar mi cuenta\n11. Cerrar sesion \nIngrese una opción: ")
         if menu == "1":    
             """SE MUESTRAN LAS CANCHAS DEL CLUB"""
             Administrador.ver_datos(admin,canchas_guardadas)
@@ -107,7 +112,7 @@ def menuAdmins(admin):
             """SE MODIFICAN CANCHAS"""
             Administrador.ver_datos(admin,canchas_guardadas)
             codigo = input("Ingrese el codigo de la cancha a modificar: ")
-            cancha = Cancha.instanciar_cancha(canchas_guardadas,codigo)
+            cancha = Cancha.buscar_cancha(canchas_guardadas,codigo)
             if cancha is not None:
                 Cancha.cambiar_cancha(cancha, canchas_guardadas)
         
@@ -124,20 +129,24 @@ def menuAdmins(admin):
             """SE MUESTRAN LAS RESERVAS REALIZADAS POR LOS USUARIOS"""
             Administrador.ver_datos(admin,reservas_guardadas)
                   
-        elif menu == "7":  
+        elif menu == "7": 
+            """SE MUESTRAN LOS INGRESOS DEL CLUB"""
+            Club.ver_ingresos(club)
+        
+        elif menu == "8":  
             """SE MUESTRAN LOS DATOS DEL ADMINISTRADOR"""
             Administrador.ver_mis_datos(admin,usuarios_guardados)
             
-        elif menu == "8":  
+        elif menu == "9":  
             """SE CAMBIAN LOS DATOS DEL ADMINISTRADOR"""
             Administrador.cambiar_usuario(admin,usuarios_guardados)
         
-        elif menu == "9":  
+        elif menu == "10":  
             """SE ELIMINAN LOS DATOS DEL ADMINISTRADOR"""
             Administrador.eliminar_usuario(admin,usuarios_guardados)
             break
             
-        elif menu == "10":  
+        elif menu == "11":  
             """SE REESCRIBE LA BASE DE DATOS DE CANCHAS"""
             Cancha.reescribir_basecanchas(canchas_guardadas,"Canchas.txt")
             break
@@ -145,5 +154,5 @@ def menuAdmins(admin):
         else: 
             print("Opcion no disponible") 
 
-menuPrincipal()
+menu_Principal()
 """ PARA CORRER EL PROGRAMA, EJECUTAR ESTE ARCHIVO """

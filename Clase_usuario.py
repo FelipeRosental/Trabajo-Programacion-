@@ -1,6 +1,6 @@
 from validaciones import *
 
-class Usuario ():
+class Usuario:
     def __init__(self,dni=None, nombre=None, apellido=None, telefono=None, edad=None, email=None, usuario=None, contraseña=None):
         if dni is None:
             self.dni = input("Ingrese DNI: ")
@@ -77,7 +77,7 @@ class Usuario ():
             return False
     
     @staticmethod
-    def instanciar_usuario (usuarios, usuario, contraseña): 
+    def buscar_usuario (usuarios, usuario, contraseña): 
         """BUSCA UN USUARIO EN EL DICCIONARIO QUE ALMACENA USUARIOS Y LO DEVUELVE"""
         for us in usuarios.values():
             if us.usuario == usuario and us.contraseña == contraseña:
@@ -198,8 +198,8 @@ class Usuario ():
         """INICIA SESION TANTO PARA USUARIOS COMO PARA ADMINISTRADORES"""
         for us in usuarios.values():
             if usuario == us.usuario and contraseña == us.contraseña:
-                user = Usuario.instanciar_usuario(usuarios,usuario,contraseña)
-                print("Sesion iniciada como " + str(usuario))
+                user = Usuario.buscar_usuario(usuarios,usuario,contraseña)
+                print("Sesion iniciada como " + str(usuario) + "\n")
                 if user.usuario != "admin":
                     menu(user)
                 else:

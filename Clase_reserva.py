@@ -1,7 +1,7 @@
 from random import *
 from validaciones import *
            
-class Reserva (): 
+class Reserva: 
     def __init__(self, codigo=None, cancha=None, fecha_hora=None, cliente=None):        
         if codigo is None: 
             self.codigo = randint(1000,9999)
@@ -50,6 +50,7 @@ class Reserva ():
     def hacer_reserva (reservas,canchas,usuario):    
         """REALIZA UNA RESERVA Y LA AGREGA AL DICCIONARIO"""
         print("A saber: las canchas se pueden reservar únicamente por 1 hora entre las 10:00 y las 18:00")
+        print("El precio de las canchas es de 3000$ por hora")
         print("Que tipo de cancha desea?")
         cod_cancha_disponible = Reserva.ver_cancha_disponible(canchas)
         if cod_cancha_disponible is None:
