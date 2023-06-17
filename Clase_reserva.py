@@ -19,7 +19,9 @@ class Reserva:
     
     @staticmethod
     def leer_reservas(filename):  
-        """LEE LA BASE DE DATOS E INSTANCIA RESERVAS EN PYTHON, DEVUELVE UN DICCIONARIO"""
+        """INPUT: STR(NOMBRE DEL ARCHIVO)
+        LEE LA BASE DE DATOS E INSTANCIA RESERVAS EN PYTHON, DEVUELVE UN DICCIONARIO
+        OUTPUT: DICT"""
         reservas = {}
         try:
             with open(filename) as f:
@@ -34,7 +36,9 @@ class Reserva:
             return False
 
     def ver_cancha_disponible(canchas): 
-        """SUB MENU QUE MUESTRA LA CANCHA DISPONIBLE SEGUN LA PREFERENCIA DEL USUARIO"""
+        """INPUT: DICT
+        SUB MENU QUE MUESTRA LA CANCHA DISPONIBLE SEGUN LA PREFERENCIA DEL USUARIO
+        OUTPUT: STR"""
         techada = input ("Ingrese si desea una cancha techada (si,no): ")
         while validacion_techada (techada) != True:
             print ("Respuesta no valida (debe ser si o no)")
@@ -48,7 +52,9 @@ class Reserva:
                 return cancha.codigo
         
     def hacer_reserva (reservas,canchas,usuario):    
-        """REALIZA UNA RESERVA Y LA AGREGA AL DICCIONARIO"""
+        """ INPUT
+        REALIZA UNA RESERVA Y LA AGREGA AL DICCIONARIO
+        """
         print("A saber: las canchas se pueden reservar únicamente por 1 hora entre las 10:00 y las 18:00")
         print("El precio de las canchas es de 3000$ por hora")
         print("Que tipo de cancha desea?")
