@@ -32,20 +32,20 @@ def validacion_Codigo (codigo):
         
 def validacion_techada (techada):
     """VERIFICA QUE EL TIPO DE TECHO DE LA CANCHA INGRESADO SEA VALIDO"""
-    if  techada not in {"si", "no", "Si", "No"}:
+    if  techada not in ["si", "no", "Si", "No"]:
         return False
     else:
         return True
     
 def validacion_tipo_piso (piso):
-    if  piso not in {"cesped", "polvo de ladrillo", "cemento", "Cesped", "Polvo de ladrillo", "Cemento"}:
+    if  piso not in ["cesped", "polvo de ladrillo", "cemento", "Cesped", "Polvo de ladrillo", "Cemento"]:
         return False
     else:
         return True
 
 def validacion_estado_cancha (estado):
     """VERIFICA QUE EL ESTADO DE LA CANCHA SEA VALIDO"""
-    if  estado not in {"bueno", "malo", "intermedio", "Bueno", "Malo", "Intermedio"}:
+    if  estado not in ["bueno", "malo", "intermedio", "Bueno", "Malo", "Intermedio"]:
         return False
     else:
         return True

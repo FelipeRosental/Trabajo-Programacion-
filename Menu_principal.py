@@ -35,8 +35,8 @@ def menu_Principal():
             """SE MUESTRAN LOS DATOS DEL CLUB"""
             print(club)
             
-        elif menu == "5":   
-            """SE REESCRIBE LA BASE DE DATOS DE USUARIOS"""
+        elif menu == "5":
+            """SE REESCRIBE LA BASE USUARIOS Y SALE DEL PROGRAMA"""   
             Usuario.reescribir_baseusuarios(usuarios_guardados,"Usuarios.txt")
             break
         
@@ -86,9 +86,10 @@ def menu_Usuarios(user):
             Reserva.eliminar_reserva(reservas_guardadas)
             
         elif menu == "8":  
-            """SE REESCRIBEN LAS BASES DE DATOS DE CANCHAS Y RESERVAS"""
+            """SE REESCRIBEN LAS BASES DE DATOS DE CANCHAS, RESERVAS Y USUARIOS, LUEGO CIERRA LA SECION COMO USUARIO"""
             Reserva.reescribir_basereservas(reservas_guardadas,"Reservas.txt")
             Cancha.reescribir_basecanchas(canchas_guardadas,"Canchas.txt")
+            Usuario.reescribir_baseusuarios(usuarios_guardados,"Usuarios.txt")
             break
     
         else:
@@ -147,8 +148,9 @@ def menu_Admins(admin):
             break
             
         elif menu == "11":  
-            """SE REESCRIBE LA BASE DE DATOS DE CANCHAS"""
+            """SE REESCRIBE LA BASE DE DATOS DE CANCHAS Y USUARIOS, LUEGO CIERRA LA SESION COMO ADMIN"""
             Cancha.reescribir_basecanchas(canchas_guardadas,"Canchas.txt")
+            Usuario.reescribir_baseusuarios(usuarios_guardados,"Usuarios.txt")
             break
         
         else: 
