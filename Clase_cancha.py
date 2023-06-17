@@ -36,7 +36,9 @@ class Cancha:
     
     @staticmethod    
     def buscar_cancha (canchas, codigo): 
-        """BUSCA UNA CANCHA EN EL DICCIONARIO Y LA DEVUELVE"""
+        """input: canchas = diccionario de canchas, codigo = codigo de la cancha buscada\n
+        funcion: BUSCAR UNA CANCHA EN EL DICCIONARIO\n
+        output: objeto cancha"""
         for cancha in canchas.values():
             if cancha.codigo == codigo:
                 return cancha
@@ -44,8 +46,10 @@ class Cancha:
             print("No se encontró el codigo ingresado")
     
     @staticmethod
-    def leer_canchas(filename):  
-        """LEE LA BASE DE DATOS E INSTANCIA CANCHAS EN PYTHON, LAS DEVUELVE EN UN DICCIONARIO """
+    def leer_canchas(filename): 
+        """input: filename = base de datos de canchas (archivo txt)\n
+        funcion: LEER LA BASE DE DATOS E INSTANCIAR CANCHAS EN UN DICCIONARIO\n
+        output: diccionario de canchas que tiene como clave el codigo de cancha y como valor el objeto cancha""" 
         canchas = {}
         try:
             with open(filename) as f:
@@ -59,8 +63,10 @@ class Cancha:
             print("Error: archivo vacio")
             return False                
     
-    def agregar_cancha(self,canchas):  
-        """AGREGA UNA CANCHA EN EL DICCIONARIO"""
+    def agregar_cancha(self,canchas):
+        """input: canchas = diccionario de canchas\n
+        funcion: MOSTRAR LA CANCHA DISPONIBLE SEGUN LAS PREFERENCIAS DEL USUARIO\n
+        output: nada"""  
         if self.codigo not in canchas.keys():
             canchas[self.codigo] = self       
             print("Cancha registrada correctamente")
@@ -68,14 +74,18 @@ class Cancha:
             print("La cancha ya está ingresada")  
     
     def cambiar_cancha(self, canchas):   
-        """CAMBIA UNA CANCHA EN EL DICCIONARIO"""
+        """input: self = objeto cancha, canchas = diccionario de canchas\n
+        funcion: CAMBIAR UNA CANCHA EN EL DICCIONARIO\n
+        output: nada"""
         print(f"Los datos de la cancha son:\n{self}\nIngrese los nuevos datos:")
         canchas[self.codigo] = Cancha(codigo=self.codigo)    
         print("Los datos fueron cambiados con exito") 
     
     @staticmethod
     def eliminar_cancha(canchas): 
-        """ELIMINA UNA CANCHA EN EL DICCIONARIO"""
+        """input: canchas = diccionario de canchas\n
+        funcion: ELIMINAR UNA CANCHA EN EL DICCIONARIO\n
+        output: nada"""
         codigo = input("Ingrese el codigo de la cancha a eliminar: ")
         if codigo in set(canchas.keys()):
             canchas.pop(codigo)
@@ -85,7 +95,9 @@ class Cancha:
     
     @staticmethod
     def reescribir_basecanchas(canchas, filename): 
-        """REESCRIBE LA BASE DE DATOS DE CANCHAS"""
+        """input: canchas = diccionario de canchas, filename = base de datos de canchas (archivo txt)\n
+        funcion: REESCRIBE LA BASE DE DATOS DE CANCHAS (EL ARCHIVO TXT)\n
+        output: nada"""
         try:
             with open(filename,"w") as basecanchas:
                 for cancha in canchas.values():

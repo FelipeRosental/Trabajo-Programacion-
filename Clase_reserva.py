@@ -18,10 +18,11 @@ class Reserva:
         self.cliente = cliente
     
     @staticmethod
-    def leer_reservas(filename):  
-        """INPUT: STR(NOMBRE DEL ARCHIVO)
-        LEE LA BASE DE DATOS E INSTANCIA RESERVAS EN PYTHON, DEVUELVE UN DICCIONARIO
-        OUTPUT: DICT"""
+    def leer_reservas(filename): 
+        """input: filename = base de datos de reservas (archivo txt)\n
+        funcion: LEER LA BASE DE DATOS E INSTANCIAR LAS RESERVAS EN UN DICCIONARIO CUYA CLAVE ES EL CODIGO DE RESERVA
+        Y CUYO VALOR ES EL OBJETO RESERVA\n
+        output: diccionario de reservas""" 
         reservas = {}
         try:
             with open(filename) as f:
@@ -36,9 +37,9 @@ class Reserva:
             return False
 
     def ver_cancha_disponible(canchas): 
-        """INPUT: DICT
-        SUB MENU QUE MUESTRA LA CANCHA DISPONIBLE SEGUN LA PREFERENCIA DEL USUARIO
-        OUTPUT: STR"""
+        """input: canchas = diccionario de canchas\n
+        funcion: MOSTRAR LA CANCHA DISPONIBLE SEGUN LAS PREFERENCIAS DEL USUARIO\n
+        output: objeto cancha"""
         techada = input ("Ingrese si desea una cancha techada (si,no): ")
         while validacion_techada (techada) != True:
             print ("Respuesta no valida (debe ser si o no)")
@@ -51,10 +52,11 @@ class Reserva:
             if cancha.techada == techada and cancha.piso == superficie:
                 return cancha.codigo
         
-    def hacer_reserva (reservas,canchas,usuario):    
-        """ INPUT
-        REALIZA UNA RESERVA Y LA AGREGA AL DICCIONARIO
-        """
+    def hacer_reserva (reservas,canchas,user):    
+        """input: reservas = diccionario de reservas, canchas = diccionario de canchas,
+        user = objeto usuario que realiza la reserva\n
+        funcion: HACER UNA RESERVA\n
+        output: se agrega el objeto reserva al diccionario"""
         print("A saber: las canchas se pueden reservar únicamente por 1 hora entre las 10:00 y las 18:00")
         print("El precio de las canchas es de 3000$ por hora")
         print("Que tipo de cancha desea?")
@@ -74,13 +76,15 @@ class Reserva:
                 reserva_valida = True
         if reserva_valida is True:
             codigo_reserva = randint(1000,9999)
-            reservas[codigo_reserva] = Reserva(codigo = codigo_reserva, cancha = cod_cancha_disponible,fecha_hora = fecha_hora_input, cliente = usuario.usuario)
+            reservas[codigo_reserva] = Reserva(codigo = codigo_reserva, cancha = cod_cancha_disponible,fecha_hora = fecha_hora_input, cliente = user.usuario)
             print("Reserva realizada con exito")
         else: 
             print("No hay canchas de las características ingresadas disponibles en ese horario")       
             
     def cambiar_reserva(self, reservas, canchas):   
-        """CAMBIA UNA RESERVA EN EL DICCIONARIO"""
+        """input: self = objeto reserva, reservas = diccionario de reservas, canchas = diccionario de canchas\n
+        funcion: MODIFICAR UNA RESERVA\n
+        output: nada"""
         cancha_nueva = Reserva.ver_cancha_disponible(canchas)
         if cancha_nueva is None:
             print ("No hay canchas de esas características")
@@ -103,9 +107,11 @@ class Reserva:
         
     @staticmethod
     def eliminar_reserva(reservas): 
-        """ELIMINA UNA RESERVA DEL DICCIONARIO"""
+        """input: reservas = diccionario de reservas\n
+        funcion: ELIMINA UNA RESERVA DEL DICCIONARIO\n
+        output: nada"""
         codigo = input("Ingrese el codigo de la reserva a eliminar: ")
-        if codigo in set(reservas.keys()):
+        if codigo in list(reservas.keys()):
             reservas.pop(codigo)
             print("Reserva eliminada con exito")
         else: 
@@ -113,7 +119,9 @@ class Reserva:
     
     @staticmethod
     def reescribir_basereservas(reservas, filename):   
-        """REESCRIBE LA BASE DE DATOS DE RESERVAS"""
+        """input: reservas = diccionario de reservas, filename = base de datos de reservas (archivo txt)\n
+        funcion: REESCRIBE LA BASE DE DATOS DE RESERVAS (EL ARCHIVO TXT)\n
+        output: nada"""
         try:
             with open(filename,"w") as basereservas:
                 for reserva in reservas.values():

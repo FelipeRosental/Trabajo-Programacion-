@@ -3,7 +3,6 @@
 13131313;jorge;perez;12345;45;@;jorgito;jojo;
 12345678;feli;r;123;22;@;feli;123;
 20202020;luis;gutierrez;123;45;@;lucho;123jaja;
-15151515;lucia;tomei;123;24;@;lu;pollo;
+15151515;lucia;tomei;123;24;@;lu;pollito;
 19191919;luca;prodan;123;49;@;admin;sumo;
 30303030;ju;xdd;123;40;@;admin;12345;
-31313131;b;b;1;1;@;b;123;

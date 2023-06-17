@@ -62,7 +62,9 @@ class Usuario:
     
     @staticmethod
     def leer_usuarios(filename): 
-        """LEE LOS USUARIOS/ADMINISTRADORES DE LA BASE DE DATOS Y LOS INSTANCIA EN PYTHON EN UN DICCIONARIO"""
+        """input: filename = archivo txt que almacena a los usuarios (base de datos de usuarios)\n
+        funcion: LEE LOS USUARIOS/ADMINISTRADORES DE LA BASE DE DATOS Y LOS INSTANCIA EN PYTHON EN UN DICCIONARIO\n
+        output: diccionario de usuarios que tiene como clave el dni del usuario y como valor el objeto usuario"""
         users = {}
         try:
             with open(filename) as f:
@@ -78,7 +80,10 @@ class Usuario:
     
     @staticmethod
     def buscar_usuario (usuarios, usuario, contraseña): 
-        """BUSCA UN USUARIO EN EL DICCIONARIO QUE ALMACENA USUARIOS Y LO DEVUELVE"""
+        """input: usuarios = diccionario de usuarios, usuario = nombre de usuario ingresado por teclado
+        contraseña = contraseña ingresada por teclado\n
+        funcion: BUSCAR UN USUARIO EN EL DICCIONARIO DE USUARIOS\n
+        output: objeto usuario buscado"""
         for us in usuarios.values():
             if us.usuario == usuario and us.contraseña == contraseña:
                 return us
@@ -86,7 +91,9 @@ class Usuario:
             print("Error en los datos ingresados")
      
     def registrar_usuario(self, usuarios): 
-        """REGISTRA USUARIOS Y ADMINISTRADORES EN UN DICCIONARIO"""
+        """input: self = objeto usuario, usuarios = diccionario de usuarios\n
+        funcion: REGISTRAR UN USUARIO/ADMIN EN EL DICCIONARIO DE USUARIOS\n
+        output: nada"""
         if self.dni not in usuarios.keys():
             for us in usuarios.values():
                 if self.usuario == us.usuario and self.usuario != "admin":
@@ -108,7 +115,9 @@ class Usuario:
             print("DNI incorrecto")  
                 
     def cambiar_usuario(self, usuarios):  
-        """CAMBIA UN USUARIO/ADMINISTRADOR EN EL DICCIONARIO"""
+        """input: self = objeto usuario, usuarios = diccionario de usuarios\n
+        funcion: CAMBIAR UN USUARIO/ADMIN EN EL DICCIONARIO\n
+        output: nada"""
         print(f"Sus datos son:\n{self}\nIngrese sus nuevos datos:")
         dni_nuevo = input("Ingrese su dni: ")
         while validacion_DNI(dni_nuevo) != True:
@@ -171,12 +180,16 @@ class Usuario:
                 print("El dni ya se encuentra registrado")
             
     def eliminar_usuario(self, usuarios):  
-        """ELIMINA UN USUARIO/ADMINISTRADOR EN EL DICCIONARIO"""
+        """input: self = objeto usuario, usuarios = diccionario de usuarios\n
+        funcion: ELIMINAR UN USUARIO/ADMIN EN EL DICCIONARIO\n
+        output: nada"""
         usuarios.pop(self.dni)
         print("Datos eliminados con exito")
     
     def ver_mis_reservas(self, reservas): 
-        """MUESTRA LAS RESERVAS DE UN USUARIO"""
+        """input: self = objeto usuario, reservas = diccionario de reservas\n
+        funcion: MOSTRAR LAS RESERVAS DE UN USUARIO\n
+        output: reservas del usuario"""
         print("Sus reservas:\n")
         tiene_reservas = []
         for reserva in reservas.values():    
@@ -187,7 +200,9 @@ class Usuario:
             print("No tiene reservas realizadas\n")
             
     def ver_mis_datos(self, usuarios):
-        """MUESTRA LOS DATOS DE UN USUARIO/ADMINISTRADOR"""
+        """input: self = objeto usuario, usuarios = diccionario de usuarios\n
+        funcion: MOSTRAR LOS DATOS DE UN USUARIO/ADMIN\n
+        output: datos del usuario"""
         print("Sus datos: ")
         for user in usuarios.values():    
             if self.dni == user.dni and self.usuario == user.usuario:
@@ -195,7 +210,10 @@ class Usuario:
     
     @staticmethod
     def iniciar_sesion(usuarios, usuario, contraseña, menu):   
-        """INICIA SESION TANTO PARA USUARIOS COMO PARA ADMINISTRADORES"""
+        """input: usuarios = diccionario de usuarios, usuario = nombre de usuario del objeto usuario/admin,
+        contraseña = contraseña del usuario/admin, menu = funcion menu (puede ser de usuarios o admins)\n
+        funcion: INICIAR SESION DEL USUARIO/ADMIN\n
+        output: menu de usuarios o menu de admins"""
         for us in usuarios.values():
             if usuario == us.usuario and contraseña == us.contraseña:
                 user = Usuario.buscar_usuario(usuarios,usuario,contraseña)
@@ -209,8 +227,10 @@ class Usuario:
             print("Datos incorrectos") 
     
     @staticmethod
-    def reescribir_baseusuarios(usuarios, filename):    
-        """REESCRIBE LA BASE DE DATOS DE USUARIOS Y ADMINISTRADORES"""
+    def reescribir_baseusuarios(usuarios, filename):  
+        """input: usuarios = diccionario de usuarios, filename = base de datos de usuarios (archivo txt)\n
+        funcion: REESCRIBIR LA BASE DE DATOS DE USUARIOS Y ADMINISTRADORES\n
+        output: nada"""  
         try:
             with open(filename,"w") as baseusuarios:
                 for us in usuarios.values():
@@ -227,7 +247,10 @@ class Administrador (Usuario):
     def __init__(self,dni=None, nombre=None, apellido=None, telefono=None, edad=None, email=None, usuario="admin", contraseña=None):
         super().__init__(dni,nombre, apellido, telefono, edad, email, usuario,contraseña)
     
-    def ver_datos(self,base_de_datos):
-        """MUESTRA LOS USUARIOS, CANCHAS O RESERVAS GUARDADAS EN LOS DICCIONARIOS (QUE SE OBTIENEN DE LAS BASES DE DATOS)"""
+    @staticmethod
+    def ver_datos(base_de_datos):
+        """input: base de datos = diccionario de usuarios, canchas o reservas (segun lo que se desee)\n
+        funcion: MOSTRAR LOS USUARIOS, CANCHAS O RESERVAS GUARDADAS EN LOS DICCIONARIOS\n
+        output: datos de usuarios, canchas o reservas"""
         for dato in base_de_datos.values():
                 print(f"{dato}\n")
