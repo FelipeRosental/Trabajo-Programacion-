@@ -4,7 +4,7 @@ class Cancha:
     def __init__(self, codigo=None, techada=None, piso=None, estado=None):
         if codigo is None:
             self.codigo = input ("Ingrese el codigo de cancha (numero de 4 digitos): ")
-            while validacion_Codigo (self.codigo) != True:
+            while validacion_cod_cancha (self.codigo) != True:
                 print ("Codigo de cancha no valido (debe ser de 4 digitos).")
                 self.codigo = input ("Ingrese el codigo de cancha: ")
         else: 
@@ -87,7 +87,7 @@ class Cancha:
         funcion: ELIMINAR UNA CANCHA EN EL DICCIONARIO\n
         output: nada"""
         codigo = input("Ingrese el codigo de la cancha a eliminar: ")
-        if codigo in set(canchas.keys()):
+        if codigo in list(canchas.keys()):
             canchas.pop(codigo)
             print("Cancha eliminada con exito")
         else: 

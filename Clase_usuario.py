@@ -105,14 +105,14 @@ class Usuario:
                     print("Usuario registrado correctamente")
                 else:
                     for us in usuarios.values():
-                        if self.contraseña == us.contraseña:
+                        if self.contraseña == us.contraseña and us.usuario == "admin":
                             print("La contraseña ya está siendo utilizada por otro administrador")
                             break
                     else:
                         usuarios[self.dni] = self       
                         print("Usuario registrado correctamente")
         else:                               
-            print("DNI incorrecto")  
+            print("DNI incorrecto (ya se encuentra ingresado)")  
                 
     def cambiar_usuario(self, usuarios):  
         """input: self = objeto usuario, usuarios = diccionario de usuarios\n
@@ -204,9 +204,9 @@ class Usuario:
         funcion: MOSTRAR LOS DATOS DE UN USUARIO/ADMIN\n
         output: datos del usuario"""
         print("Sus datos: ")
-        for user in usuarios.values():    
-            if self.dni == user.dni and self.usuario == user.usuario:
-                print(f"{user}\n")
+        for dni in usuarios.keys():    
+            if self.dni == dni:
+                print(f"{self}\n")
     
     @staticmethod
     def iniciar_sesion(usuarios, usuario, contraseña, menu):   

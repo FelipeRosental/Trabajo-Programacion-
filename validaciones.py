@@ -30,7 +30,7 @@ def validacion_DNI (dni):
         return validacion_numero(dni)
     return False
 
-def validacion_Codigo (codigo):
+def validacion_cod_cancha (codigo):
     """input: dato int (dato ingresado por teclado que se desea validar)\n
     funcion: VERIFICA QUE EL DATO INT INGRESADO SEA VALIDO Y QUE SEA DE 4 DIGITOS\n
     output: True/False """
@@ -42,7 +42,7 @@ def validacion_techada (techada):
     """input: dato string (dato ingresado por teclado que se desea validar)\n
     funcion: VERIFICA QUE EL DATO INGRESADO ESTÉ ENTRE LAS OPCIONES VALIDAS\n
     output: True/False """
-    if  techada not in ["si", "no", "Si", "No"]:
+    if  techada not in ["si", "no", "Si", "No", "SI", "NO"]:
         return False
     else:
         return True

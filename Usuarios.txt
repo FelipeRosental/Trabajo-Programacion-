@@ -1,5 +1,5 @@
 12121212;pepito;gomez;12345;20;@;pepito;jaja;
-11111111;a;a;1;1;@;a;123;
+35353535;a;a;1;1;@;b;123;
 13131313;jorge;perez;12345;45;@;jorgito;jojo;
 12345678;feli;r;123;22;@;feli;123;
 20202020;luis;gutierrez;123;45;@;lucho;123jaja;

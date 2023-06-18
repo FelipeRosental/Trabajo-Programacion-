@@ -76,7 +76,7 @@ class Reserva:
                 reserva_valida = True
         if reserva_valida is True:
             codigo_reserva = randint(1000,9999)
-            reservas[codigo_reserva] = Reserva(codigo = codigo_reserva, cancha = cod_cancha_disponible,fecha_hora = fecha_hora_input, cliente = user.usuario)
+            reservas[str(codigo_reserva)] = Reserva(codigo = codigo_reserva, cancha = cod_cancha_disponible,fecha_hora = fecha_hora_input, cliente = user.usuario)
             print("Reserva realizada con exito")
         else: 
             print("No hay canchas de las características ingresadas disponibles en ese horario")       

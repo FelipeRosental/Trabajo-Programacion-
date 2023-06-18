@@ -25,9 +25,17 @@ def menu_Principal():
                 
         elif menu == "2":    
             """SE INICIA SESION COMO USUARIO""" 
-            usuario = input("Ingrese su usuario: ")    
-            contraseña = input("Ingrese su contraseña: ")
-            Usuario.iniciar_sesion(usuarios_guardados, usuario, contraseña, menu_Usuarios)
+            usuario = input("Ingrese su usuario: ")   
+            if usuario == "admin":
+                es_admin =  input("Es usted un administrador (si/no) ? ")
+                if es_admin in ["si", "Si", "SI"]:
+                    contraseña = input("Ingrese su contraseña: ")
+                    Administrador.iniciar_sesion(usuarios_guardados, "admin", contraseña, menu_Admins)
+                else:
+                    print("Entonces no puede tener usuario: admin")
+            else:
+                contraseña = input("Ingrese su contraseña: ")
+                Usuario.iniciar_sesion(usuarios_guardados, usuario, contraseña, menu_Usuarios)
         
         elif menu == "3":  
             """SE INICIA SESION COMO ADMINISTRADOR"""
